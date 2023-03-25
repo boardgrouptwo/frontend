@@ -1,0 +1,89 @@
+a {
+  text-decoration: none;
+}
+​ .page-header {
+  padding: 20px 0px;
+}
+.book-header {
+  display: flex;
+  flex-direction: column;
+  margin: 0px 20px;
+}
+.book-list {
+  margin: 20px 0px;
+}
+​ .booklist-footer {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+#co_aside {
+  width: 100%;
+  position: relative;
+  min-width: 1070px;
+  background: #fff;
+  border-bottom: 1px solid #e5e5e5;
+  height: 44px;
+}
+.co_aside_wrap {
+  width: 1070px;
+  background: #fff;
+  margin: 0 auto;
+}
+.ps_home {
+  width: 5%;
+  margin: 0 auto;
+  border-right: 1px solid #e5e5e5;
+  text-align: center;
+  border-left: 1px solid #e5e5e5;
+  float: left;
+  height: 44px;
+  line-height: 44px;
+}
+.ps_home a {
+  display: block;
+}
+
+.aside_tit {
+  background: #fff;
+  color: #333;
+  font-size: 1.3em;
+  text-align: center;
+  float: left;
+  width: 19%;
+
+  border-right: 1px solid #e5e5e5;
+  border-bottom: 1px solid #e5e5e5;
+  height: 44px;
+  line-height: 44px;
+}
+
+.l_menu {
+  position: relative;
+}
+.l_menu li {
+  float: left;
+  min-width: 130px;
+  text-align: center;
+  list-style-type: none;
+}
+.l_menu li a {
+  display: block;
+  color: #666;
+  font-size: 1.1em;
+  height: 44px;
+  line-height: 44px;
+  border-right: 1px solid #e5e5e5;
+  font-family: "notokr-medium";
+}
+.l_menu li a:hover,
+.l_menu li.on a {
+  background: #4a9e5c;
+  color: #fff;
+  font-family: "notokr-bold";
+}
+.l_menu li.on a {
+  font-weight: bold;
+  background: #4a9e5c;
+  color: #fff;
+}

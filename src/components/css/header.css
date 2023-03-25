@@ -29,6 +29,8 @@
 /* Logo */
 #top_logo {
   position: absolute;
+  width: 40px;
+  height: 20px;
   top: 25px;
   left: 0;
   z-index: 3;
