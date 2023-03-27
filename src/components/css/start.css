@@ -1,0 +1,28 @@
+.fullscreen-image {
+  background-image: url("../../../public/images/start.png");
+  background-size: cover;
+  height: 100vh;
+}
+
+.button-container1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  width: 400px;
+  height: 450px;
+  border: 1px solid red;
+  background-color: red;
+}
+
+.button-container2 {
+  position: absolute;
+  top: 23%;
+  left: 75%;
+  text-align: center;
+  width: 400px;
+  height: 450px;
+  border: 1px solid orange;
+  background-color: orange;
+}
