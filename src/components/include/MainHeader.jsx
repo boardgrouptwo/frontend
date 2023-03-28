@@ -14,7 +14,7 @@ const MainHeader = () => {
       <div id="sh_hd_wrapper">
         <div id="topmenu_wrapper">
           <h1 id="top_logo">
-            <a href="/home"><img src="images/logo.png" /></a>
+            <a href="/home"><img src="../images/logo.png" /></a>
           </h1>
           
           <ul id="top_nav">  

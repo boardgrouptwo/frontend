@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
-import { FormDiv } from '../css/FormStyle'
-import Bottom from '../include/Bottom'
-import MainHeader from '../include/MainHeader'
+import { FormDiv } from '../../css/FormStyle'
+import Bottom from '../../include/Bottom'
+import MainHeader from '../../include/MainHeader'
 import Noticebar from './Noticebar'
 
 const NoticeWrite = () => {

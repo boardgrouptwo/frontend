@@ -1,26 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button, Table } from 'react-bootstrap'
-import Bottom from '../include/Bottom'
-import MainHeader from '../include/MainHeader'
+import Bottom from '../../include/Bottom'
+import MainHeader from '../../include/MainHeader'
 import NoticeRow from './NoticeRow'
-import "../css/notice.css"
+import "../../css/notice.css"
 import { Link } from 'react-router-dom'
 import Noticebar from './Noticebar'
+import { noticeListDB } from '../../../service/NoticeDBLogic'
 
 const Notice = () => {
 
   const [noticeList, setNoticeList] = useState([])
 
-  const reactSearch = () => {
-
+  useEffect(() =>{
+    const boardList = async() => {
+    const res = await noticeListDB()
+    const list = []
+    res.data.forEach((item) => {
+      const obj = {
+        notice_no: item.notice_no,
+        notice_title: item.notice_title,
+        notice_content: item.notice_content,
+        notice_date: item.notice_date,
+        notice_hit: item.notice_hit
+      }
+      list.push(obj)
+    })
+    setNoticeList(list)   
   }
+  boardList();
+  
+},[])
+
+  const reactSearch = () => {
+    console.log(noticeList)
+  }
+
   return (
     <>
       <MainHeader/>
       <Noticebar/>
-
-
-
       <div className='container'>
         <div className="page-header">
         </div>     
@@ -40,13 +59,13 @@ const Notice = () => {
               <tr>
                 <th>NO</th>
                 <th>제목</th>
-                <th>작성자</th>
                 <th>등록일</th>
+                <th>조회수</th>
               </tr>
             </thead>
             <tbody>
-            {noticeList.map(dept => (
-              <NoticeRow key={dept.DEPTNO} dept={dept} />
+            {noticeList.map((board,index) => (
+              <NoticeRow key={index} board={board} />
             ))}
             </tbody>
           </Table> 

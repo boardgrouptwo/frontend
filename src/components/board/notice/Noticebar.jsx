@@ -4,7 +4,7 @@ const Noticebar = () => {
   return (
     <>
       <div>
-        <img src="images/sub.jpg" 
+        <img src="images/sub2.png" 
         style={{width:"100%", height:"200px", 
         position: "relative", margin: "0"
         ,padding: "0"}}/>
@@ -14,10 +14,11 @@ const Noticebar = () => {
           <div className="aside_tit">요양원소개</div>
           <ul className="l_menu">
             <li class='on'>
-              <a href="/home">공지사항</a>
+              <a href="/notice">공지사항</a>
             </li>
-            <li ><a href="/home">시설안내</a></li>
-            <li ><a href="/home">오시는길</a></li>        
+            <li ><a href="/calendar">월간일정표</a></li>
+            <li ><a href="/meal">식단표</a></li>        
+            <li ><a href="/qna">qna</a></li>        
           </ul>
         </div>
       </div>
