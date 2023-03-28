@@ -20,7 +20,7 @@ yarn start
 
 ### URL 설계
 
-![image-20230328095640042](C:\Users\user1\AppData\Roaming\Typora\typora-user-images\image-20230328095640042.png)
+![image-20230328095640042](\image-20230328095640042.png)
 
 
 
