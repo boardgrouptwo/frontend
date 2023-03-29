@@ -9,6 +9,7 @@ import Noticebar from './Noticebar'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NoticeDetail = () => {
+
   const navigate = useNavigate()
   const {notice_no} = useParams()
   const[pboard, setPBoard] = useState({
@@ -22,7 +23,7 @@ const NoticeDetail = () => {
     notice_hit: 0,
   })
   useEffect(() => {
-
+//
     const noticeHit = async() => {
       const res = await noticeHitDB(pboard)
       console.log("noticeHit")           
