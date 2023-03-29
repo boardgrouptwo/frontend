@@ -5,10 +5,10 @@ const NoticeRow = ({board}) => {
   return (
     <>
       <tr>
-        <td>{board.notice_no}</td>
+        <td style={{textAlign: "center"}}>{board.notice_no}</td>
         <td><Link to ={"detail/"+board.notice_no}>{board.notice_title}</Link></td>
-        <td>{board.notice_date}</td>
-        <td>{board.notice_hit}</td>
+        <td style={{textAlign: "center"}}>{board.notice_date}</td>
+        <td style={{textAlign: "center"}}> {board.notice_hit}</td>
       </tr>
     </>
   )

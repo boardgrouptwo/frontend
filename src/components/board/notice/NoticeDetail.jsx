@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
-import { noticeListDB } from '../../../service/NoticeDBLogic'
+import { noticeHitDB, noticeListDB } from '../../../service/NoticeDBLogic'
 import { ContainerDiv, FormDiv, HeaderDiv } from '../../css/FormStyle'
 import Bottom from '../../include/Bottom'
 import MainHeader from '../../include/MainHeader'
 import Noticebar from './Noticebar'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NoticeDetail = () => {
   const navigate = useNavigate()
@@ -21,10 +22,17 @@ const NoticeDetail = () => {
     notice_hit: 0,
   })
   useEffect(() => {
+
+    const noticeHit = async() => {
+      const res = await noticeHitDB(pboard)
+      console.log("noticeHit")           
+    }
+    
     const noticeDetail = async() => {
       const res = await noticeListDB(pboard)
       const result = JSON.stringify(res.data)
       const jsonDoc = JSON.parse(result)
+      console.log("noticeDetail")
       setBoard({
         notice_no:jsonDoc[0].notice_no,
         notice_title:jsonDoc[0].notice_title,
@@ -33,7 +41,11 @@ const NoticeDetail = () => {
         notice_hit:jsonDoc[0].notice_hit,
       })
     }
-    noticeDetail()
+    const fetchData = async () => {
+      await noticeHit()
+      await noticeDetail()
+    }
+    fetchData()
   },[pboard])
 
   const noticeDelete = () => {
@@ -89,8 +101,14 @@ const NoticeDetail = () => {
             <div>
               {board.notice_content}
             </div>
-          </div> 
-            <hr style={{height:"2px"}}/>
+          </div>
+          <div style={{marginBottom:"300px"}}></div>
+          
+          <hr style={{height:"2px"}}/>
+          <div><FontAwesomeIcon icon="fa-sharp fa-solid fa-caret-down" />이전글 : </div>
+          <hr style={{height:"2px"}}/>
+          <div>다음글 : </div>
+          <hr style={{height:"2px"}}/>
           </FormDiv>
         </ContainerDiv>
       </div>

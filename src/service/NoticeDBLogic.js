@@ -15,3 +15,33 @@ export const noticeListDB = (board) => {
     }
   });
 };
+
+export const noticeSearchListDB = (board) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "notice/Search",
+        params: board,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const noticeHitDB = (board) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "notice/hitAdd",
+        params: board,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
