@@ -9,23 +9,6 @@ import Noticebar from './Noticebar'
 import { noticeListDB, noticeSearchListDB } from '../../../service/NoticeDBLogic'
 
 const Notice = () => {
-
-/* 
-
-수정 테스트수정ㅗㅍ려ㅐㅅ화ㅗㅠㅓㅏㅣ
-
-ㅓㅏㅣㅘㅣㅗㅕㅐ혀ㅑ호ㅓㅏ
-ㅏㅓㅔ;ㅓㅔㅓㅏㅣ;ㅓㅏ
-1*/
-
-
-
-
-
-
-
-
-
   const navigate = useNavigate();
   const [noticeList, setNoticeList] = useState([])
   const [search, setSearch] = useState("")
@@ -131,3 +114,4 @@ const Notice = () => {
 }
 
 export default Notice
+
