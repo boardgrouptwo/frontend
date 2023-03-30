@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import { Button } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
-import { noticeHitDB, noticeListDB } from '../../../service/NoticeDBLogic'
+import { noticebeforeAfterDB, noticeHitDB, noticeListDB } from '../../../service/NoticeDBLogic'
 import { ContainerDiv, FormDiv, HeaderDiv } from '../../css/FormStyle'
 import Bottom from '../../include/Bottom'
 import MainHeader from '../../include/MainHeader'
 import Noticebar from './Noticebar'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 
 const NoticeDetail = () => {
 
@@ -22,8 +23,15 @@ const NoticeDetail = () => {
     notice_date: "",
     notice_hit: 0,
   })
+
+  const[notice_board, setNoticeBoard] = useState({
+    afterNotice: "",
+    afterNo: "",
+    beforeNotice: "",
+    beforeNo: "",
+  }) 
+
   useEffect(() => {
-//
     const noticeHit = async() => {
       const res = await noticeHitDB(pboard)
       console.log("noticeHit")           
@@ -42,15 +50,42 @@ const NoticeDetail = () => {
         notice_hit:jsonDoc[0].notice_hit,
       })
     }
+
+    const noticebeforeAfter = async() => {     
+      console.log("이전이후검색") 
+      const res = await noticebeforeAfterDB(pboard);
+      const result = JSON.stringify(res.data)
+      const jsonDoc = JSON.parse(result);
+      
+      setNoticeBoard({
+        afterNotice: jsonDoc[0].afterNotice,
+        afterNo: jsonDoc[0].afterNo,
+        beforeNotice: jsonDoc[0].beforeNotice,
+        beforeNo: jsonDoc[0].beforeNo
+      })
+    }
     const fetchData = async () => {
       await noticeHit()
       await noticeDetail()
+      await noticebeforeAfter()
     }
-    fetchData()
-  },[pboard])
+    fetchData()    
+  },[])
 
   const noticeDelete = () => {
     console.log("삭제")
+  }
+
+  const beforeNotice = () => {
+    console.log("이전글")
+    navigate(`/notice/detail/${notice_board.beforeNo}`);
+    window.location.reload();
+  }
+
+  const afterNotice = () => {
+    console.log("다음글")
+    navigate(`/notice/detail/${notice_board.afterNo}`);
+    window.location.reload();
   }
 
   return (
@@ -106,9 +141,13 @@ const NoticeDetail = () => {
           <div style={{marginBottom:"300px"}}></div>
           
           <hr style={{height:"2px"}}/>
-          <div><FontAwesomeIcon icon="fa-sharp fa-solid fa-caret-down" />이전글 : </div>
+          <div onClick={beforeNotice}>
+            <FontAwesomeIcon icon="arrow-up" /> 이전글 : {notice_board.beforeNotice}
+          </div>
           <hr style={{height:"2px"}}/>
-          <div>다음글 : </div>
+          <div onClick={afterNotice}>
+            <FontAwesomeIcon icon="arrow-down" /> 다음글 : {notice_board.afterNotice}
+          </div>
           <hr style={{height:"2px"}}/>
           </FormDiv>
         </ContainerDiv>

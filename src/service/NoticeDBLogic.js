@@ -45,3 +45,18 @@ export const noticeHitDB = (board) => {
     }
   });
 };
+
+export const noticebeforeAfterDB = (board) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "notice/noticeAfterBefore",
+        params: board,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
