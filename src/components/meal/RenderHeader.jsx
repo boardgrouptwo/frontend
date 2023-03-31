@@ -1,7 +1,8 @@
 import { Icon } from '@iconify/react'
+import { format } from 'date-fns'
 import React from 'react'
 
-const RenderHeader = ({currentMonth}) => {
+const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
   return (
     <>
         <div className='header row'>
@@ -14,8 +15,8 @@ const RenderHeader = ({currentMonth}) => {
                   </span>
               </div>
                 <div className='col col-end'>
-                      <Icon icon="bi:arrow-left-circle-fill" />
-                      <Icon icon="bi:arrow-right-circle-fill" />
+                      <Icon icon="bi:arrow-left-circle-fill"  onClick={prevMonth}/>
+                      <Icon icon="bi:arrow-right-circle-fill"  onClick = {nextMonth}/>
                 </div>
         </div>
     </>

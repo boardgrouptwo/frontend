@@ -1,5 +1,9 @@
-import { addMonths } from 'date-fns';
-import React from 'react'
+import { addMonths, subMonths } from 'date-fns';
+import React, { useState } from 'react'
+import RenderCells from './RenderCells';
+import RenderDays from './RenderDays';
+import RenderHeader from './RenderHeader';
+import './calendar.css'; 
 
 const Calender = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -13,12 +17,16 @@ const Calender = () => {
         setCurrentMonth(addMonths(currentMonth, 1))
     }
 
+    const onDateClick = (day) => {
+        setSelectedDate(day);
+  };
+
   return (
     <>
         <div className='calendar'>
-            <div className='header'>Header</div>
-            <div className='days'>Days</div>
-            <div className='body'>Cells</div>
+            <RenderHeader currentMonth={currentMonth} prevMonth ={prevMonth} nextMonth ={nextMonth} />
+            <RenderDays/>
+            <RenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
         </div>
     </>
   )

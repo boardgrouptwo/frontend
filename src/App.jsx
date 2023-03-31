@@ -7,6 +7,8 @@ import HomePage from './components/main/HomePage'
 import Login from './components/main/Login'
 import Start from './components/main/Start'
 import Introduction from './components/intro/Introduction'
+import Meal from './components/meal/Meal'
+
 
 const App = () => {
   return (
