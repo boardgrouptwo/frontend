@@ -42,7 +42,7 @@ const MainHeader = () => {
               <ul style={style3}>
                 <li><a href="/notice">공지사항</a> </li>
                 <li><a href="/home">월간일정표</a> </li>
-                <li><a href="/home">식단표</a> </li>
+                <li><a href="/meal">식단표</a> </li>
                 <li><a href="/home">QNA</a> </li>
               </ul>
             </li>

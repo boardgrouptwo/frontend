@@ -19,6 +19,8 @@ const App = () => {
         <Route path="/notice/write" exact={true} element={<NoticeWrite/>}/>
         <Route path="/notice/detail/:notice_no" exact={true} element={<NoticeDetail/>}/>
         <Route path="/login" exact={true} element={<Login/>}/>
+        {/* 식단표 */}
+        <Route path="/meal" exact={true} element={<Meal/>}/>
       </Routes>      
     </>
   )
