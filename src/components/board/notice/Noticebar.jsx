@@ -11,7 +11,7 @@ const Noticebar = () => {
       </div>
       <div id="co_aside">
         <div className="co_aside_wrap">
-          <div className="aside_tit">요양원소개</div>
+          <div className="aside_tit">요양원소식</div>
           <ul className="l_menu">
             <li className='on'>
               <a href="/notice">공지사항</a>

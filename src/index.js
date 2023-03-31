@@ -2,6 +2,7 @@ import React from "react";
 import "antd/dist/reset.css";
 import ReactDOM from "react-dom/client";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "react-quill/dist/quill.snow.css";
 import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import ImageUploader from "./service/imageUploader";

@@ -6,6 +6,7 @@ import NoticeWrite from './components/board/notice/NoticeWrite'
 import HomePage from './components/main/HomePage'
 import Login from './components/main/Login'
 import Start from './components/main/Start'
+import Introduction from './components/intro/Introduction'
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
       <Routes>
         <Route path="/home" exact={true} element={<HomePage/>}/>
         <Route path="/" exact={true} element={<Start/>}/>
+        <Route path="/intro" exact={true} element={<Introduction />}/>
         <Route path="/notice" exact={true} element={<Notice/>}/>
         <Route path="/notice/write" exact={true} element={<NoticeWrite/>}/>
         <Route path="/notice/detail/:notice_no" exact={true} element={<NoticeDetail/>}/>

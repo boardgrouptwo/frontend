@@ -21,7 +21,7 @@ const MainHeader = () => {
             <li className="list01"                     
               onMouseEnter={e=>{setStyle1({display:"block"})}}
               onMouseLeave={e=>{setStyle1({display:"none"})}}>
-              <a href="/home">요양원소개</a>
+              <a href="/intro">요양원소개</a>
             </li>
 
             <li className="list02"
