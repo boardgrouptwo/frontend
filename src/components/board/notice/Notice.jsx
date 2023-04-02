@@ -80,7 +80,10 @@ const Notice = () => {
                   aria-label="검색어를 입력하세요" aria-describedby="btn_search" onChange={(e)=>{handleSearch(e.target.value)}}/>
           </div>                    
           <div className="col-3">
-            <Button variant='primary' id="btn_search" onClick={noticeSearch}>검색</Button>
+            <Button style={{marginRight : "20px"}}variant='primary' id="btn_search" onClick={noticeSearch}>검색</Button>
+            <Button variant="success" onClick={()=>{navigate(`/notice/write`)}}>
+                글쓰기              
+            </Button> 
           </div>
         </div> 
         <div className='book-list'>
@@ -101,9 +104,7 @@ const Notice = () => {
           </Table> 
           <hr />    
           <div className='booklist-footer'>
-            <Button variant="success" onClick={()=>{navigate(`/notice/write`)}}>
-                글쓰기              
-            </Button> 
+
           </div>
         </div>
       </div>

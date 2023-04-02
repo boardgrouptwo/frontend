@@ -3,11 +3,15 @@ import { Navbar } from 'react-bootstrap'
 
 const Bottom = () => {
   return (
-      <>
-      <Navbar fixed="bottom" className="navbar navbar-expand-sm bg-light justify-content-center" bg="dark" style={{ color: 'white' }}>
-          KH요양원 &copy; 2023
-      </Navbar>
-      </>
+    <Navbar className="navbar navbar-expand-sm bg-light justify-content-center" bg="dark" 
+      style={{ 
+        width: "100%",
+        color: 'white',
+        position: "absolute",
+        bottom: "0" 
+      }}>
+      KH요양원 &copy; 2023
+    </Navbar>
   )
 }
 

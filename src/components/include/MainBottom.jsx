@@ -9,13 +9,15 @@ const MainBottom = () => {
         ,fontFamily: "Single Day"
         ,position: "absolute"
         ,width: "100%"
-        ,bottom: "0"   
-        ,position: "absolute"
+        ,height: "auto"
+        ,top: "100%"
+        ,left: "0"
         ,margin: "0"
-        ,padding: "0"    
-             
+        ,padding: "0"
+        ,textAlign: "left"
+        ,overflow: "hidden"
         }}>
-        <div style={{float: "left", margin: "0px", padding: "20px"  }}>
+        <div style={{float: "left", margin: "0px", padding: "20px" }}>
           <h2 style={{textDecoration: "underline"}}>
             <img src="images/free-icon-pin-503082.png" style={{width:"40px"}}/> 찾아오시는길</h2>
           <br />

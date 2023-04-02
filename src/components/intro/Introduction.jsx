@@ -12,7 +12,7 @@ const Introduction = () => {
       <br />
       <br />
 
-      <div className='container' style={{ textAlign: 'center' }}>
+      <div className='container' style={{ textAlign: 'center'}}>
       <img src='/images/intro_image2.png' alt='intro_image' style={{ maxWidth: '80%', height: 'auto' }} />
 
         <h1 style={{ color: '#595959', fontWeight: 'bold', fontSize: '2rem', marginTop: '2rem' }}>
@@ -47,6 +47,7 @@ const Introduction = () => {
         <br />
       </div>
 
+      
       <Bottom />
     </>
   )

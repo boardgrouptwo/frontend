@@ -65,7 +65,7 @@
   padding: 40px;
   top: 70px;
   right: 0;
-  z-index: 99;
+  /* z-index: 99; */
   background-color: #355d3e;
   /* background: url(""); */
 }
@@ -110,7 +110,7 @@
   height: 335px;
   padding: 35px;
   right: 0;
-  z-index: 99;
+  /* z-index: 99; */
   background: #4a9e5c;
 }
 .main_info_link .link p {

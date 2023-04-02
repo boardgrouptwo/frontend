@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useSelector } from 'react-redux'
 import "../css/header.css"
 const MainHeader = () => {
 
@@ -8,6 +9,10 @@ const MainHeader = () => {
   const [ style4, setStyle4 ] = useState({display: "none"})
   const [ style5, setStyle5 ] = useState({display: "none"})
   const [ style6, setStyle6 ] = useState({display: "none"})
+
+  // 로그인 체크용
+  const isLogin = useSelector(state => state.isLogin);
+  const isAuthenticated = true;
 
   return (
     <>
@@ -58,14 +63,28 @@ const MainHeader = () => {
               </ul>
             </li>
 
-            <li className="list03"
+
+            {/* 
+              로그인 확인하여 로그인이 필요시 로그인 버튼이
+              로그인이 되어있을때는 회원가입 버튼을 활성화 해준다.
+            */}
+            {isLogin ? (
+              <li className="list03"
               onMouseEnter={e=>{setStyle5({display:"block"})}}
               onMouseLeave={e=>{setStyle5({display:"none"})}}>
-            <a href="/home">로그인</a>
-            <ul style={style5}>
-              <li><a href="/home">회원가입</a> </li>
-            </ul>
-          </li>
+              <a href="/login">로그인</a>
+              <ul style={style5}>
+                <li><a href="/home">회원가입</a> </li>
+              </ul> 
+              </li> ): (
+
+                <li className="list03"
+                onMouseEnter={e=>{setStyle5({display:"block"})}}
+                onMouseLeave={e=>{setStyle5({display:"none"})}}>
+                <a href="/logout">로그아웃</a>
+                </li>
+               )
+            }
           </ul> 
         </div>	
       </div>

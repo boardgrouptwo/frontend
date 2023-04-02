@@ -3,9 +3,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import Bottom from '../include/Bottom'
 import MainHeader from '../include/MainHeader'
 import { DividerDiv, DividerHr, DividerSpan, GoogleButton, LoginForm, MyH1, MyInput, MyLabel, MyP, PwEye, SubmitButton } from '../css/FormStyle';
+import { useDispatch } from 'react-redux';
+import { loginCheck } from '../../service/authLogic';
 
 const Login = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const[submitBtn, setSubmitBtn] = useState({
     disabled: true,
@@ -56,9 +59,31 @@ const Login = () => {
     }
   }
 
-  const login = () => {
+  
+  const [error, setError] = useState();
+
+  const login = async () => {
     console.log("로그인")
     console.log(tempUser);
+    const res = await loginCheck(tempUser);
+    const result = JSON.stringify(res.data)
+    const jsonDoc = JSON.parse(result)
+
+    if(res.ok) {
+      dispatch({
+        type: 'SET_TOKEN', 
+        payload: jsonDoc[0].token,
+        user_type: jsonDoc[0].role,
+        user_name:jsonDoc[0].nickname
+    })
+    //navigate("/home")
+    } else {
+      //로그인 실패
+      const error = await res.text();
+      setError(error);
+    }
+
+
   }
 
   const kakaoLogin = () => {

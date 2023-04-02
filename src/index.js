@@ -7,10 +7,18 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import ImageUploader from "./service/imageUploader";
 import "@fortawesome/fontawesome-free/js/all.js";
+import { legacy_createStore } from "redux";
+import reducer from "./components/auth/reducer";
+import { Provider } from "react-redux";
+
+const store = legacy_createStore(reducer);
+
 const imageUploader = new ImageUploader();
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <BrowserRouter>
-    <App imageUploader={imageUploader} />
-  </BrowserRouter>
+  <Provider store={store}>
+    <BrowserRouter>
+      <App imageUploader={imageUploader} />
+    </BrowserRouter>
+  </Provider>
 );

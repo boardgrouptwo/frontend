@@ -29,22 +29,34 @@ const HomePage = () => {
       <div className="link">
         <p>Link Service</p>
           <ul>
-            <li><a href="/home">요양서비스</a></li>
-              <li><a href="/home">노인요양보험</a></li>
-              <li><a href="/home">가족 소통방</a></li>
+            <li><a href="/home">요양원소개</a></li>
+              <li><a href="/home">후원하기</a></li>
+              <li><a href="/home">요양원 소식</a></li>
               <li><a href="/home">자료실</a></li>
               <li><a href="/home">자원봉사</a></li>
-              <li><a href="/home">후원안내</a></li>
+              <li><a href="/home">공지사항</a></li>
           </ul>
       </div> 
     </div>
+    <div style=
+    {{width:"730px", height: "500px"
+      ,position: "absolute"
+      ,top: "400px"
+      ,left: "350px"
+      ,margin: "0"
+      ,padding: "0"
+    }}>
+      <img src="images/main.jpg" 
+      style={{width:"100%", 
+      position: "absolute", margin: "0"
+      ,padding: "0"}}/>
+    </div>  
 {/*     <div>
       <img src="images/main.jpg" 
       style={{width:"100%", 
-      position: "relative", margin: "0"
+      position: "absolute", margin: "0"
       ,padding: "0"}}/>
-    </div>   */}
-      
+    </div> */}
       <MainBottom/>
     </>
   )

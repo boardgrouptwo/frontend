@@ -8,9 +8,13 @@ import Login from './components/main/Login'
 import Start from './components/main/Start'
 import Introduction from './components/intro/Introduction'
 import Meal from './components/meal/Meal'
+import { useSelector } from 'react-redux'
 
 
 const App = () => {
+
+
+
   return (
     <>
       <Routes>
