@@ -31,6 +31,36 @@ export const noticeInsertDB = (board) => {
   });
 };
 
+export const noticeUpdateDB = (board) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "notice/update",
+        data: board,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const noticeDeleteDB = (board) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "notice/delete",
+        params: board,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 export const noticeSearchListDB = (board) => {
   return new Promise((resolve, reject) => {
     try {

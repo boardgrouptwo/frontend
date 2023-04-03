@@ -10,9 +10,37 @@ import { noticeListDB, noticeSearchListDB } from '../../../service/NoticeDBLogic
 
 const Notice = () => {
   const navigate = useNavigate();
+  // 게시글 목록
   const [noticeList, setNoticeList] = useState([])
-  const [search, setSearch] = useState("")
 
+  // 페이징 처리(구현중....)
+  const [page, setPage] = useState(1); // 현재 페이지 번호
+  const [perPage, setPerPage] = useState(10); // 페이지당 게시글 수
+  const [total, setTotal] = useState(0); // 전체 게시글 수
+
+  const handlePageChange = (event) => {
+    setPage(Number(event.target.value));
+  };
+
+  const handlePerPageChange = (event) => {
+    setPerPage(Number(event.target.value));
+    setPage(1);
+  };
+
+  const renderPagination = () => {
+    const totalPages = Math.ceil(total / perPage);
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <option key={i} value={i}>
+          {i}
+        </option>
+      );
+    }
+  }
+
+  // 검색어
+  const [search, setSearch] = useState("")
   const handleSearch = useCallback((e) => {
     setSearch(e)
   },[])
@@ -30,13 +58,15 @@ const Notice = () => {
         notice_hit: item.notice_hit
       }
       list.push(obj)
-    })
+    })    
+    setTotal(list.length)
     setNoticeList(list)   
   }
   boardList();
   
 },[])
 
+  //검색 로직
   const noticeSearch = () => {    
     if(search === "") {
       alert("검색어를 입력하세요")      
@@ -70,8 +100,8 @@ const Notice = () => {
     <>
       <MainHeader/>
       <Noticebar/>
-      <div className='container'>
-        <div className="page-header">
+      <div className='container' style={{position: "relative" }}>
+        <div className="page-header" >
         </div>     
         <h2 style={{marginTop: "30px"}}>공지사항</h2> 
         <div className="row">
@@ -86,7 +116,7 @@ const Notice = () => {
             </Button> 
           </div>
         </div> 
-        <div className='book-list'>
+        <div className='book-list' style={{paddingBottom: "50px"}}>
           <Table striped bordered hover >
             <thead>
               <tr style={{textAlign: "center"}}>
@@ -109,7 +139,8 @@ const Notice = () => {
         </div>
       </div>
 
-      <Bottom/> 
+      <Bottom /> 
+
     </>
   )
 }

@@ -30,7 +30,7 @@ const NoticeWrite = () => {
     }
     const res = await noticeInsertDB(board);
     console.log(res)
-    //navigate("/notice")
+    navigate("/notice")
   }
 
   return (
