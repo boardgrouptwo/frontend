@@ -22,3 +22,33 @@
   text-align: justify;
   text-justify: inter-word;
 }
+
+.fadeIn {
+  animation: fadeIn 2s;
+}
+
+.fadeOut {
+  animation: fadeOut 2s;
+}
+
+@keyframes fadeIn {
+  from {
+    left: -100px;
+    opacity: 0;
+  }
+  to {
+    left: 400px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    left: 400px;
+    opacity: 1;
+  }
+  to {
+    left: -100px;
+    opacity: 0;
+  }
+}

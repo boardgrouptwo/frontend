@@ -1,10 +1,33 @@
-import React from 'react'
+import React, { useRef, useEffect } from 'react'
 import Bottom from '../include/Bottom'
 import MainHeader from '../include/MainHeader'
 import Introductionbar from './Introductionbar'
-
+import "../css/intro.css"
+import KakaoMap from '../kakao/KakaoMap'
 
 const Introduction = () => {
+  const imgRef = useRef(null);
+
+  useEffect(() => {
+    const img = imgRef.current;
+    let prevScrollPos = window.pageYOffset;
+
+    const handleScroll = () => {
+      const currentScrollPos = window.pageYOffset;
+      if (prevScrollPos > currentScrollPos) {
+        img.classList.remove('fadeOut');
+        img.classList.add('fadeIn');
+      } else {
+        img.classList.remove('fadeIn');
+        img.classList.add('fadeOut');
+      }
+      prevScrollPos = currentScrollPos;
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
     <>
       <MainHeader />
@@ -13,7 +36,12 @@ const Introduction = () => {
       <br />
 
       <div className='container' style={{ textAlign: 'center'}}>
-      <img src='/images/intro_image2.png' alt='intro_image' style={{ maxWidth: '80%', height: 'auto' }} />
+        <img
+          ref={imgRef}
+          src='/images/intro_image2.png'
+          alt='intro_image'
+          style={{ maxWidth: '100%', height: 'auto' }}
+        />
 
         <h1 style={{ color: '#595959', fontWeight: 'bold', fontSize: '2rem', marginTop: '2rem' }}>
           어르신이 머물고 싶은 집
@@ -45,10 +73,16 @@ const Introduction = () => {
         <br />
         
         <br />
+        <h2 style={{ color: '#004445', fontWeight: 'bold', fontSize: '3rem', marginTop: '0rem', marginBottom: '30px'}}>오시는 길</h2>
+        <KakaoMap/>
+        <br />
+      <br />
+      <br />
+      <br />
       </div>
 
       
-      <Bottom />
+
     </>
   )
 }
