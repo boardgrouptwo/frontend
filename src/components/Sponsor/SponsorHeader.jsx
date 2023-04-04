@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import "../css/header.css"
-const MainHeader = () => {
+const SponsorHeader = () => {
 
   const [ style1, setStyle1 ] = useState({display: "none"})
   const [ style2, setStyle2 ] = useState({display: "none"})
@@ -18,7 +18,7 @@ const MainHeader = () => {
     <>
       <div id="sh_hd_wrapper">
         <div id="topmenu_wrapper">
-          <h1 id="top_logo">
+          <h1 id="top_logo"> 
             <a href="/home"><img src="http://localhost:3000/images/logo.png" /></a>
           </h1>
           
@@ -92,4 +92,4 @@ const MainHeader = () => {
   )
 }
 
-export default MainHeader
+export default SponsorHeader

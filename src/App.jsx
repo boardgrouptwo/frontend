@@ -9,6 +9,8 @@ import Start from './components/main/Start'
 import Introduction from './components/intro/Introduction'
 import Meal from './components/meal/Meal'
 import { useSelector } from 'react-redux'
+import SponsorFrom from './components/Sponsor/SponsorFrom'
+import SponsorList from './components/Sponsor/SponsorList'
 
 
 const App = () => {
@@ -27,6 +29,8 @@ const App = () => {
         <Route path="/login" exact={true} element={<Login/>}/>
         {/* 식단표 */}
         <Route path="/meal" exact={true} element={<Meal/>}/>
+        <Route path="/sponser/from" exact={true} element={<SponsorFrom />}/> {/* 후원폼 */}
+        <Route path="/sponser/list" exact={true} element={<SponsorList />}/> {/* 후원리스트 */}
       </Routes>      
     </>
   )

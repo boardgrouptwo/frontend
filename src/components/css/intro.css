@@ -24,11 +24,13 @@
 }
 
 .fadeIn {
-  animation: fadeIn 2s;
+  opacity: 1;
+  transition: opacity 3s ease-in-out;
 }
 
 .fadeOut {
-  animation: fadeOut 2s;
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
 }
 
 @keyframes fadeIn {
