@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Button, Form, Modal, Pagination } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
 import { noticebeforeAfterDB, noticeDeleteDB, noticeHitDB, noticeListDB, noticeUpdateDB } from '../../../service/NoticeDBLogic'
 import { ContainerDiv, FormDiv, HeaderDiv, MyInput, MyLabel, MyLabelAb } from '../../css/FormStyle'
@@ -135,7 +135,6 @@ const NoticeDetail = () => {
     handleClose();
   }
 
-
   return (
     <>
       <MainHeader/>
@@ -183,7 +182,10 @@ const NoticeDetail = () => {
             </div>
             <hr style={{height: '2px'}}/>
             <div>
-              {board.notice_content}
+              {/* {board.notice_content} */}
+              <section style={{minHeight: '200px'}}>
+                <div dangerouslySetInnerHTML={{__html:board.notice_content}}></div>
+              </section>              
             </div>
           </div>
           <div style={{marginBottom:"300px"}}></div>
@@ -245,6 +247,8 @@ const NoticeDetail = () => {
           </Modal.Footer>
         </Modal>    
       {/* =======================수정하기 modal=================== */}
+
+
       <Bottom/>
     </>
   )
