@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import RenderCells from './RenderCells';
 import RenderDays from './RenderDays';
 import RenderHeader from './RenderHeader';
-import './calendar.css'; 
+import '../css/calendar.css'; 
 
 const Calender = () => {
     const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -23,10 +23,12 @@ const Calender = () => {
 
   return (
     <>
-        <div className='calendar'>
-            <RenderHeader currentMonth={currentMonth} prevMonth ={prevMonth} nextMonth ={nextMonth} />
-            <RenderDays/>
-            <RenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
+                <div id ='wrap'>
+                <div className='calendar'>
+                    <RenderHeader currentMonth={currentMonth} prevMonth ={prevMonth} nextMonth ={nextMonth} />
+                    <RenderDays/>
+                    <RenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
+                </div>
         </div>
     </>
   )

@@ -1,0 +1,167 @@
+* {
+  box-sizing: border-box;
+  margin-left: 3px;
+}
+
+.calendar {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar .header {
+  width: 100%;
+  height: 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 3em;
+}
+
+/* 헤더의 년과 월을 감싸고있는 div태그 */
+.calendar .header .col.col-start {
+  display: flex;
+  justify-content: center;
+}
+
+.calendar .header .col.col-first {
+  width: 80%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 1%;
+}
+
+/* 헤더의 년 */
+.calendar .header .col.col-first .text {
+  font-size: 0.8em;
+}
+
+/* 헤더의 월 */
+.calendar .header .col.col-first .text.month {
+  margin-right: 5px;
+  font-size: 1.6em;
+  font-weight: 600;
+}
+
+/* 캘린더 헤더의 화살표 */
+.calendar .header .col.col-end-left {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar .header .col.col-end-right {
+  width: 20%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.calendar .header .col.col-end-left svg {
+  color: rgba(128, 128, 128, 0.8);
+  transition: all 0.3s ease-in-out;
+}
+.calendar .header .col.col-end-right svg {
+  color: rgba(128, 128, 128, 0.8);
+  transition: all 0.3s ease-in-out;
+}
+
+.calendar .header .col.col-end-left svg:hover {
+  transform: scale(1.15);
+  color: #444;
+}
+.calendar .header .col.col-end-right svg:hover {
+  transform: scale(1.15);
+  color: #444;
+}
+
+/*  */
+.calendar .days {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 600;
+  font-size: 25px;
+  padding: 2px;
+  color: #444;
+}
+
+/* 캘린더 요일부분 */
+.calendar .days .col {
+  width: 12.9%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-start;
+  padding-left: 1%;
+  background: rgba(181, 216, 239, 0.6);
+  border-radius: 10px;
+}
+
+.calendar .body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.calendar .body .row {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 캘린더의 한칸 */
+.calendar .body .row .col {
+  width: 13.5%;
+  height: 93%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border: 0.4px solid rgba(128, 128, 128, 0.4);
+  border-radius: 3px;
+  font-size: 1em;
+}
+
+.calendar .body .row .col span {
+  margin: 4px 0 0 4px;
+}
+
+.calendar .body .row .col .not-valid {
+  color: #c8c7c7;
+}
+
+.calendar .body .row .col img {
+  opacity: 0.1;
+}
+
+/* 캘린더 한칸에 마우스를 올렸을 때 */
+.calendar .body .row .col.cell.valid:hover {
+  box-shadow: 1.5px 1.5px rgba(128, 128, 128, 0.1);
+  transform: scale(1.01);
+  border: solid 2px rgba(84, 153, 199, 0.6);
+  /* background: rgba(84, 153, 199, 0.6); */
+}
+
+/* 오늘 */
+.calendar .body .row .col.cell.selected {
+  box-shadow: 1.5px 1.5px 0 rgba(0, 0, 0, 0.1),
+    -1.5px -1.5px 0 rgba(0, 0, 0, 0.1);
+  transform: scale(1.02);
+  border: none;
+  background-color: #a5b8dc;
+  color: #fff;
+  font-weight: 600;
+}

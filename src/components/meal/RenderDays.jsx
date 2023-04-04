@@ -2,7 +2,7 @@ import React from 'react'
 
 const RenderDays = () => {
     const days =[];
-    const date = ['Sun', 'Mon', 'Thu', 'Wed', 'Thrs', 'Fri', 'Sat']
+    const date = ['일요일', '월요일', '화요일', '수요일', '목요일', '금요일', '토요일']
 
     for(let i =0; i <7 ; i++){
         days.push(
