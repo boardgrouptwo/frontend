@@ -6,6 +6,9 @@ export const loginCheck = (user) => {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "user/login",
+        headers: {
+          "Content-Type": "application/json",
+        },
         data: user,
       });
       resolve(response);

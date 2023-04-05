@@ -12,7 +12,6 @@ const MainHeader = () => {
 
   // 로그인 체크용
   const isLogin = useSelector(state => state.isLogin);
-  const isAuthenticated = true;
 
   return (
     <>
