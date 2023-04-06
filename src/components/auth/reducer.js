@@ -6,15 +6,23 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         token: action.payload,
-        user_type: action.role,
-        nickname: action.nickname,
+        user_type: action.user_type,
+        nickname: action.user_name,
+        isLogin: false,
       };
-    case "CLEAR_TOKEN":
+    case "KAKAO_TOKEN":
       return {
         ...state,
-        token: null,
-        user_type: "",
-        nickname: "",
+        token: action.payload,
+        user_type: action.role,
+        nickname: false,
+      };
+    case "KAKAO_TOKEN":
+      return {
+        ...state,
+        token: action.payload,
+        user_type: action.role,
+        nickname: false,
       };
     default:
       return state;

@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { Button, Form, Modal, Pagination } from 'react-bootstrap'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { noticebeforeAfterDB, noticeDeleteDB, noticeHitDB, noticeListDB, noticeUpdateDB } from '../../../service/NoticeDBLogic'
 import { ContainerDiv, FormDiv, HeaderDiv, MyInput, MyLabel, MyLabelAb } from '../../css/FormStyle'
 import Bottom from '../../include/Bottom'
@@ -9,15 +9,23 @@ import Noticebar from './Noticebar'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import QuillEditor from './QuillEditor'
+import { useSelector } from 'react-redux'
 
 const NoticeDetail = () => {
 
   const navigate = useNavigate()
-  const {notice_no} = useParams()
+
+  const user = useSelector(state => state.user_type); 
+
+  //const {notice_no} = useParams()
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const page_num = searchParams.get('page');
+  const notice_num = searchParams.get('notice_no');
 
   //공지사항 번호
   const[pboard, setPBoard] = useState({
-    notice_no: notice_no,
+    notice_no: notice_num,
   })
 
   //공지사항 내용
@@ -98,13 +106,13 @@ const NoticeDetail = () => {
 
   // 이전글 이동
   const beforeNotice = () => {
-    navigate(`/notice/detail/${notice_board.beforeNo}`);
+    navigate(`/notice/detail?page=${page_num}&notice_no=${notice_board.beforeNo}`);
     setPBoard({notice_no: notice_board.beforeNo})
   }
 
   //다음글 이동
   const afterNotice = () => {
-    navigate(`/notice/detail/${notice_board.afterNo}`);
+    navigate(`/notice/detail?page=${page_num}&notice_no=${notice_board.afterNo}`);
     setPBoard({notice_no: notice_board.afterNo})    
   }
 
@@ -124,7 +132,7 @@ const NoticeDetail = () => {
   // 공지사항 업데이트
   const noticeUpdate = async () => {
     const board = {
-      notice_no,
+      notice_num,
       notice_title: title,
       notice_content: content
     }
@@ -155,13 +163,21 @@ const NoticeDetail = () => {
                 </div>
                 {
                   <div style={{display: 'flex', justifyContent: 'flex-end'}}>
-                    <Button style={{margin:'0px 10px 0px 10px'}} onClick={handleShow}>
-                      수정
-                    </Button>
-                    <Button style={{margin:'0px 10px 0px 10px'}} onClick={noticeDelete}>
-                      삭제
-                    </Button>
-                    <Button style={{margin:'0px 10px 0px 10px'}} onClick={()=>{navigate(`/notice`)}}>
+                    {
+                      (user === "ADMIN") ? (
+                      <Button style={{margin:'0px 10px 0px 10px'}} onClick={handleShow}>
+                        수정
+                      </Button>
+                      ) : (<div></div>)
+                    }
+                    {
+                      (user === "ADMIN") ? (
+                      <Button style={{margin:'0px 10px 0px 10px'}} onClick={noticeDelete}>
+                        삭제
+                      </Button>
+                      ) : (<div></div>)
+                    }
+                    <Button style={{margin:'0px 10px 0px 10px'}} onClick={()=>{navigate(`/notice?page=${page_num}`)}}>
                       목록
                     </Button>
 

@@ -2,7 +2,13 @@ import React from 'react'
 import MainBottom from '../include/MainBottom'
 import MainHeader from '../include/MainHeader'
 import "../css/main.css"
+import { useSelector } from 'react-redux'
 const HomePage = () => {
+
+  const token = useSelector(state => state.token);
+  console.log(token);
+
+
   return (
     <>
       <MainHeader/>

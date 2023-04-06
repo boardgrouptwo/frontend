@@ -14,7 +14,7 @@ const Noticebar = () => {
           <div className="aside_tit">요양원소식</div>
           <ul className="l_menu">
             <li className='on'>
-              <a href="/notice">공지사항</a>
+              <a href="/notice?page=1">공지사항</a>
             </li>
             <li ><a href="/calendar">월간일정표</a></li>
             <li ><a href="/meal">식단표</a></li>        

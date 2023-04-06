@@ -1,7 +1,7 @@
 a {
   text-decoration: none;
 }
-​ .page-header {
+.page-header {
   padding: 20px 0px;
 }
 .book-header {
@@ -12,7 +12,7 @@ a {
 .book-list {
   margin: 20px 0px;
 }
-​ .booklist-footer {
+.booklist-footer {
   display: flex;
   flex-direction: row-reverse;
 }

@@ -7,10 +7,12 @@ import "../../css/notice.css"
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import Noticebar from './Noticebar'
 import { noticeListDB, noticeSearchListDB } from '../../../service/NoticeDBLogic'
+import { useSelector } from 'react-redux'
 
 const Notice = () => {
   const navigate = useNavigate();
 
+  const user = useSelector(state => state.user_type); 
 
   // 게시글 목록
   const [noticeList, setNoticeList] = useState([])
@@ -121,9 +123,15 @@ const Notice = () => {
           </div>                    
           <div className="col-3">
             <Button style={{marginRight : "20px"}}variant='primary' id="btn_search" onClick={noticeSearch}>검색</Button>
-            <Button variant="success" onClick={()=>{navigate(`/notice/write`)}}>
-                글쓰기              
-            </Button> 
+            
+            {
+              (user==="ADMIN") ? (
+                <Button variant="success" onClick={()=>{navigate(`/notice/write`)}}>
+                  글쓰기              
+                </Button> 
+              ) : (<div></div>)              
+            }
+
           </div>
         </div> 
         <div className='book-list' style={{paddingBottom: "50px"}}>
@@ -138,7 +146,7 @@ const Notice = () => {
             </thead>
             <tbody >
             {noticeList.map((board,index) => (
-              <NoticeRow key={index} board={board} />
+              <NoticeRow key={index} board={board} pageNum={pageNum} />
             ))}
             </tbody>
           </Table> 

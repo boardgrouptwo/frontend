@@ -1,8 +1,13 @@
+import Cookies from 'js-cookie';
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router';
 import "../css/header.css"
+
 const MainHeader = () => {
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [ style1, setStyle1 ] = useState({display: "none"})
   const [ style2, setStyle2 ] = useState({display: "none"})
   const [ style3, setStyle3 ] = useState({display: "none"})
@@ -12,6 +17,20 @@ const MainHeader = () => {
 
   // 로그인 체크용
   const isLogin = useSelector(state => state.isLogin);
+
+  const handleLogout = () => {
+    Cookies.remove("jwt");
+    Cookies.remove("role");
+    Cookies.remove("user_name");
+    dispatch({
+      type: "", 
+      payload: "",
+      user_type: "",
+      user_name: ""
+    })
+    navigate("/login");
+    window.location.reload();
+  }
 
   return (
     <>
@@ -42,9 +61,9 @@ const MainHeader = () => {
             <li className="list03"
               onMouseEnter={e=>{setStyle3({display:"block"})}}
               onMouseLeave={e=>{setStyle3({display:"none"})}}>
-              <a href="/notice">요양원소식</a>
+              <a href="/notice?page=1">요양원소식</a>
               <ul style={style3}>
-                <li><a href="/notice">공지사항</a> </li>
+                <li><a href="/notice?page=1">공지사항</a> </li>
                 <li><a href="/home">월간일정표</a> </li>
                 <li><a href="/meal">식단표</a> </li>
                 <li><a href="/home">QNA</a> </li>
@@ -80,7 +99,7 @@ const MainHeader = () => {
                 <li className="list03"
                 onMouseEnter={e=>{setStyle5({display:"block"})}}
                 onMouseLeave={e=>{setStyle5({display:"none"})}}>
-                <a href="/logout">로그아웃</a>
+                <a href="#" onClick={handleLogout}>로그아웃</a>
                 </li>
                )
             }
