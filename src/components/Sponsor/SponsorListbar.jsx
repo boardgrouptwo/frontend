@@ -4,7 +4,7 @@ const SponsorListbar = () => {
   return (
     <>
       <div>
-        <img src="images/sub3.png" 
+        <img src="http://localhost:3000/images/sub_sponsor2.png" 
         style={{width:"100%", height:"200px", 
         position: "relative", margin: "0"
         ,padding: "0"}}/>

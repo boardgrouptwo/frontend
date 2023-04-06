@@ -1,0 +1,21 @@
+.sponsor-form {
+    
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    max-width: 100%;
+    min-width: 350px;
+    padding: 80px 30px 80px 100px;
+    border-radius: 30px;
+
+    border: 2px solid lightgrey;
+
+}
+
+
+.sponsor-form-text {
+    width : 100%;
+    text-align : center;
+    margin : 0 auto;
+    padding: 0px 50px 0px 0px;
+}
