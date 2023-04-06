@@ -12,6 +12,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import SponsorFrom from './components/Sponsor/SponsorFrom'
 import SponsorList from './components/Sponsor/SponsorList'
 import Cookies from 'js-cookie'
+import QnAListPage from './components/board/qna/QnAListPage'
+import QnAWriteForm from './components/board/qna/QnAWriteForm'
+import QnADetailPage from './components/board/qna/QnADetailPage'
+
 
 
 const App = () => {
@@ -57,6 +61,11 @@ const App = () => {
         <Route path="/meal" exact={true} element={<Meal/>}/>
         <Route path="/sponser/from" exact={true} element={<SponsorFrom />}/> {/* 후원폼 */}
         <Route path="/sponser/list" exact={true} element={<SponsorList />}/> {/* 후원리스트 */}
+        {/* QnA */}
+        <Route path="/qna" element={<QnAListPage/>}/>
+        <Route path="/qna/write" element={<QnAWriteForm/>}/>
+        <Route path="/qna/detail/:qna_no" exact={true} element={<QnADetailPage/>}/>
+        
       </Routes>      
     </>
   )
