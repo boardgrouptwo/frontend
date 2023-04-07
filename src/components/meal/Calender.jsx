@@ -1,10 +1,11 @@
-import { addMonths, subMonths } from 'date-fns';
+import { addMonths, format, subMonths } from 'date-fns';
 import React, { useState } from 'react'
 import RenderCells from './RenderCells';
 import RenderDays from './RenderDays';
 import RenderHeader from './RenderHeader';
 import '../css/calendar.css'; 
 import styled from 'styled-components';
+import { useNavigate } from 'react-router';
 
 const DivContainer = styled.div`
     
@@ -15,6 +16,8 @@ const DivContainer = styled.div`
 `
 
 const Calender = () => {
+    const navigate = useNavigate();
+
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
 
@@ -27,10 +30,12 @@ const Calender = () => {
     }
 
     const onDateClick = (day) => {
-        setSelectedDate(day);
-  };
+        const formattedDate = format(day, 'd');
+        console.log(formattedDate)
+        navigate(`/meal/page:${formattedDate}`)
+    };
 
-  return (
+    return (
     <>      
             <DivContainer>
                 <div className='calendar'>
@@ -40,7 +45,7 @@ const Calender = () => {
                 </div>
             </DivContainer>
     </>
-  )
+    )
 }
 
 export default Calender
