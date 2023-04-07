@@ -1,19 +1,20 @@
+
 .calendar {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  margin-left: 3px;
+  display: block;
+  width: 70%;
+  height: 100vh;
+  margin: auto;
+  margin-top: 20px;
 }
 
 .calendar .header {
+  margin-bottom: 25px;
   width: 100%;
   height: 7%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 3em;
+  font-size: 2.5rem;
 }
 
 /* 헤더의 년과 월을 감싸고있는 div태그 */
@@ -33,19 +34,19 @@
 
 /* 헤더의 년 */
 .calendar .header .col.col-first .text {
-  font-size: 0.8em;
+  font-size: 0.5em;
 }
 
 /* 헤더의 월 */
 .calendar .header .col.col-first .text.month {
   margin-right: 5px;
-  font-size: 1.6em;
+  font-size: 0.5em;
   font-weight: 600;
 }
 
 /* 캘린더 헤더의 화살표 */
 .calendar .header .col.col-end-left {
-  width: 20%;
+  width: 30%;
   height: 100%;
   display: flex;
   justify-content: center;
@@ -78,7 +79,7 @@
   color: #444;
 }
 
-/*  */
+/* 달력의 요일 헤더부분  */
 .calendar .days {
   width: 100%;
   height: fit-content;
@@ -89,9 +90,10 @@
   font-size: 25px;
   padding: 2px;
   color: #444;
+
 }
 
-/* 캘린더 요일부분 */
+/* 달력의 요일의 한 열 */
 .calendar .days .col {
   width: 12.9%;
   height: 100%;
@@ -106,7 +108,7 @@
 
 .calendar .body {
   width: 100%;
-  height: 100%;
+  /* height: 100%; */
   display: flex;
   flex-direction: column;
 }
