@@ -39,6 +39,9 @@ const MainHeader = () => {
           <h1 id="top_logo">
             <a href="/home"><img src="http://localhost:3000/images/logo.png" /></a>
           </h1>
+          <div id="top_logo2">
+            <a href="/shop"><img src="https://t1.daumcdn.net/gift/gnb/logo/PC/0/20230329_SEMBP.png" /></a>
+          </div>
           
           <ul id="top_nav">  
             <li className="list01"                     
@@ -81,6 +84,15 @@ const MainHeader = () => {
               </ul>
             </li>
 
+
+            <li className="list06"
+              onMouseEnter={e=>{setStyle6({display:"block"})}}
+              onMouseLeave={e=>{setStyle6({display:"none"})}}>
+              <a href="/home">관리자</a>
+              <ul style={style6}>
+                <li><a href="/shopadd">상품등록</a> </li>
+              </ul>
+            </li>
 
             {/* 
               로그인 확인하여 로그인이 필요시 로그인 버튼이

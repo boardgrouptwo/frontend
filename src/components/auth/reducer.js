@@ -17,7 +17,7 @@ export default function reducer(state = initialState, action) {
         user_type: action.role,
         nickname: false,
       };
-    case "KAKAO_TOKEN":
+    case "GOOGLE_TOKEN":
       return {
         ...state,
         token: action.payload,

@@ -15,6 +15,9 @@ import Cookies from 'js-cookie'
 import QnAListPage from './components/board/qna/QnAListPage'
 import QnAWriteForm from './components/board/qna/QnAWriteForm'
 import QnADetailPage from './components/board/qna/QnADetailPage'
+import KakaoAuthHandle from './components/main/KakaoAuthHandle'
+import ShopMain from './components/board/shop/ShopMain'
+import ShopAdd from './components/board/shop/ShopAdd'
 
 
 
@@ -53,10 +56,17 @@ const App = () => {
         <Route path="/home" exact={true} element={<HomePage/>}/>
         <Route path="/" exact={true} element={<Start/>}/>
         <Route path="/intro" exact={true} element={<Introduction />}/>
+        {/* 로그인 */}
+        <Route path="/login" exact={true} element={<Login/>}/>
+        <Route path="/auth/kakao/callback" element={<KakaoAuthHandle/>}/>
+        {/* 공지사항 */}
         <Route path="/notice" element={<Notice/>}/>
         <Route path="/notice/write" exact={true} element={<NoticeWrite/>}/>
         <Route path="/notice/detail/" element={<NoticeDetail/>}/>
-        <Route path="/login" exact={true} element={<Login/>}/>
+        {/* 선물하기, 쇼핑몰 */}
+        <Route path="/shop" exact={true} element={<ShopMain/>}/>
+        <Route path="/shopadd" exact={true} element={<ShopAdd/>}/>
+        
         {/* 식단표 */}
         <Route path="/meal" exact={true} element={<Meal/>}/>
         <Route path="/sponser/from" exact={true} element={<SponsorFrom />}/> {/* 후원폼 */}

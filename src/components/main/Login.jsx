@@ -87,7 +87,9 @@ const Login = () => {
   }
 
   const kakaoLogin = () => {
-    console.log("카카오 로그인")
+    const REDIRECT_URI = 'http://localhost:3000/auth/kakao/callback'
+    const KAKAO_AUTH_URL =  `https://kauth.kakao.com/oauth/authorize?client_id=${process.env.REACT_APP_KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`
+    window.location.href= KAKAO_AUTH_URL
   }
 
   const googleLogin = () => {

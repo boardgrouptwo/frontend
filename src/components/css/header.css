@@ -36,6 +36,15 @@
   z-index: 3;
 }
 
+#top_logo2 {
+  position: absolute;
+  width: 40px;
+  height: 20px;
+  top: 0px;
+  left: 160px;
+  z-index: 3;
+}
+
 /* Top Menu */
 #top_nav {
   position: absolute;

@@ -13,12 +13,18 @@ const Noticebar = () => {
         <div className="co_aside_wrap">
           <div className="aside_tit">요양원소식</div>
           <ul className="l_menu">
-            <li className='on'>
+            <li className={window.location.pathname.includes('/notice') ? 'on' : ''}>
               <a href="/notice?page=1">공지사항</a>
             </li>
-            <li ><a href="/calendar">월간일정표</a></li>
-            <li ><a href="/meal">식단표</a></li>        
-            <li ><a href="/qna">QNA</a></li>        
+            <li className={window.location.pathname.includes('/calendar') ? 'on' : ''}>
+              <a href="/calendar">월간일정표</a>
+            </li>
+            <li className={window.location.pathname.includes('/meal') ? 'on' : ''}>
+              <a href="/meal">식단표</a>
+            </li>        
+            <li className={window.location.pathname.includes('/qna') ? 'on' : ''}>
+              <a href="/qna">QNA</a>
+            </li>        
           </ul>
         </div>
       </div>
