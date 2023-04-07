@@ -32,7 +32,7 @@ const Calender = () => {
     const onDateClick = (day) => {
         const formattedDate = format(day, 'd');
         console.log(formattedDate)
-        navigate(`/meal/page:${formattedDate}`)
+        navigate(`/meal/page/${formattedDate}`)
     };
 
     return (
