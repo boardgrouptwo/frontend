@@ -1,112 +1,48 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import MainHeader from '../../include/MainHeader'
 import ShopBar from './ShopBar'
 import "../../css/shop.css"
 import styled from 'styled-components'
+import { productListDB } from '../../../service/ShopDBLogic'
+import ShopRow from './ShopRow'
 const ShopMain = () => {
 
+  // 상품 목록
+  const [productList, setProductList] = useState([])
 
-  const DIV = styled.div`
-    width: auto;
-    height: auto;
-    margin : 50px;
-    margin-left: 15%;
-    margin-right: 15%;
-    padding: 0;  
-  `
+  useEffect(() => {
 
-  const PRODUCTDIV = styled.div`
-    width: 305px;
-    height: 420px;
- /*    border: 1px solid blue; */
-    text-align: center;
-    box-sizing: border-box;
-  `
+    const boardList = async() => {
+      const res = await productListDB()
+      console.log(res.data)
+      const list = []
+      res.data.forEach((item) => {
+        const obj = {
+          product_title: item.product_title,
+          product_price: item.product_price,
+          product_image: item.product_image
+        } 
+        list.push(obj)       
+      })
+      setProductList(list)
+    }
+    boardList();
+    console.log(productList)
+  },[])
 
-  const PRODUCTUL = styled.ul`
-    position: relative;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    align-items: stretch;
-    flex-basis: calc(25% - 10px);
-    
-  `
 
-  const PRODUCTLI = styled.li`
-    vertical-align: top;
-    list-style: none;
-    margin : 10px;    
-  `
 
-  const SPAN = styled.span`
-    font-size: 20px;
-    line-height: 22px;
-  `
 
-  const STRONG = styled.strong`
-    font-size: 20px;
-  `
+
   return (
     <>
-    <MainHeader/> 
-    <ShopBar/>
-
-    <DIV>
-      <PRODUCTUL>
-        <PRODUCTLI>
-          <PRODUCTDIV>
-            <img 
-              style={{ width: "305px", height: "300px"}}
-              src="http://localhost:3000/images/shop/test.jpg"/>
-            <STRONG>피카츄</STRONG>
-            <br/>
-            <SPAN>38,000원</SPAN>
-          </PRODUCTDIV>
-        </PRODUCTLI>
-        <PRODUCTLI>
-
-          <PRODUCTDIV>
-          <img 
-              style={{ width: "305px", height: "300px"}}
-              src="http://localhost:3000/images/shop/test1.jpg"/>
-            <STRONG>파이리</STRONG>
-            <br/>
-            <SPAN>25,000원</SPAN>
-          </PRODUCTDIV>
-        </PRODUCTLI>
-        <PRODUCTLI>
-          <PRODUCTDIV>
-          <img 
-              style={{ width: "305px", height: "300px"}}
-              src="http://localhost:3000/images/shop/test2.gif"/>
-            <STRONG>꼬부기</STRONG>
-            <br/>
-            <SPAN>30,000원</SPAN>
-          </PRODUCTDIV>
-        </PRODUCTLI>
-        <PRODUCTLI>
-          <PRODUCTDIV>
-          <img 
-              style={{ width: "305px", height: "300px"}}
-              src="http://localhost:3000/images/shop/test3.jpg"/>
-            <STRONG>파치리스</STRONG>
-            <br/>
-            <SPAN>50,000원</SPAN>
-          </PRODUCTDIV>
-        </PRODUCTLI>
-        <PRODUCTLI>
-          <PRODUCTDIV>
-            1  
-          </PRODUCTDIV>
-        </PRODUCTLI>
-
-
-
-      </PRODUCTUL>
-    </DIV>
-    
-
+      <MainHeader/> 
+      <ShopBar/>
+      <div className="prodiv">
+      {productList.map((board,index) => (
+        <ShopRow key={index} board={board} />
+        ))}
+      </div>
     </>
   )
 }

@@ -1,5 +1,48 @@
 /* shop */
 
+
+.prodiv {
+  width: auto;
+  height: auto;
+  margin : 50px;
+  margin-left: 15%;
+  margin-right: 15%;
+  padding: 0;  
+}
+
+.productdiv {
+  width: 305px;
+  height: 420px;
+/*    border: 1px solid blue; */
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.productstrong {
+  font-size: 20px;
+}
+
+.productli {
+  vertical-align: top;
+  list-style: none;
+  margin : 10px;  
+}
+
+.productul {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-basis: calc(25% - 10px);
+}
+
+.productspan {
+  font-size: 20px;
+  line-height: 22px;  
+}
+
+
 /* shopbar */
 .wrap_tab_reviewrank {
   background-color: #fafafa;
