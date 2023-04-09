@@ -53,11 +53,11 @@ const MainHeader = () => {
             <li className="list02"
               onMouseEnter={e=>{setStyle2({display:"block"})}}
               onMouseLeave={e=>{setStyle2({display:"none"})}}>
-              <a href="/sponser/list">사랑나눔</a>              
+              <a href="/sponsor/list">사랑나눔</a>              
               <ul style={style2}>
-                <li><a href="/sponser/from">후원하기</a> </li>
+                <li><a href="/sponsor/from">후원하기</a> </li>
                 <li><a href="/service/from">자원봉사신청</a> </li>
-                <li><a href="/sponser/list">후원현황</a> </li>
+                <li><a href="/sponsor/list">후원현황</a> </li>
               </ul>
             </li>
 

@@ -19,6 +19,7 @@ import KakaoAuthHandle from './components/main/KakaoAuthHandle'
 import ShopMain from './components/board/shop/ShopMain'
 import ShopAdd from './components/board/shop/ShopAdd'
 import MealDetail from './components/meal/MealDetail'
+import SponsorSuccess from './components/Sponsor/SponsorSuccess'
 
 
 
@@ -71,9 +72,10 @@ const App = () => {
         {/* 식단표 */}
         <Route path="/meal" exact={true} element={<Meal/>}/>
         <Route path="/meal/page/:selectedDate" exact={true} element={<MealDetail/>}/>
-        {/* */}
-        <Route path="/sponser/from" exact={true} element={<SponsorFrom />}/> {/* 후원폼 */}
-        <Route path="/sponser/list" exact={true} element={<SponsorList />}/> {/* 후원리스트 */}
+        {/*후원하기 */}
+        <Route path="/sponsor/from" exact={true} element={<SponsorFrom />}/> {/* 후원폼 */}
+        <Route path="/sponsor/list" exact={true} element={<SponsorList />}/> {/* 후원리스트 */}
+        <Route path="/sponsor/success" exact={true} element={<SponsorSuccess />}/> {/* 후원성공 */}
         {/* QnA */}
         <Route path="/qna" element={<QnAListPage/>}/>
         <Route path="/qna/write" element={<QnAWriteForm/>}/>

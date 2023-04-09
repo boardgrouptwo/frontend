@@ -7,7 +7,7 @@ export const SponsorDB = (member) => {
         const response = axios({
           /* url을 통해서 스프링으로 요청 */
           method: "post",
-          url: process.env.REACT_APP_CHAT221228_IP + "member/memberInsert",
+          url: process.env.REACT_APP_CHAT221228_IP + "sponsor/sponInsert",
           data: member,
         });
         resolve(response);

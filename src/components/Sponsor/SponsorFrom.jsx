@@ -70,7 +70,7 @@ const SponsorFrom = () => {
     }else{
         console.log("폼작성 성공")
         //폼작성 성공시 작성성공 화면으로 이동
-        navigate("/");
+        navigate("/sponsor/success");
     }
 
     };
@@ -219,6 +219,7 @@ const SponsorFrom = () => {
               id="payment1"   // label과 연결하는데 사용
               checked={sponsorPay === "홈페이지 결제"}
               onChange={(e) => setSponsorPay(e.target.value)}
+              required
             />
             <Form.Check
               type="radio"
