@@ -38,6 +38,22 @@ const ShopMain = () => {
     <>
       <MainHeader/> 
       <ShopBar/>
+{/*       <div>
+        <ul style={{postion:"relative"}}>
+          <li style={{float: "left", textAlign: "center", listStyle: "none"}}>
+            <span>전체</span>
+          </li>
+          <li>
+            <span>조회수</span>
+          </li>
+          <li>
+            <span>가격순</span>
+          </li>
+          <li>
+            <span>등록순</span>
+          </li>
+        </ul>
+      </div> */}
       <div className="prodiv">
       {productList.map((board,index) => (
         <ShopRow key={index} board={board} />

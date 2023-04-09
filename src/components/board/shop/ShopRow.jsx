@@ -1,12 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const ShopRow = ({board}) => {
 
   const defaultimage = "http://localhost:3000/images/shop/test.jpg"
 
+  const [hovered, setHovered] = useState(false);
+
   return (
     <>
-        <div className="productul">
+        <div className="productul"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          style={{ 
+            cursor: "pointer", 
+            boxShadow: hovered ? "0 0 10px rgba(0, 0, 0, 0.3)" : "none" // hovered 상태에 따라 그림자 생성
+          }}
+        >
           <div className="productli">
             <div className="productdiv">
             {
@@ -24,7 +33,6 @@ const ShopRow = ({board}) => {
                 />                
               )
             }
-
               <strong className="productstrong">{board.product_title}</strong>
               <br/>
               <div className="productspan">{board.product_price}원</div>

@@ -49,10 +49,7 @@ const ShopAdd = () => {
     }
     console.log(product)
     const res = await ProductUploadDB(product);
-    console.log(res)
-    if(res.ok) {
-      navigate("/shop")
-    }
+    navigate("/shop")
 
   };
 

@@ -5,7 +5,7 @@ const ShopBar = () => {
   return (
     <>
       <div className="wrap_tab_reviewrank">
-          <ul className="tab_reviewrank">
+          <ul className="tab_reviewrank" >
             <li className="on">
               <a className="link_rank" href="" >
                 <span className="txt_tab">많이 선물한</span>

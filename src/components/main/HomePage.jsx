@@ -44,19 +44,26 @@ const HomePage = () => {
           </ul>
       </div> 
     </div>
-    <div style=
-    {{width:"730px", height: "500px"
+{/*     <div style=
+    {{width:"2000px", height: "500px"
       ,position: "absolute"
       ,top: "400px"
-      ,left: "350px"
+      ,left: "0px"
       ,margin: "0"
       ,padding: "0"
-    }}>
+    }}> 
+  </div> */}
       <img src="images/main.jpg" 
-      style={{width:"100%", 
-      position: "absolute", margin: "0"
-      ,padding: "0"}}/>
-    </div>  
+      style={{
+        top: "370px",
+        width:"100%", 
+        height: "700px",
+        position: "absolute", 
+        zIndex: "-1",
+        margin: "0",
+        padding: "0"}}/>
+
+
 {/*     <div>
       <img src="images/main.jpg" 
       style={{width:"100%", 

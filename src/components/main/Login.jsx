@@ -99,7 +99,10 @@ const Login = () => {
   return (
     <>
       <MainHeader/>
-      <LoginForm>
+
+
+
+      <LoginForm >
         <MyH1>로그인</MyH1>
         <MyLabel htmlFor="mem_id"> 아이디     
           <MyInput type="mem_id" id="mem_id" name="mem_id" placeholder="아이디를 입력해주세요." 

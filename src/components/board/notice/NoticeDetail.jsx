@@ -15,6 +15,9 @@ const NoticeDetail = () => {
 
   const navigate = useNavigate()
 
+  const [hovered, setHovered] = useState(false);
+  const [nextHovered, setNextHovered] = useState(false);
+
   const user = useSelector(state => state.user_type); 
 
   //const {notice_no} = useParams()
@@ -209,7 +212,15 @@ const NoticeDetail = () => {
           <hr style={{height:"2px"}}/>
 
           {notice_board.beforeNotice ?
-                    (<div onClick={beforeNotice}>
+            (<div onClick={beforeNotice}
+              onMouseEnter={() => setHovered(true)}
+              onMouseLeave={() => setHovered(false)}
+              style={{ 
+                cursor: "pointer", 
+                boxShadow: hovered ? "0 0 10px rgba(0, 0, 0, 0.3)" : "none" // hovered 상태에 따라 그림자 생성
+              }}
+            >
+
                     <FontAwesomeIcon icon="arrow-up" /> 이전글 : {notice_board.beforeNotice}
                   </div>) : (<div>처음글</div>)
           }
@@ -217,7 +228,14 @@ const NoticeDetail = () => {
           <hr style={{height:"2px"}}/>
 
           {notice_board.afterNotice ? 
-          (<div onClick={afterNotice}>
+          (<div onClick={afterNotice}
+            onMouseEnter={() => setNextHovered(true)}
+            onMouseLeave={() => setNextHovered(false)}
+            style={{ 
+              cursor: "pointer", 
+              boxShadow: nextHovered ? "0 0 10px rgba(0, 0, 0, 0.3)" : "none" // hovered 상태에 따라 그림자 생성
+            }}
+          >
             <FontAwesomeIcon icon="arrow-down" /> 다음글 : {notice_board.afterNotice}
           </div>
           ) : (<div>마지막글</div>)
