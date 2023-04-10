@@ -18,7 +18,6 @@ const Login = () => {
     hover: false
   });
 
-<<<<<<< Updated upstream
   const [tempUser, setTempUser] = useState({
     mem_id: '',
     password: ''
@@ -59,19 +58,6 @@ const Login = () => {
       setSubmitBtn({...submitBtn, hover: false, bgColor: 'rgb(105, 175, 245)'});
     } else {
       setSubmitBtn({...submitBtn, hover: true, bgColor: 'rgb(58, 129, 200)'});
-=======
-  const login = async () => {
-    const member = {
-      mem_id:mem_id,
-      mem_pw:mem_pw,
-  } 
-  console.log(member)
-/*   const res = await loginCheck(member)
-     localStorage.setItem('accessToken', response.data.accessToken);
-    window.location.reload();
-    if(!res.member){
-        console.log("회원가입에 실패했습니다")
->>>>>>> Stashed changes
     }
   }
 
