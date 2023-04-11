@@ -1,0 +1,56 @@
+.sponContainer {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 0px;
+}
+
+.intro-heading {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.intro-heading h1 {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.intro-text {
+  line-height: 1.8;
+  font-size: 1.1rem;
+  color: #666;
+  text-align: justify;
+  text-justify: inter-word;
+}
+
+.fadeIn {
+  opacity: 1;
+  transition: opacity 3s ease-in-out;
+}
+
+.fadeOut {
+  opacity: 0;
+  transition: opacity 3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    left: -100px;
+    opacity: 0;
+  }
+  to {
+    left: 400px;
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    left: 400px;
+    opacity: 1;
+  }
+  to {
+    left: -100px;
+    opacity: 0;
+  }
+}

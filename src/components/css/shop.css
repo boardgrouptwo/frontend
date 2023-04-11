@@ -1,0 +1,96 @@
+/* shop */
+
+
+.prodiv {
+  width: auto;
+  height: auto;
+  margin : 50px;
+  margin-left: 15%;
+  margin-right: 15%;
+  padding: 0;  
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.productdiv {
+  width: 305px;
+  height: 420px;
+/*    border: 1px solid blue; */
+  text-align: center;
+  box-sizing: border-box;
+}
+
+.productstrong {
+  font-size: 20px;
+}
+
+.productli {
+  vertical-align: top;
+  list-style: none;
+  margin : 10px;  
+  flex-basis: 30%;
+  margin-bottom: 20px;
+}
+
+.productul {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex-basis: calc(25% - 10px);
+}
+
+.productspan {
+  font-size: 20px;
+  line-height: 22px;  
+}
+
+
+/* shopbar */
+.wrap_tab_reviewrank {
+  background-color: #fafafa;
+  width: 100%;
+  height: 85px;
+}
+
+.tab_reviewrank {
+  width: 100%;
+  margin: 0 auto;
+  background-color: #fafafa;
+  border-bottom: none;
+}
+
+.tab_reviewrank li {
+  float: left;
+  width: 50%;
+  text-align: center;
+  list-style: none;
+}
+
+.link_rank {
+  padding: 24px 0 26px;
+  font-size: 20px;
+  line-height: 29px;
+}
+
+.tab_reviewrank .link_rank {
+  display: block;
+  position: relative;
+}
+
+.tab_reviewrank .txt_tab {
+  display: inline-block;
+  position: relative;
+  padding: 0 1px;
+  vertical-align: top;
+}
+
+.tab_reviewrank .link_rank {
+  color: #bbb;
+}
+
+.tab_reviewrank li.on .link_rank {
+  color: #000;
+}
