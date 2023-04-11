@@ -20,6 +20,8 @@ import ShopMain from './components/board/shop/ShopMain'
 import ShopAdd from './components/board/shop/ShopAdd'
 import MealDetail from './components/meal/MealDetail'
 import SponsorSuccess from './components/Sponsor/SponsorSuccess'
+import ShopReceive from './components/board/shop/ShopReceive'
+import ShopDetail from './components/board/shop/ShopDetail'
 
 
 
@@ -66,8 +68,10 @@ const App = () => {
         <Route path="/notice/write" exact={true} element={<NoticeWrite/>}/>
         <Route path="/notice/detail/" element={<NoticeDetail/>}/>
         {/* 선물하기, 쇼핑몰 */}
-        <Route path="/shop" exact={true} element={<ShopMain/>}/>
+        <Route path="/shopmain" element={<ShopMain/>}/>
+        <Route path="/shopreceive" exact={true} element={<ShopReceive/>}/>
         <Route path="/shopadd" exact={true} element={<ShopAdd/>}/>
+        <Route path="/shopdetail" element={<ShopDetail/>}/>
         
         {/* 식단표 */}
         <Route path="/meal" exact={true} element={<Meal/>}/>

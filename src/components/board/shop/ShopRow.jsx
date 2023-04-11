@@ -1,16 +1,25 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router';
 
 const ShopRow = ({board}) => {
 
+  const navigate = useNavigate();
   const defaultimage = "http://localhost:3000/images/shop/test.jpg"
 
   const [hovered, setHovered] = useState(false);
+
+  const handleDetail = () => {
+    console.log("상세보기")
+    console.log(board.product_no)
+    navigate("/shopdetail?product_no="+board.product_no)
+  }
 
   return (
     <>
         <div className="productul"
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
+          onClick={handleDetail}
           style={{ 
             cursor: "pointer", 
             boxShadow: hovered ? "0 0 10px rgba(0, 0, 0, 0.3)" : "none" // hovered 상태에 따라 그림자 생성

@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap'
+import { Button, Col, Dropdown, DropdownButton, Figure, Form, InputGroup, Row } from 'react-bootstrap'
 import MainHeader from '../../include/MainHeader'
 import { ProductUploadDB, imageUploadDB, shopAddDB } from '../../../service/ShopDBLogic'
 import { useNavigate } from 'react-router'
@@ -13,6 +13,8 @@ const ShopAdd = () => {
   const [imageName, setImageName] = useState()
   const[title,setTitle] = useState("") 
   const[price,setPrice] = useState(0)
+  const [showError, setShowError] = useState(false);//폼 검증 유효성 검사
+  const [validated, setValidated] = useState(false); //폼 검증 유효성 검사
 
   const handleTitle = useCallback((e) => {
     setTitle(e)
@@ -40,24 +42,44 @@ const ShopAdd = () => {
       })
   }
 
-  const handleUpload = async () => {
+  const handleSubmit = async (event) => {
+    console.log("test")
+    const form = event.currentTarget;
+    if (form.checkValidity() === false) { //유효 확인 실패 했을 경우
+      event.preventDefault();  //이벤트 중단
+      event.stopPropagation(); //이벤트 중단
+    }
+    setValidated(true);  // validated 변수를 true로 설정
+
+    event.preventDefault();
+
+    const u_select = document.getElementById('select').value
 
     const product = {
       product_title: title, //상품명
       product_price: price, //금액
       product_image: imageName, //이미지 이름
+      product_type: u_select // 상품 타입
     }
-    console.log(product)
-    const res = await ProductUploadDB(product);
-    navigate("/shop")
-
+  
+    if(title==="") {
+      alert("상품명을 입력하세요")
+    } else {
+      console.log(product)
+      const res = await ProductUploadDB(product);
+      navigate("/shop")
+    }
   };
+
+  const handleCancel = () => {
+    navigate("/shop")
+  }
 
   return (
     <>
       <MainHeader/>
       <div className='sponContainer' style={{ }}>
-      <Form className='sponsor-form'>
+      <Form className='sponsor-form' onSubmit={handleSubmit}>
           <h3 className='sponsor-form-text'>상품등록</h3>
         <Form.Group as={Row} className="mb-3" controlId="sponsor_number"
           style={{marginTop: "30px"}}>
@@ -70,22 +92,30 @@ const ShopAdd = () => {
           </Col>
         </Form.Group>  
 
-        <Form.Group as={Row} className= "mb-3" controlId="sponsor_money">
+        <Form.Group as={Row} className= "mb-3" controlId="productPrice">
           <Form.Label  column sm={2} >금액</Form.Label>
           <Col sm={8}>
-          <InputGroup hasValidation>  {/* 유효성 검사 설정*/}
-            <InputGroup.Text id="sponsor_money"> \ </InputGroup.Text>
+          <InputGroup hasValidation> 
+            <InputGroup.Text id="productPrice"> \ </InputGroup.Text>
             <Form.Control
               type="text"
+              pattern="[0-9]*"
               placeholder="1의 자리부터 작성해주세요"
               required
+              onFocus={() => setShowError(true)}
+              onBlur={() => setShowError(false)}
               onChange={(e)=>{handlePrice(e.target.value)}}
             />
-            <Form.Control.Feedback type="invalid">   {/*폼 컨트롤이 틀릴 경우 피드백 요소 추가  */}
-              Please choose a username.
+            <Form.Control.Feedback type="invalid" style={{ display: showError ? "block" : "none" }}>
+              숫자만 입력 가능합니다.
             </Form.Control.Feedback>
           </InputGroup>
           </Col>
+          <Form.Select id="select" aria-label="Default select example" style={{ marginTop: "20px", height: '38px', width:'160px'}}>
+            <option value="많이 선물한">많이 선물한</option>
+            <option value="받고 만족한">받고 만족한</option>
+          </Form.Select>
+
         </Form.Group>
         <div style={{margin: "20px"}}>
             <input type="file" onChange={handleFileChange} />
@@ -94,7 +124,8 @@ const ShopAdd = () => {
               <img style={{ width: "305px", height: "300px", margin: "30px", padding: "0"}}
               src={imageUrl} alt="Upload image" />}
           </div>   
-      <Button variant="success" onClick={handleUpload}>상품등록</Button>
+      <Button type="submit" style={{marginRight: "20px"}}variant="success">상품등록</Button>
+      <Button variant="success" onClick={handleCancel}>뒤로가기</Button>
       </Form>
       </div>
     </>

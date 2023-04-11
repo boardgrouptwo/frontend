@@ -39,9 +39,16 @@ const MainHeader = () => {
           <h1 id="top_logo">
             <a href="/home"><img src="http://localhost:3000/images/logo.png" /></a>
           </h1>
-          <div id="top_logo2">
-            <a href="/shop"><img src="https://t1.daumcdn.net/gift/gnb/logo/PC/0/20230329_SEMBP.png" /></a>
+          <div id="top_logo2" style={{marginTop: "27px", marginLeft: "10px"}}>
+            <a href="/shopmain?type=total">
+              <img src="http://localhost:3000/images/logo_gift.png" 
+                style={{width: "160px", height: "55px"}}
+              />
+            </a>
           </div>
+{/*           <div id="top_logo2">
+            <a href="/shopmain?type=total"><img src="https://t1.daumcdn.net/gift/gnb/logo/PC/0/20230329_SEMBP.png" /></a>
+          </div> */}
           
           <ul id="top_nav">  
             <li className="list01"                     
