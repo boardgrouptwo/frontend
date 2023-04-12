@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import MainHeader from '../include/MainHeader'
+import GoogleRecaptcha from '../google/GoogleRecaptcha'
 import SponsorFrombar from './SponsorFrombar'
 import InputGroup from 'react-bootstrap/InputGroup'
 import "../css/spon.css"
@@ -288,6 +289,9 @@ const SponsorFrom = () => {
           feedbackType="invalid"
         />
       </Form.Group>
+
+      {/* 구글 캡차 서비스 */}
+      <GoogleRecaptcha />
 <br />
         <Form.Group as={Row} className="mb-3" >
             <Col sm={{ span: 10, offset: 3 }}>

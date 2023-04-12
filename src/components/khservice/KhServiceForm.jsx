@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import MainHeader from '../include/MainHeader'
+import GoogleRecaptcha from '../google/GoogleRecaptcha'
 import InputGroup from 'react-bootstrap/InputGroup'
 import "../css/spon.css"
 import { useNavigate } from 'react-router-dom';
@@ -18,9 +19,9 @@ const KhServiceForm = () => {
     // 초기값 설정
     const[serviceId, setServiceId]= useState(''); // 아이디
     const[serviceName, setServiceName]= useState(''); // 이름 
-    const[serviceNumber, setServiceNumber]= useState('');  //전화번호
+    const[serviceNumber, setServiceNumber]= useState('');  //연락처
     const[serviceDate, setServiceDate]= useState(''); // 방문날짜
-    const [serviceRadios, setServiceRadios] = useState(''); // 선택 라디오 버튼
+    const [serviceRadios, setServiceRadios] = useState(''); // 신청목적 선택 라디오 버튼
     const [servicePerson, setServicePerson] = useState(''); // 방문인원
     const [serviceMemo, setServiceMemo] = useState(''); //메모
 
@@ -70,6 +71,10 @@ const KhServiceForm = () => {
     const serviceBack = () =>{
       navigate('/')
     }
+    //구글 캡차 서비스
+    const onChange = (value) => {
+        console.log('Captcha value:', value);
+        }
 
 
   return (
@@ -243,6 +248,12 @@ const KhServiceForm = () => {
           feedbackType="invalid"
         />
       </Form.Group>
+
+
+{/* 구글 캡차 서비스 */}
+    <GoogleRecaptcha />
+
+
 <br />
         <Form.Group as={Row} className="mb-3" >
             <Col sm={{ span: 10, offset: 3 }}>
