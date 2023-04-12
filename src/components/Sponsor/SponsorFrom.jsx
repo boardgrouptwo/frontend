@@ -8,15 +8,19 @@ import SponsorFrombar from './SponsorFrombar'
 import InputGroup from 'react-bootstrap/InputGroup'
 import "../css/spon.css"
 import { useNavigate } from 'react-router-dom';
-import { SponsorDB} from '../../service/SponsorDBLogic';
+import { SponsorDB, sponsorInsertDB} from '../../service/SponsorDBLogic';
+import { useSelector } from 'react-redux'
 
 
 const SponsorFrom = () => {
     const navigate = useNavigate();
     // 초기값 설정
+    const user = useSelector(state => state.nickname); //user 닉네임 가져오기
+
+    const[sponsorId, setSponsorId]= useState(''); // 아이디
     const[sponsorName, setSponsorName]= useState(''); // 이름 
     const[sponsorNumber, setSponsorNumber]= useState('');  //전화번호
-    const[sponsorBirth, setsponsorBirth]= useState(''); // 생년월일
+    const[sponsorBirth, setsponsorBirth]= useState(''); // 후원일자
     const [sponRadiosHuwon, setSponRadiosHuwon] = useState(''); // 일반후원.물품후원 선택 라디오 버튼
     const [sponsorMoney, setSponsorMoney] = useState(''); // 결제금액 
     const [sponsorPay, setSponsorPay] = useState("");  // 결제방법 라디오 버튼 
@@ -41,28 +45,21 @@ const SponsorFrom = () => {
 
       event.preventDefault();
 
-      console.log('폼 제출!');
-      console.log({sponsorName});
-      console.log({sponsorNumber});
-      console.log({sponsorBirth});
-      console.log({sponRadiosHuwon});
-      console.log({sponsorMoney});
-      console.log({sponsorPay});
-      console.log({sponOpen});
-      console.log({sponsorMemo});
-
-
       const member= {
-        sponsorName: sponsorName,
-        sponsorNumber: sponsorNumber,
-        sponsorBirth: sponsorBirth,
-        sponRadiosHuwon: sponRadiosHuwon,
-        sponsorMoney: sponsorMoney,
-        sponsorPay: sponsorPay,
-        sponOpen: sponOpen,
-        sponsorMemo: sponsorMemo,
+        user_id: user,
+        spon_name: sponsorName,
+        spon_number: sponsorNumber,
+        spon_birth: sponsorBirth,
+        spon_huwon: sponRadiosHuwon,
+        spon_money: sponsorMoney,
+        spon_pay: sponsorPay,
+        spon_open: sponOpen,
+        spon_memo: sponsorMemo,
     }
-    const res = await SponsorDB(member)
+
+    console.log(member);
+
+    const res = await sponsorInsertDB(member)
     console.log(res + "," + res.data)
 
     if (!res.data){
@@ -93,6 +90,8 @@ const SponsorFrom = () => {
           <h3 className='sponsor-form-text'>후원하기</h3>
 <br />
 <br />
+
+
         <Form.Group as={Row} className="mb-3" controlId="sponsorName">  {/* //controlId로 label과 input 요소를 연결, Form.Control.Feedback을 사용하여 폼 유효성 검사 메시지를 표시 */}
       <Form.Label column sm={2}>
         성함
@@ -100,13 +99,8 @@ const SponsorFrom = () => {
       <Col sm={8}>
         <Form.Control
           type="text"
-          placeholder="신청자 본인의 이름을 기입해주세요"
-          pattern="[ㄱ-ㅎㅏ-ㅣ가-힣]*"
-          required
-          onFocus={() => setShowError(true)}
-          onBlur={() => setShowError(false)}
-          value={sponsorName}
-          onChange={(e) => setSponsorName(e.target.value)}
+          defaultValue={user} 
+          disabled={true}
         />
         <Form.Control.Feedback type="invalid" style={{ display: showError ? "block" : "none" }}>
           한글만 입력해주세요.
@@ -139,12 +133,12 @@ const SponsorFrom = () => {
 
         <Form.Group as={Row} className="mb-3" controlId="sponsorBirth">
             <Form.Label column sm={2}>
-            생년월일
+            후원일자
             </Form.Label>
             <Col sm={8}>
             <Form.Control 
             type="date" 
-            placeholder="생년월일 9자리를 입력해주세요" 
+            placeholder="후원 신청일을 입력해주세요." 
             required
             value={sponsorBirth}
             onChange={(e) => setsponsorBirth(e.target.value)}

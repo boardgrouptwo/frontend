@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SponsorFrombar = () => {
+const KhServiceFrombar = () => {
   return (
     <>
       <div>
@@ -13,8 +13,8 @@ const SponsorFrombar = () => {
         <div className="co_aside_wrap">
           <div className="aside_tit">사랑나눔</div>
           <ul className="l_menu">
-          <li className='on'><a href="/sponsor/from">후원하기</a></li>
-            <li ><a href="/service/from">자원봉사신청</a></li>        
+          <li ><a href="/sponsor/from">후원하기</a></li>
+            <li className='on'><a href="/service/from">자원봉사신청</a></li>        
             <li ><a href="/sponsor/list">후원현황</a></li>        
           </ul>
         </div>
@@ -23,4 +23,4 @@ const SponsorFrombar = () => {
   )
 }
 
-export default SponsorFrombar
+export default KhServiceFrombar

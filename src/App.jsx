@@ -22,6 +22,8 @@ import MealDetail from './components/meal/MealDetail'
 import SponsorSuccess from './components/Sponsor/SponsorSuccess'
 import ShopReceive from './components/board/shop/ShopReceive'
 import ShopDetail from './components/board/shop/ShopDetail'
+import KhServiceForm from './components/khservice/KhServiceForm'
+import KhServicePage from './components/khservice/KhServicePage'
 
 
 
@@ -80,6 +82,10 @@ const App = () => {
         <Route path="/sponsor/from" exact={true} element={<SponsorFrom />}/> {/* 후원폼 */}
         <Route path="/sponsor/list" exact={true} element={<SponsorList />}/> {/* 후원리스트 */}
         <Route path="/sponsor/success" exact={true} element={<SponsorSuccess />}/> {/* 후원성공 */}
+        {/* 자원봉사 */}
+        <Route path="/service/from" exact={true} element={<KhServiceForm />}/> {/* 자원봉사폼 */}
+        <Route path="/service/page" exact={true} element={<KhServicePage />}/> {/* 자원봉사캘린더 */}
+
         {/* QnA */}
         <Route path="/qna" element={<QnAListPage/>}/>
         <Route path="/qna/write" element={<QnAWriteForm/>}/>
