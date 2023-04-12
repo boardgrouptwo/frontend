@@ -1,4 +1,3 @@
-
 .calendar {
   display: block;
   width: 70%;
@@ -89,8 +88,8 @@
   font-weight: 600;
   font-size: 25px;
   padding: 2px;
-  color: #444;
-
+  color: #ffffff;
+  text-align: center;
 }
 
 /* 달력의 요일의 한 열 */
@@ -100,10 +99,11 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  align-items: flex-start;
+  align-items: center;
   padding-left: 1%;
-  background: rgba(181, 216, 239, 0.6);
+  background: #4a9e5c;
   border-radius: 10px;
+  text-align: center;
 }
 
 .calendar .body {
@@ -111,6 +111,7 @@
   /* height: 100%; */
   display: flex;
   flex-direction: column;
+  
 }
 
 .calendar .body .row {
@@ -150,7 +151,7 @@
 .calendar .body .row .col.cell.valid:hover {
   box-shadow: 1.5px 1.5px rgba(128, 128, 128, 0.1);
   transform: scale(1.01);
-  border: solid 2px rgba(84, 153, 199, 0.6);
+  border: solid 2px rgba(91, 199, 99, 0.6);
   /* background: rgba(84, 153, 199, 0.6); */
 }
 
@@ -160,7 +161,7 @@
     -1.5px -1.5px 0 rgba(0, 0, 0, 0.1);
   transform: scale(1.02);
   border: none;
-  background-color: #a5b8dc;
+  background-color: rgba(91, 199, 99, 0.6);
   color: #fff;
   font-weight: 600;
 }
