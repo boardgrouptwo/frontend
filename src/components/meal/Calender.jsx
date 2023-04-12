@@ -6,6 +6,8 @@ import RenderHeader from './RenderHeader';
 import '../css/calendar.css'; 
 import styled from 'styled-components';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import MealDetail from './MealDetail';
 
 const DivContainer = styled.div`
     
@@ -20,6 +22,7 @@ const Calender = () => {
 
     const [currentMonth, setCurrentMonth] = useState(new Date());
     const [selectedDate, setSelectedDate] = useState(new Date());
+    const [mealData, setMealData] = useState([]);
 
     const prevMonth = () => {
         setCurrentMonth(subMonths(currentMonth, 1))
@@ -29,9 +32,17 @@ const Calender = () => {
         setCurrentMonth(addMonths(currentMonth, 1))
     }
 
-    const onDateClick = (day) => {
+    const onDateClick = async (day) => {
         const formattedDate = format(day, 'd');
         console.log(formattedDate)
+        try {
+            const response = await axios.get(process.env.REACT_APP_SPRING_IP + `meal/mealList?selectedDate=${formattedDate}`);
+            console.log(response.data);
+            // TODO: 데이터 처리 로직 작성
+            setMealData(response.data);
+        } catch (error) {
+            console.error(error);
+        }
         navigate(`/meal/page/${formattedDate}`)
     };
 
@@ -44,6 +55,7 @@ const Calender = () => {
                     <RenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
                 </div>
             </DivContainer>
+            <MealDetail mealData={mealData} />
     </>
     )
 }
