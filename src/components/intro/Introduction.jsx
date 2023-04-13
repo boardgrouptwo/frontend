@@ -4,6 +4,7 @@ import MainHeader from '../include/MainHeader';
 import Introductionbar from './Introductionbar';
 import '../css/intro.css';
 import KakaoMap from '../kakao/KakaoMap';
+import IntroMap from './IntroMap';
 
 const Introduction = () => {
   const imgRef1 = useRef(null);
@@ -87,6 +88,7 @@ const Introduction = () => {
         <br />
         <h2 style={{ color: '#004445', fontWeight: 'bold', fontSize: '3rem', marginTop: '0rem', marginBottom: '30px'}}>오시는 길</h2>
         <KakaoMap/>
+        <IntroMap /> 
         <br />
       <br />
       <br />
