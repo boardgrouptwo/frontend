@@ -10,7 +10,7 @@ import "../css/spon.css"
 import { useNavigate } from 'react-router-dom';
 import KhServiceFrombar from './KhServiceFrombar';
 import { useSelector } from 'react-redux'
-import { seviceInsertDB } from '../../service/KhServiceDBLogic';
+import { serviceInsertDB, seviceInsertDB } from '../../service/KhServiceDBLogic';
 
 
 const KhServiceForm = () => {
@@ -43,18 +43,18 @@ const KhServiceForm = () => {
       event.preventDefault();
 
       const member= {
-        service_Name: user,
-        service_Number: serviceNumber,
-        service_Date: serviceDate,
-        service_Radios: serviceRadios,
-        service_Person: servicePerson,
-        service_Memo: serviceMemo,
+        user_id: user,
+        service_date: serviceDate,
+        service_number: serviceNumber,
+        service_radios: serviceRadios,
+        service_person: servicePerson,
+        service_memo: serviceMemo,
     }
 
     console.log(member);
 
     // 수정필요 ///////////////////////
-    const res = await seviceInsertDB(member)
+    const res = await serviceInsertDB(member)
     console.log(res + "," + res.data)
 
     if (!res.data){
@@ -140,6 +140,7 @@ const KhServiceForm = () => {
             required
             value={serviceDate}
             onChange={(e) => setServiceDate(e.target.value)}
+            min={new Date().toISOString().slice(0,10)}   /*  달력에서 오늘 이전의 날짜는 선택할 수 없게 설정 */
             />
             </Col>
         </Form.Group>

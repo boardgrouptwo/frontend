@@ -24,6 +24,7 @@ import ShopReceive from './components/board/shop/ShopReceive'
 import ShopDetail from './components/board/shop/ShopDetail'
 import KhServiceForm from './components/khservice/KhServiceForm'
 import KhServicePage from './components/khservice/KhServicePage'
+import KhServiceSuccess from './components/khservice/KhServiceSuccess'
 
 
 
@@ -84,6 +85,7 @@ const App = () => {
         <Route path="/sponsor/success" exact={true} element={<SponsorSuccess />}/> {/* 후원성공 */}
         {/* 자원봉사 */}
         <Route path="/service/from" exact={true} element={<KhServiceForm />}/> {/* 자원봉사폼 */}
+        <Route path="/service/success" exact={true} element={<KhServiceSuccess />}/> {/* 자원봉사신청성공 */}
         <Route path="/service/page" exact={true} element={<KhServicePage />}/> {/* 자원봉사캘린더 */}
 
         {/* QnA */}
