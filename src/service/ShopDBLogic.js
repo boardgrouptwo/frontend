@@ -14,6 +14,20 @@ export const productListDB = (board) => {
     }
   });
 };
+export const productHitDB = (product) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "shop/hitAdd",
+        params: product,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 export const imageUploadDB = (product) => {
   return new Promise((resolve, reject) => {

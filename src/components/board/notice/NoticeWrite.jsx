@@ -1,4 +1,5 @@
 import React, { useCallback, useRef, useState } from 'react'
+import { useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { noticeInsertDB } from '../../../service/NoticeDBLogic'
 import { BButton, ContainerDiv, FormDiv, HeaderDiv } from '../../css/FormStyle'
@@ -10,6 +11,7 @@ import QuillEditor from './QuillEditor'
 const NoticeWrite = () => {
 
   const navigate = useNavigate();
+  const token =useSelector(state => state.token);   
 
   const[title,setTitle] = useState("") 
   const[content,setContent] = useState("")
@@ -22,13 +24,12 @@ const NoticeWrite = () => {
   const quillRef = useRef()
 
   const boardInsert = async () =>{
-    console.log(title)
-    console.log(content)
     const board = {
       notice_title: title,
       notice_content: content
     }
-    const res = await noticeInsertDB(board);
+    console.log(token);
+    const res = await noticeInsertDB(board,token);
     console.log(res)
     navigate("/notice")
   }

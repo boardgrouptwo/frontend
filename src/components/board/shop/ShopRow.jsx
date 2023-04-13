@@ -45,6 +45,9 @@ const ShopRow = ({board}) => {
               <strong className="productstrong">{board.product_title}</strong>
               <br/>
               <div className="productspan">{board.product_price}원</div>
+              <span style={{fontSize: "15px"}}>
+                조회수 : {board.product_hit}
+              </span>
             </div>
           </div>
         </div>

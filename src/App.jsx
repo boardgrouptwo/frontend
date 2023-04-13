@@ -25,6 +25,8 @@ import ShopDetail from './components/board/shop/ShopDetail'
 import KhServiceForm from './components/khservice/KhServiceForm'
 import KhServicePage from './components/khservice/KhServicePage'
 import KhServiceSuccess from './components/khservice/KhServiceSuccess'
+import Auth from './components/main/Auth'
+
 
 
 
@@ -66,6 +68,7 @@ const App = () => {
         {/* 로그인 */}
         <Route path="/login" exact={true} element={<Login/>}/>
         <Route path="/auth/kakao/callback" element={<KakaoAuthHandle/>}/>
+        <Route path="/auth" element={<Auth/>}/>
         {/* 공지사항 */}
         <Route path="/notice" element={<Notice/>}/>
         <Route path="/notice/write" exact={true} element={<NoticeWrite/>}/>

@@ -13,6 +13,7 @@ const Notice = () => {
   const navigate = useNavigate();
 
   const user = useSelector(state => state.user_type); 
+  const token = useSelector(state => state.token); 
 
   // 게시글 목록
   const [noticeList, setNoticeList] = useState([])
@@ -125,7 +126,7 @@ const Notice = () => {
             <Button style={{marginRight : "20px"}}variant='primary' id="btn_search" onClick={noticeSearch}>검색</Button>
             
             {
-              (user==="ADMIN") ? (
+              (user==="admin") ? (
                 <Button variant="success" onClick={()=>{navigate(`/notice/write`)}}>
                   글쓰기              
                 </Button> 

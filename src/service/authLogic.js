@@ -17,3 +17,21 @@ export const loginCheck = (user) => {
     }
   });
 };
+
+export const authLogic = (user) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "user/auth",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        params: user,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

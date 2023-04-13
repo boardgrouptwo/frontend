@@ -50,7 +50,8 @@ const ShopMain = () => {
           product_no: item.product_no,
           product_title: item.product_title,
           product_price: item.product_price,
-          product_image: item.product_image,          
+          product_image: item.product_image,     
+          product_hit: item.product_hit     
         } 
         list.push(obj)       
       })

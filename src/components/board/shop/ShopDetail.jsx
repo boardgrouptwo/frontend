@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router';
 import { noticeListDB } from '../../../service/NoticeDBLogic';
-import { productListDB } from '../../../service/ShopDBLogic';
+import { productHitDB, productListDB } from '../../../service/ShopDBLogic';
 import MainHeader from '../../include/MainHeader'
 import styled from 'styled-components'
 import { Button } from 'react-bootstrap';
@@ -66,6 +66,12 @@ const ShopDetail = () => {
 
   useEffect(()=>{
     const productDetail = async() => {
+
+      const productHit = async() => {
+        const res = await productHitDB(pboard)
+      }
+      productHit()
+
       const res = await productListDB(pboard)
       const result = JSON.stringify(res.data)
       const jsonDoc = JSON.parse(result)
@@ -198,9 +204,13 @@ const ShopDetail = () => {
             <span style={{fontSize: "30px"}}>{price}원</span>
           </div>
           <div style={{marginTop: "20px"}}>            
-            <Button onClick={handleMinus}>-</Button>
+            <button style={{backgroundColor: "white", border:"none"}}onClick={handleMinus}>
+              <img style={{width: "50px", height: "50px"}}src="images/minus.png" alt="" />
+            </button>
             <span style={{fontSize: "20px",fontWeight: "bold", marginLeft: "30px", marginRight: "30px"}}>상품 수량 : {count}개</span>
-            <Button onClick={handleUp}>+</Button>
+            <button style={{backgroundColor: "white", border:"none"}}onClick={handleUp}>
+              <img style={{width: "60px", height: "60px"}}src="images/plus.png" alt="" />
+            </button>
           </div>
           <div style={{marginTop: "20px"}}>
             <Button style={{marginRight:"10px"}} variant="success">추천하기</Button>
