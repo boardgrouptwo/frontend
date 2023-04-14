@@ -167,14 +167,14 @@ const NoticeDetail = () => {
                 {
                   <div style={{display: 'flex', justifyContent: 'flex-end'}}>
                     {
-                      (user === "ADMIN") ? (
+                      (user === "admin") ? (
                       <Button style={{margin:'0px 10px 0px 10px'}} onClick={handleShow}>
                         수정
                       </Button>
                       ) : (<div></div>)
                     }
                     {
-                      (user === "ADMIN") ? (
+                      (user === "admin") ? (
                       <Button style={{margin:'0px 10px 0px 10px'}} onClick={noticeDelete}>
                         삭제
                       </Button>

@@ -3,6 +3,12 @@
   src: url(./assets/fonts/Single_Day/SingleDay-Regular.ttf);
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Do+Hyeon&family=Gowun+Batang&display=swap');
+
+*{
+  font-family: 'Black Han Sans', sans-serif;
+}
+
 :root {
   --font-googleGugi: "googleGugi";
   --font-googleSingleDay: "googleSingleDay";

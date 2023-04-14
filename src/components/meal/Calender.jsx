@@ -55,7 +55,7 @@ const Calender = () => {
                     <RenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
                 </div>
             </DivContainer>
-            <MealDetail mealData={mealData} />
+            {/* <MealDetail mealData={mealData} /> */}
     </>
     )
 }
