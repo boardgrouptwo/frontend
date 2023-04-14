@@ -10,7 +10,6 @@ import Introduction from './components/intro/Introduction'
 import Meal from './components/meal/Meal'
 import { useDispatch, useSelector } from 'react-redux'
 import SponsorFrom from './components/Sponsor/SponsorFrom'
-import SponsorList from './components/Sponsor/SponsorList'
 import Cookies from 'js-cookie'
 import QnAListPage from './components/board/qna/QnAListPage'
 import QnAWriteForm from './components/board/qna/QnAWriteForm'
@@ -26,6 +25,7 @@ import KhServiceForm from './components/khservice/KhServiceForm'
 import KhServicePage from './components/khservice/KhServicePage'
 import KhServiceSuccess from './components/khservice/KhServiceSuccess'
 import Auth from './components/main/Auth'
+import SponsorListPage from './components/Sponsor/SponsorListPage'
 
 
 
@@ -84,7 +84,7 @@ const App = () => {
         <Route path="/meal/page/:selectedDate" exact={true} element={<MealDetail/>}/>
         {/*후원하기 */}
         <Route path="/sponsor/from" exact={true} element={<SponsorFrom />}/> {/* 후원폼 */}
-        <Route path="/sponsor/list" exact={true} element={<SponsorList />}/> {/* 후원리스트 */}
+        <Route path="/sponsor/list" exact={true} element={<SponsorListPage />}/> {/* 후원리스트 */}
         <Route path="/sponsor/success" exact={true} element={<SponsorSuccess />}/> {/* 후원성공 */}
         {/* 자원봉사 */}
         <Route path="/service/from" exact={true} element={<KhServiceForm />}/> {/* 자원봉사폼 */}
