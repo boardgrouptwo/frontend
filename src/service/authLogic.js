@@ -35,3 +35,18 @@ export const authLogic = (user) => {
     }
   });
 };
+
+export const GoogleLoginCheck = (accessToken) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "user/googleLogin",
+        data: accessToken,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

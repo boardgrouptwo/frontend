@@ -4,10 +4,11 @@ import Bottom from '../include/Bottom'
 import MainHeader from '../include/MainHeader'
 import { DividerDiv, DividerHr, DividerSpan, GoogleButton, LoginForm, MyH1, MyInput, MyLabel, MyP, PwEye, SubmitButton } from '../css/FormStyle';
 import { useDispatch } from 'react-redux';
-import { loginCheck } from '../../service/authLogic';
+import { GoogleLoginCheck,  loginCheck } from '../../service/authLogic';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
-
+import axios from 'axios';
+import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin, useGoogleOneTapLogin } from '@react-oauth/google';
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -92,16 +93,62 @@ const Login = () => {
     window.location.href= KAKAO_AUTH_URL
   }
 
-  const googleLogin = () => {
-    console.log("구글로그인")
+  //const googleLogin = () => {}
+
+  const googleLogin = useGoogleLogin({
+    onSuccess: (res) => googleSuccess(res),
+  })
+
+/*   const getIdToken = async (accessToken) => {
+    try {
+      const response = await axios({
+        method: "get",
+        url: "https://oauth2.googleapis.com/tokeninfo",
+        params: {
+          access_token: accessToken,
+        },
+      });
+      return response;
+    } catch (error) {
+      console.log(error);
+      throw new Error("Failed to get idToken from accessToken");
+    }
+  }; */
+
+/*   const getIdToken = async (accessToken) => {
+    try {
+      const response = await axios({
+        method: 'GET',
+        url: `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`,
+      });
+  
+      // 인증 요청이 성공하면 응답 데이터에서 idToken 추출
+      const idToken = response;
+  
+      return idToken;
+    } catch (error) {
+      console.error(error);
+    }
+  }; */
+
+
+
+  const googleSuccess = async (res) => {
+    console.log(res)
+    const accessToken = {
+      access_token: res.access_token
+    } 
+    //const accessToken = res.access_token;
+    console.log(accessToken)
+    //const idToken = await getIdToken(accessToken);
+    //console.log(idToken)
+    //const googleLogin = await GoogleLoginCheck(idToken);
+    const googleLogin = await GoogleLoginCheck(accessToken);
   }
 
   return (
     <>
       <MainHeader/>
-
-
-
       <LoginForm >
         <MyH1>로그인</MyH1>
         <MyLabel htmlFor="mem_id"> 아이디     
@@ -123,12 +170,14 @@ const Login = () => {
           <DividerHr />
           <DividerSpan>또는</DividerSpan>
         </DividerDiv>
-        <div style={{margin: "30px"}} onClick={kakaoLogin}>
+        <button style={{margin: "30px", border: "none"}} onClick={kakaoLogin}>
           <img src="images/kakao_login_medium_wide.png"/>
-        </div>
+        </button>   
+
         <GoogleButton type="button" onClick={googleLogin}>
           <i className= "fab fa-google-plus-g" style={{color: "red", fontSize: "18px"}}></i>&nbsp;&nbsp;Google 로그인
-        </GoogleButton>
+        </GoogleButton>    
+        
         <MyP style={{marginTop:"30px"}}>신규 사용자이신가요?&nbsp;<Link to="/home" className="text-decoration-none" style={{color: "blue"}}>계정 만들기</Link></MyP>
         <MyP>이메일를 잊으셨나요?&nbsp;<Link to="/home" className="text-decoration-none" style={{color: "blue"}}>이메일 찾기</Link></MyP>
         <MyP>비밀번호를 잊으셨나요?&nbsp;<Link to="/home" className="text-decoration-none" style={{color: "blue"}}>비밀번호 변경</Link></MyP>
