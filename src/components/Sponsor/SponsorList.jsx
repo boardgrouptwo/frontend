@@ -79,68 +79,22 @@ const SponsorList = () => {
   
 },[page_num,currentPage])
 
-  //검색 로직
-  const noticeSearch = () => {    
-    if(search === "") {
-      alert("검색어를 입력하세요")      
-    } else {
-      const sear = {
-        search
-      }
-      const noticeSearchList = async() => {
-        const res = await noticeSearchListDB(sear)
-        const list = []
-        res.data.forEach((item) => {
-          const obj = {
-            notice_no: item.notice_no,
-            notice_title: item.notice_title,
-            notice_content: item.notice_content,
-            notice_date: item.notice_date,
-            notice_hit: item.notice_hit
-          }
-          list.push(obj)
-        })
-        setNoticeList(list)         
-      }
-      console.log(noticeList)
-      noticeSearchList()
-    }
-
-
-  }
 
   return (
     <>
       <div className='container' style={{position: "relative" }}>
         <div className="page-header" >
         </div>     
-        <h2 style={{marginTop: "30px"}}>모든 후원자 목록</h2> 
-        <div className="row">
-          <div className="col-5" >
-            <input type="text" id="keyword" className="form-control" placeholder="검색어를 입력하세요" 
-                  aria-label="검색어를 입력하세요" aria-describedby="btn_search" onChange={(e)=>{handleSearch(e.target.value)}}/>
-          </div>                    
-          <div className="col-3">
-            <Button style={{marginRight : "20px"}}variant="success" id="btn_search" onClick={noticeSearch}>검색</Button>
-            
-            {
-              (user==="admin") ? (
-                <Button variant="success" onClick={()=>{navigate(`/notice/write`)}}>
-                  글쓰기              
-                </Button> 
-              ) : (<div></div>)              
-            }
+        <h2 style={{marginTop: "30px", textAlign: "center"}}>🌞 이번달 후원인 🌞</h2> 
 
-          </div>
-        </div> 
         <div className='book-list' style={{paddingBottom: "50px"}}>
           <Table striped bordered hover >
             <thead>
               <tr style={{textAlign: "center"}}>
-                <th style={{width: "100px"}}>순위</th>
-                <th style={{width: "300px"}}>후원자명</th>
+                <th style={{width: "50px"}}>순위</th>
+                <th style={{width: "150px"}}>후원자명</th>
                 <th style={{width: "100px"}}>후원금액</th>
-                <th style={{width: "100px"}}>조회수</th>
+                <th style={{width: "300px"}}>전하고 싶은 말</th>
               </tr>
             </thead>
             <tbody >

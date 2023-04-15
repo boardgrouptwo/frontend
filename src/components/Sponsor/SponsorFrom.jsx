@@ -4,6 +4,7 @@ import Col from 'react-bootstrap/Col';
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import MainHeader from '../include/MainHeader'
+import Bottom from '../include/Bottom'
 import GoogleRecaptcha from '../google/GoogleRecaptcha'
 import SponsorFrombar from './SponsorFrombar'
 import InputGroup from 'react-bootstrap/InputGroup'
@@ -21,12 +22,12 @@ const SponsorFrom = () => {
     const[sponsorId, setSponsorId]= useState(''); // 아이디
     const[sponsorName, setSponsorName]= useState(''); // 이름 
     const[sponsorNumber, setSponsorNumber]= useState('');  //전화번호
-    const[sponsorBirth, setsponsorBirth]= useState(''); // 후원일자
+    const[sponsorDate, setsponsorDate]= useState(''); // 후원일자
     const [sponRadiosHuwon, setSponRadiosHuwon] = useState(''); // 일반후원.물품후원 선택 라디오 버튼
     const [sponsorMoney, setSponsorMoney] = useState(''); // 결제금액 
     const [sponsorPay, setSponsorPay] = useState("");  // 결제방법 라디오 버튼 
     const [sponOpen, setSponOpen] = useState(""); // 공개.비공개 라디오 버튼
-    const [sponsorMemo, setSponsorMemo] = useState(''); //메모
+    const [sponsorContent, setSponsorContent] = useState(''); //메모
 
 
     const [showError, setShowError] = useState(false);//폼 검증 유효성 검사
@@ -48,18 +49,18 @@ const SponsorFrom = () => {
 
       const member= {
         user_id: user,
-        spon_name: sponsorName,
-        spon_number: sponsorNumber,
-        spon_birth: sponsorBirth,
+        spon_number:sponsorNumber,
+        spon_date: sponsorDate,
         spon_huwon: sponRadiosHuwon,
         spon_money: sponsorMoney,
         spon_pay: sponsorPay,
         spon_open: sponOpen,
-        spon_memo: sponsorMemo,
+        spon_content: sponsorContent,
     }
 
     console.log(member);
 
+        // 수정완료 ///////////////////////
     const res = await sponsorInsertDB(member)
     console.log(res + "," + res.data)
 
@@ -88,7 +89,7 @@ const SponsorFrom = () => {
       
       <div className='sponContainer' >
         <Form className='sponsor-form' noValidate validated={validated} onSubmit={handleSubmit} > 
-          <h3 className='sponsor-form-text'>후원하기</h3>
+          <h3 className='sponsor-form-text'>🌹 후원하기 🌹</h3>
 <br />
 <br />
 
@@ -132,7 +133,7 @@ const SponsorFrom = () => {
             </Col>
         </Form.Group>
 
-        <Form.Group as={Row} className="mb-3" controlId="sponsorBirth">
+        <Form.Group as={Row} className="mb-3" controlId="sponsorDate">
             <Form.Label column sm={2}>
             후원일자
             </Form.Label>
@@ -141,8 +142,8 @@ const SponsorFrom = () => {
             type="date" 
             placeholder="후원 신청일을 입력해주세요." 
             required
-            value={sponsorBirth}
-            onChange={(e) => setsponsorBirth(e.target.value)}
+            value={sponsorDate}
+            onChange={(e) => setsponsorDate(e.target.value)}
             />
             </Col>
         </Form.Group>
@@ -260,7 +261,7 @@ const SponsorFrom = () => {
         </fieldset>
 
 
-          <Form.Group as={Row} className="mb-3" controlId="sponsorMemo">
+          <Form.Group as={Row} className="mb-3" controlId="sponsorContent">
           <Form.Label column sm={2}>
             전하고 싶은 말
           </Form.Label>
@@ -268,8 +269,8 @@ const SponsorFrom = () => {
             <Form.Control 
             as="textarea" 
             rows={3} 
-            value={sponsorMemo} 
-            onChange={(e) => setSponsorMemo(e.target.value)} 
+            value={sponsorContent} 
+            onChange={(e) => setSponsorContent(e.target.value)} 
             />
           </Col>
         </Form.Group>
@@ -306,7 +307,7 @@ const SponsorFrom = () => {
 
         
     </div>
-    
+    <Bottom />
     </>
   )
 }

@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import KhServiceFrombar from './KhServiceFrombar';
 import { useSelector } from 'react-redux'
 import { serviceInsertDB, seviceInsertDB } from '../../service/KhServiceDBLogic';
+import Bottom from '../include/Bottom';
 
 
 const KhServiceForm = () => {
@@ -53,7 +54,7 @@ const KhServiceForm = () => {
 
     console.log(member);
 
-    // 수정필요 ///////////////////////
+    // 수정완료 ///////////////////////
     const res = await serviceInsertDB(member)
     console.log(res + "," + res.data)
 
@@ -86,7 +87,7 @@ const KhServiceForm = () => {
       
       <div className='sponContainer' >
         <Form className='service-form' noValidate validated={validated} onSubmit={handleSubmit} > 
-          <h3 className='service-form-text'>자원봉사 신청</h3>
+          <h3 className='service-form-text'>🌱 자원봉사 신청 🌱</h3>
 <br />
 <br />
 
@@ -269,7 +270,7 @@ const KhServiceForm = () => {
 
         
     </div>
-    
+    <Bottom /> 
     </>
   )
 }

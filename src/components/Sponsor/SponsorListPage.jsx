@@ -7,6 +7,7 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import SponsorCard from './SponsorCard';
 import SponsorList from './SponsorList';
+import Bottom from '../include/Bottom';
 /* use effect 로 값을 담아와서 card와 list에 넘겨주기 */
 const SponsorListPage = () => {
   return (
@@ -23,6 +24,7 @@ const SponsorListPage = () => {
       </div>
       <br />
       <br />
+      <Bottom /> 
     </>
   )
 }
