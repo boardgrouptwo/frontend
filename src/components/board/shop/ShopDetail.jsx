@@ -4,7 +4,8 @@ import { noticeListDB } from '../../../service/NoticeDBLogic';
 import { productHitDB, productListDB } from '../../../service/ShopDBLogic';
 import MainHeader from '../../include/MainHeader'
 import styled from 'styled-components'
-import { Button } from 'react-bootstrap';
+import { Alert, Button, Modal } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 
 const PRODUCTSPAN = styled.span`  
   font-size: 30px;
@@ -37,6 +38,12 @@ const CONTAINER = styled.div`
 `
 
 const ShopDetail = () => {
+
+  const isLogin = useSelector(state => state.isLogin)
+  const [showModal, setShowModal] = useState(false);
+
+  // 모달 닫기
+  const closeModal = () => setShowModal(false);
 
   const navigate = useNavigate();
   const defaultimage = "http://localhost:3000/images/shop/test.jpg"
@@ -106,6 +113,16 @@ const ShopDetail = () => {
 
   }
 
+  // 상품 구매
+  // 상품 구매
+  const purchase = () => {
+    if (isLogin) {
+      setShowModal(true);
+    }
+  };
+
+
+
   return (
     <>
       <MainHeader/>
@@ -135,7 +152,7 @@ const ShopDetail = () => {
         <div style={{width: "520px", height:"60px", backgroundColor:"lightgray"}}/>
         <DIV>
           <PRODUCTSPAN>
-           [{product.product_title}]
+            [{product.product_title}]
           </PRODUCTSPAN>
           <br/>
           <hr/>
@@ -204,19 +221,30 @@ const ShopDetail = () => {
             <span style={{fontSize: "30px"}}>{price}원</span>
           </div>
           <div style={{marginTop: "20px"}}>            
-            <button style={{backgroundColor: "white", border:"none"}}onClick={handleMinus}>
+            <button style={{backgroundColor: "white", border:"none"}} onClick={handleMinus}>
               <img style={{width: "50px", height: "50px"}}src="images/minus.png" alt="" />
             </button>
             <span style={{fontSize: "20px",fontWeight: "bold", marginLeft: "30px", marginRight: "30px"}}>상품 수량 : {count}개</span>
-            <button style={{backgroundColor: "white", border:"none"}}onClick={handleUp}>
+            <button style={{backgroundColor: "white", border:"none"}} onClick={handleUp}>
               <img style={{width: "60px", height: "60px"}}src="images/plus.png" alt="" />
             </button>
           </div>
           <div style={{marginTop: "20px"}}>
             <Button style={{marginRight:"10px"}} variant="success">추천하기</Button>
             <Button style={{marginRight:"10px"}} variant="success">장바구니</Button>
-            <Button variant="success">상품구매</Button>
+            <Button variant="success" onClick={purchase}>상품구매</Button>            
           </div>
+          <Modal show={showModal} onHide={closeModal}>
+            <Modal.Header closeButton>
+              <Modal.Title>로그인이 필요합니다</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>로그인을 해주세요.</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" onClick={closeModal}>
+                닫기
+              </Button>
+            </Modal.Footer>
+          </Modal>
         </COUNTDIV>
       </CONTAINER>
     </>
