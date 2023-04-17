@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 
-const SponsorCard = () => {
+const SponsorCard = ({board}) => {
     const cardImgStyle = {
         maxWidth: "100%",
         height: "auto"
@@ -17,9 +17,9 @@ const SponsorCard = () => {
               <Card className='sponCard'>
                 <Card.Img variant="top" src="\images\spon\first.png" style={cardImgStyle} />
                 <Card.Body>
-                  <Card.Title>김후원</Card.Title>
+                  <Card.Title>{board.user_id}</Card.Title>
                   <Card.Text>
-                    후원금액 
+                    {board.spon_pay} 
                   </Card.Text>
                 </Card.Body>
               </Card>
