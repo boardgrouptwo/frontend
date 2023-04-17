@@ -17,15 +17,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const isLogin = useSelector(state => state.isLogin);
 
-  const [showModal, setShowModal] = useState(false);
-  // 모달 열기, 닫기
-  const openModal = () => setShowModal(true);
-  const closeModal = () => {
-    setShowModal(false)
-    setFindUser({    user_name: '',
-    user_birth: ''})
-  };
-
   const[submitBtn, setSubmitBtn] = useState({
     disabled: true,
     bgColor: 'rgb(175, 210, 244)',
@@ -54,19 +45,6 @@ const Login = () => {
     const value = e.target.value;
     setTempUser({...tempUser, [id]: value});
   };
-
-  const changeName = (e) => {
-    const name = e.currentTarget.id;
-    const value = e.target.value;
-    setFindUser({...findUser, [name]: value});
-  };
-
-  const changeBirth = (e) => {
-    const birth = e.currentTarget.id;
-    const value = e.target.value;
-    setFindUser({...findUser, [birth]: value});
-  };
-
 
   const passwordView = (e) => {
     const id = e.currentTarget.id;
@@ -130,14 +108,6 @@ const Login = () => {
     window.location.href= KAKAO_AUTH_URL
   }
 
-  const findId = async () => {
-    navigate("/findId")
-    //console.log(findUser)
-    //const res = await findUserId(findUser);
-
-
-
-  }
 
   return (
     <>
@@ -177,32 +147,8 @@ const Login = () => {
           {/* <span className="text-decoration-none" onClick={openModal} style={{color: "blue"}}>아이디 찾기</span> */}
           <Link to="/findId" className="text-decoration-none" style={{color: "blue"}}>아이디 찾기</Link>
         </MyP>
-{/*         <Modal show={showModal} onHide={closeModal}>
-            <Modal.Header closeButton>
-              <Modal.Title>ID 찾기</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-              <MyLabel htmlFor="mem_name"> 이름     
-              <MyInput type="mem_name" id="user_name" name="mem_name" placeholder="이름을 입력해주세요." 
-                onChange={(e)=>changeName(e)}/>   
-              </MyLabel>
-              <MyLabel htmlFor="mem_birth"> 생년월일     
-              <MyInput type="mem_birth" id="user_birth" name="mem_birth" placeholder="생년월일을 입력해주세요." 
-                onChange={(e)=>changeBirth(e)}/>   
-              </MyLabel>
-            </Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={findId}>
-                찾기
-              </Button>
-              <Button variant="secondary" onClick={closeModal}>
-                닫기
-              </Button>
-            </Modal.Footer>
-          </Modal> */}
-        <MyP>비밀번호를 잊으셨나요?&nbsp;<Link to="/home" className="text-decoration-none" style={{color: "blue"}}>비밀번호 변경</Link></MyP>
-      </LoginForm>
-      
+        <MyP>비밀번호를 잊으셨나요?&nbsp;<Link to="/findPw" className="text-decoration-none" style={{color: "blue"}}>비밀번호 변경</Link></MyP>
+      </LoginForm>      
       <Bottom/>
     </>
   )

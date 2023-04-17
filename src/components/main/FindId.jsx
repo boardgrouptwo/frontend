@@ -1,14 +1,24 @@
 import React, { useCallback, useState } from 'react'
 import Bottom from '../include/Bottom'
 import MainHeader from '../include/MainHeader'
-import { Form, Button, Col, Row } from 'react-bootstrap'
+import { Form, Button, Col, Row, Modal } from 'react-bootstrap'
 import "../css/findId.css"
 import { Link } from 'react-router-dom'
+import { findUserId } from '../../service/MemberDBLogic'
+import { MyLabel } from '../css/FormStyle'
 
-const FindIdPassword = () => {
+const FindId = () => {
 
   const[name,setName] = useState("") 
   const[number,setNumber] = useState("")
+  const[findUser, setFindUser] = useState("")
+
+  const [showModal, setShowModal] = useState(false);
+  // 모달 열기, 닫기
+  const openModal = () => setShowModal(true);
+  const closeModal = () => {
+    setShowModal(false)
+  };
 
   const handleName = useCallback((e) => {
     setName(e)
@@ -17,8 +27,21 @@ const FindIdPassword = () => {
     setNumber(e)
   },[])
 
-  const handleSubmit = (event) => {
-    console.log(event)
+  const handleSubmit = async (event) => {
+    const form = event.currentTarget;    
+    if (form.checkValidity() === false) { //유효 확인 실패 했을 경우
+      event.preventDefault();  //이벤트 중단
+      event.stopPropagation(); //이벤트 중단
+    }
+    event.preventDefault();
+
+    const user = {
+      user_name: name,
+      user_number: number
+    }
+    console.log(user)
+    //const res = await findUserId(user)
+    setShowModal(true)
   }
   
   return (
@@ -29,14 +52,14 @@ const FindIdPassword = () => {
       <Form className='id-form' onSubmit={handleSubmit}>
         <div style={{ display: "inline-block" }}>
           <div className={window.location.pathname.includes('/findId') ? 'css-selectid' : 'css-select'}>
-            <Link to="/findId?type=id" className="css-link">
+            <Link to="/findId" className="css-link">
               <span className="txt_tab">아이디 찾기</span>
             </Link>
           </div>
         </div>
         <div style={{ display: "inline-block" }}>
         <div className={window.location.pathname.includes('/findPw') ? 'css-selectpw' : 'css-select'}>
-            <Link to="/findId?type=pw" className="css-link">
+            <Link to="/findPw" className="css-link">
               <span className="txt_tab">비밀번호 찾기</span>
             </Link>           
           </div>
@@ -60,7 +83,7 @@ const FindIdPassword = () => {
           }}>
           <div>
             <Form.Label>전화번호</Form.Label>
-            <Form.Control type="name" placeholder="전화번호를 작성해주세요" onChange={(e) => { handleName(e.target.value) }} />
+            <Form.Control type="name" placeholder="전화번호를 작성해주세요" onChange={(e) => { handleNumber(e.target.value) }} />
           </div>
         </Form.Group>
 
@@ -72,15 +95,32 @@ const FindIdPassword = () => {
               height: "50px",
               backgroundColor:"#4a9e5c",
               fontWeight: "bold",
-              border: "none"
-              
+              border: "none"              
             }}
             variant="success">찾기</Button>
         </Form>
       </div>
+      <Modal show={showModal} onHide={closeModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>ID 찾기</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <MyLabel htmlFor="mem_name">      
+            id
+          </MyLabel>
+          <div>
+            {findUser}
+          </div>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeModal}>
+            닫기
+          </Button>
+        </Modal.Footer>
+      </Modal>
       {/* <Bottom/> */}
     </>
   )
 }
 
-export default FindIdPassword
+export default FindId

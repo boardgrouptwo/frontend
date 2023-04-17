@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router';
 import { noticeListDB } from '../../../service/NoticeDBLogic';
 import { productHitDB, productListDB } from '../../../service/ShopDBLogic';
-import { productHitDB, productListDB } from '../../../service/ShopDBLogic';
 import MainHeader from '../../include/MainHeader'
 import styled from 'styled-components'
 import { Alert, Button, Modal } from 'react-bootstrap';
