@@ -146,6 +146,7 @@ const QnAListPage = () => {
                   <thead>
                     <tr style={{textAlign: "center"}}>
                       <th style={{width: "100px"}}>NO</th>
+                      <th style={{width: "100px"}}>분류</th>
                       <th style={{width: "100px"}}>작성자</th>
                       <th style={{width: "200px"}}>제목</th>
                       <th style={{width: "200px"}}>등록일</th>
