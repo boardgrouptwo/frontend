@@ -26,7 +26,7 @@ const KakaoAuthHandle = (props) => {
           Cookies.set('role', decoded.roles[0], { expires: 30/1440 })
           Cookies.set('user_name', decoded.user_name, { expires: 30/1440 })
 
-          window.location.href = "/";
+          window.location.href = "/home";
         })
     }
     kakaoLogin()

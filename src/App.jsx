@@ -23,10 +23,6 @@ import ShopReceive from './components/board/shop/ShopReceive'
 import ShopDetail from './components/board/shop/ShopDetail'
 import KhServiceForm from './components/khservice/KhServiceForm'
 import KhServicePage from './components/khservice/KhServicePage'
-import KhServiceSuccess from './components/khservice/KhServiceSuccess'
-import Auth from './components/main/Auth'
-import SponsorListPage from './components/Sponsor/SponsorListPage'
-
 
 
 
@@ -69,6 +65,8 @@ const App = () => {
         <Route path="/login" exact={true} element={<Login/>}/>
         <Route path="/auth/kakao/callback" element={<KakaoAuthHandle/>}/>
         <Route path="/auth" element={<Auth/>}/>
+        <Route path="/findId" element={<FindIdPassword/>}/>
+
         {/* 공지사항 */}
         <Route path="/notice" element={<Notice/>}/>
         <Route path="/notice/write" exact={true} element={<NoticeWrite/>}/>
