@@ -94,7 +94,7 @@ const App = () => {
         {/* QnA */}
         <Route path="/qna" element={<QnAListPage/>}/>
         <Route path="/qna/write" element={<QnAWriteForm/>}/>
-        <Route path="/qna/detail/:qna_no" exact={true} element={<QnADetailPage/>}/>
+        <Route path="/qna/detail/" exact={true} element={<QnADetailPage/>}/>
         
       </Routes>      
     </>

@@ -62,6 +62,15 @@ const QnAWriteForm = () => {
 
                 <h3>상세내용</h3>
                 <hr style={{margin:'10px 0px 10px 0px'}}/>
+                          <div className="col-3">
+                              <select id="gubun" className="form-select" aria-label="분류선택">
+                                <option defaultValue>후원하기</option>
+                                <option value="qna_type">자원봉사</option>
+                                <option value="qna_type">선물하기</option>
+                                <option value="qna_type">기타</option>
+                              </select>
+                          </div>
+
                 <QuillEditor value={content} handleContent={handleContent} quillRef={quillRef}/>
             </div>
           </FormDiv>

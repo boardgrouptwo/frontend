@@ -14,6 +14,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: 2.5rem;
+  font-weight: 600;
 }
 
 /* 헤더의 년과 월을 감싸고있는 div태그 */

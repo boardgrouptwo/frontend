@@ -67,6 +67,7 @@ const QnAListPage = () => {
         res.data.forEach((item) => {
           const obj = {
                 qna_no: item.qna_no,
+                qna_type: item.qna_type,
                 user_name: item.user_name,
                 qna_title: item.qna_title,
                 qna_content: item.qna_content,
@@ -97,6 +98,7 @@ const QnAListPage = () => {
         res.data.forEach((item) => {
           const obj = {
                 qna_no: item.qna_no,
+                qna_type: item.qna_type,
                 user_name: item.user_name,
                 qna_title: item.qna_title,
                 qna_content: item.qna_content,
@@ -130,7 +132,7 @@ const QnAListPage = () => {
                   </div>
 
                   <div className="col-3">
-                      <Button style={{marginRight : "20px"}}variant='primary' id="btn_search" onClick={qnaSearch}>검색</Button>
+                      <Button style={{marginRight : "20px"}}variant='warning' id="btn_search" onClick={qnaSearch}>검색</Button>
                       {
                         (user==="user" || "admin") ? (
                           <Button variant="success" onClick={()=>{navigate(`/qna/write`)}}>
@@ -142,7 +144,7 @@ const QnAListPage = () => {
             </div> 
 
             <div className='book-list' style={{paddingBottom: "50px"}}>
-              <Table striped bordered hover >
+              <Table bordered hover >
                   <thead>
                     <tr style={{textAlign: "center"}}>
                       <th style={{width: "100px"}}>NO</th>

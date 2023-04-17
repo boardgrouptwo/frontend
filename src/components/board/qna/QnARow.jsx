@@ -6,8 +6,9 @@ const QnARow = ({board, pageNum}) => {
     <>
       <tr>
         <td style={{textAlign: "center"}}>{board.qna_no}</td>
+        <td style={{textAlign: "center"}}>{board.qna_type}</td>
         <td style={{textAlign: "center"}}>{board.user_name}</td>
-        <td><Link to ={"detail?page="+pageNum.page+"&qna_no="+board.qna_no}>{board.qna_title}</Link></td>
+        <td style={{textAlign: "center"}}><Link to ={"detail?page="+pageNum.page+"&qna_no="+board.qna_no}>{board.qna_title}</Link></td>
         <td style={{textAlign: "center"}}>{board.qna_date}</td>
         <td style={{textAlign: "center"}}> {board.qna_result}</td>
       </tr>
