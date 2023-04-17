@@ -23,11 +23,6 @@ import ShopReceive from './components/board/shop/ShopReceive'
 import ShopDetail from './components/board/shop/ShopDetail'
 import KhServiceForm from './components/khservice/KhServiceForm'
 import KhServicePage from './components/khservice/KhServicePage'
-import KhServiceSuccess from './components/khservice/KhServiceSuccess'
-import Auth from './components/main/Auth'
-import SponsorListPage from './components/Sponsor/SponsorListPage'
-import FindIdPassword from './components/main/FindIdPassword'
-
 
 
 
