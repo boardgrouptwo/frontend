@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import Flippy, { FrontSide, BackSide } from 'react-flippy';
 import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import MainHeader from '../include/MainHeader'
 import SponsorListbar from './SponsorListbar';
-import SponsorCard from './SponsorCard';
-import SponsorList from './SponsorList';
 import Bottom from '../include/Bottom';
 import { sponsorListDB } from '../../service/SponsorDBLogic';
-import NoticeRow from '../board/notice/NoticeRow'
-import { useSelector } from 'react-redux'
 import { Table } from 'react-bootstrap';
 import SponsorRow from './SponsorRow';
 
@@ -26,6 +23,8 @@ const SponsorListPage = () => {
     const [cardList, setCardList] = useState([])
     const [sponList, setSponList] = useState([])
 
+
+    
 
     useEffect(() =>{    /* 값을 가져오는 역할 */
       const boardList = async() => {
@@ -51,6 +50,13 @@ const SponsorListPage = () => {
     boardList();
   },[])
 
+  /* 카드 뒤집기 효과 */
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  const handleClick = () => {
+    setIsFlipped(!isFlipped);
+  };
+
   return (
     <>
       <MainHeader />
@@ -59,34 +65,54 @@ const SponsorListPage = () => {
         <div className="page-header" >
         </div>     
         <h2 style={{marginTop: "30px", textAlign: "center"}}>🌠이번달 베스트 후원인🌠</h2>
+                {/* ========================== sponsorCard ========================== */}     
+            <div className='container' style={{position: "relative" }}>
+              <Row xs={1} md={3} className="g-4">
+                {cardList.map((item, idx) => (
+              <Col>
+                <Flippy
+                flipOnHover={false}
+                flipOnClick={true}
+                flipDirection="horizontal"
+                isFlipped={item.isFlipped}
+                onClick={() => handleClick(idx)}
+                >
+                <FrontSide className="sponCard">
 
- {/* ========================== sponsorCard ========================== */}     
-        <div className='container' style={{position: "relative" }}>
-        <Row xs={1} md={3} className="g-4">
-        {cardList.map((item, idx) => (
-            <Col>
-              <Card className='sponCard'>
-              <Card.Img variant="top" src={`\\images\\spon\\spon${idx}.png`} style={cardImgStyle} />
+                      <Card.Img variant="top" src={`\\images\\spon\\spon${idx}.png`} style={cardImgStyle} />
+                      <Card.Body style={{textAlign: "center"}}>
+                        <br />
+                        <Card.Title>{item.spon_open==='공개' ? item.user_id : '익명의' } 후원자님</Card.Title>
+                        <Card.Text>
+                          {item.spon_money}\
+                        </Card.Text>
+                      </Card.Body>
 
-              <Card.Body style={{textAlign: "center"}}>
-                  <Card.Title>{item.user_id} 후원자님</Card.Title>
-                  <Card.Text>
-                  {item.spon_money}\
-                  </Card.Text>
-                </Card.Body>
-              </Card>
-            </Col>
-          ))}
-        </Row>
-      </div>
-{/* ========================== sponsorCard ========================== */}
+                  </FrontSide>
+                  <BackSide>
+                    {/* 카드 뒷면 */}
+                      <Card.Body style={{textAlign: "center",  marginTop:"20%"}}>
+                      <Card.Title>후원자의 한마디</Card.Title>
+                      <br />
+                        <Card.Text>
+                          <h4>{item.spon_content}</h4>
+                        </Card.Text>
+                      </Card.Body>
+                  </BackSide>
+                </Flippy>
+              </Col>
+            ))}
+          </Row>
+        </div>
+        {/* ========================== sponsorCard ========================== */}
+
 
 {/* ========================== sponsorList ========================== */}
     <div className='container' style={{position: "relative" }}>
         <div className="page-header" >
         </div>     
         <h2 style={{marginTop: "30px", textAlign: "center"}}>🌞 명예의 전당 🌞</h2> 
-
+        <br />
         <div className='book-list' style={{paddingBottom: "50px"}}>
           <Table striped bordered hover >
             <thead>
