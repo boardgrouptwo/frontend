@@ -146,7 +146,7 @@ const ShopDetail = () => {
       <div style={{
         /* marginTop: "2%", marginLeft: "20%", */ position: "relative"
         ,border: "1px solid lightgray"
-        ,width: "1000px", height: "700px", padding: "0"
+        ,width: "1000px", height: "780px", padding: "0"
         ,flexShrink: "0"
       }}>
         <div style={{width: "520px", height:"60px", backgroundColor:"lightgray"}}/>        

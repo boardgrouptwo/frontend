@@ -90,7 +90,7 @@ const MainHeader = () => {
               <ul style={style4}>
                 <li><Link to="/home">결제</Link> </li>
                 <li><Link to="/home">결제내역</Link> </li>
-                <li><Link to="/home">면회 신청</Link> </li>
+                <li><Link to="/visit/sign">면회 신청</Link> </li>
               </ul>
             </li>
 
