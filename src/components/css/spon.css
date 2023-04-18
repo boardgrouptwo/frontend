@@ -49,12 +49,66 @@
 }
 
 .sponCard {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    border: 1px solid rgba(0,0,0,.07);
 }
 
 .sponCard:hover {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
     transform: scale(1.05);
-    border-color: goldenrod;
+    border-color: rgb(255, 228, 155);
   }
 
+  .sponBackCard{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    
+  }
+
+.sponComment {
+    position: relative;
+    max-width: 1140px;
+    padding: 30px 0;
+    margin: 50px auto 0;
+    background-color: #f6f6f6;
+    border: 1px solid rgba(0,0,0,.07);
+    font-family: NanumSquareWebFont,dotum,Sans-serif;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.5px;
+    text-align: center;
+    
+}
+
+.sponComment2 {
+    position: relative;
+    max-width: 1140px;
+    padding: 60px 0;
+    margin: 0px auto 0;
+    background-color: #f6f6f6;
+    letter-spacing: -.5px;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.totalList{
+    font-family: NanumSquareWebFont,dotum,Sans-serif;
+    font-size: 18px;
+    line-height: 20px;
+    letter-spacing: -.5px;
+    text-align: center;
+    color: #00ab33;
+
+}
+
+.sponCardBack{
+    height: 250px;
+    padding: 0px;
+}
+
+.sponcontainer{
+    height: 0%;
+    padding: 0px;
+    
+}
