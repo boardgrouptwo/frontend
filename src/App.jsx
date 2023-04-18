@@ -28,6 +28,7 @@ import FindId from './components/main/FindId'
 import SponsorListPage from './components/Sponsor/SponsorListPage'
 import KhServiceSuccess from './components/khservice/KhServiceSuccess'
 import FindPassword from './components/main/FindPassword'
+import FullCalendarMain from './components/visit/FullCalendarMain'
 
 
 
@@ -99,7 +100,9 @@ const App = () => {
         <Route path="/qna" element={<QnAListPage/>}/>
         <Route path="/qna/write" element={<QnAWriteForm/>}/>
         <Route path="/qna/detail/" exact={true} element={<QnADetailPage/>}/>
-        
+        {/* 면회 */}
+        <Route path="/visit/sign/" exact={true} element={<FullCalendarMain/>}/>
+
       </Routes>      
     </>
   )
