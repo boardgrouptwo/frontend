@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const SponsorListbar = () => {
   return (
@@ -13,9 +14,9 @@ const SponsorListbar = () => {
         <div className="co_aside_wrap">
           <div className="aside_tit">사랑나눔</div>
           <ul className="l_menu">
-          <li><a href="/sponsor/from">후원하기</a></li>
-          <li><a href="/service/from">자원봉사신청</a></li>        
-          <li className='on'><a href="/sponser/list">후원현황</a></li>        
+          <li><Link to="/sponsor/from">후원하기</Link></li>
+          <li><Link to="/service/from">자원봉사신청</Link></li>        
+          <li className='on'><Link to="/sponsor/list">후원현황</Link></li>        
           </ul>
         </div>
       </div>

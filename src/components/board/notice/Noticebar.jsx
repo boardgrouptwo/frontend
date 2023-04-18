@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const Noticebar = () => {
   return (
@@ -14,16 +15,16 @@ const Noticebar = () => {
           <div className="aside_tit">요양원소식</div>
           <ul className="l_menu">
             <li className={window.location.pathname.includes('/notice') ? 'on' : ''}>
-              <a href="/notice?page=1">공지사항</a>
+              <Link to="/notice?page=1">공지사항</Link>
             </li>
             <li className={window.location.pathname.includes('/calendar') ? 'on' : ''}>
-              <a href="/calendar">월간일정표</a>
+              <Link to="/calendar">월간일정표</Link>
             </li>
             <li className={window.location.pathname.includes('/meal') ? 'on' : ''}>
-              <a href="/meal">식단표</a>
+              <Link to="/meal">식단표</Link>
             </li>        
             <li className={window.location.pathname.includes('/qna') ? 'on' : ''}>
-              <a href="/qna">QNA</a>
+              <Link to="/qna">QNA</Link>
             </li>        
           </ul>
         </div>

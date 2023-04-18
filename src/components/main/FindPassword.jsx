@@ -4,7 +4,7 @@ import MainHeader from '../include/MainHeader'
 import { Form, Button, Col, Row, Modal } from 'react-bootstrap'
 import "../css/findId.css"
 import { Link } from 'react-router-dom'
-import { findUserPw } from '../../service/MemberDBLogic'
+import { chagnePwDB, findUserPw } from '../../service/MemberDBLogic'
 import { MyInput, MyLabel } from '../css/FormStyle'
 
 const FindPassword = () => {
@@ -13,6 +13,8 @@ const FindPassword = () => {
   const[name,setName] = useState("")
 
   const [showModal, setShowModal] = useState(false);
+  const [failModal, setFailShowModal] = useState(false);
+
   // 모달 열기, 닫기
   const openModal = () => setShowModal(true);
   const closeModal = () => {
@@ -22,8 +24,13 @@ const FindPassword = () => {
 
   // 패스워드 찾기
   const [findUser, setFindUser] = useState({
+    user_id: '',
     user_password: '',
   });
+
+  const failcloseModal = () => {
+    setFailShowModal(false)
+  };
 
   const handleId = useCallback((e) => {
     setId(e)
@@ -44,9 +51,17 @@ const FindPassword = () => {
       user_name: name
     }
 
-    //const res = await findUserPw(user)
-    setShowModal(true)
-    console.log(user)
+    const res = await findUserPw(user)
+    console.log(res.data);
+    if(res.data === 0) {
+      setFailShowModal(true)
+    } else {
+      setFindUser({
+        user_id: id,
+        user_password: '',
+      })
+      setShowModal(true)
+    }
   }
 
   const changePassword = (e) => {
@@ -57,6 +72,11 @@ const FindPassword = () => {
 
   const changePw = async () => {
     console.log(findUser)
+    const res = await chagnePwDB(findUser);
+    if(res.data === 1) {
+      alert("비밀번호가 변경되었습니다")
+      setShowModal(false)
+    }
   }
 
   return (
@@ -130,6 +150,17 @@ const FindPassword = () => {
             입력
           </Button>
           <Button variant="secondary" onClick={closeModal}>
+            닫기
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal show={failModal} onHide={failcloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>아이디나 이름을 확인하세요</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={failcloseModal}>
             닫기
           </Button>
         </Modal.Footer>

@@ -4,6 +4,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import Modal from './Modal';
 import '../css/FullCalendarMain.css'
 import interactionPlugin from '@fullcalendar/interaction';
+import MainHeader from '../include/MainHeader';
 
 
 
@@ -51,6 +52,8 @@ const FullCalendarMain = () => {
 
   return (
     <>
+    <MainHeader/>
+    
     <FullCalendar
     plugins={[dayGridPlugin, interactionPlugin]} 
     initialView="dayGridMonth"

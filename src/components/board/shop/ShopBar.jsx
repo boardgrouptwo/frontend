@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router'
+import { Link } from 'react-router-dom'
 import "../../css/shop.css"
 
 const ShopBar = () => {
@@ -9,14 +10,14 @@ const ShopBar = () => {
       <div className="wrap_tab_reviewrank">
           <ul className="tab_reviewrank" >          
             <li className={window.location.pathname.includes('/shopmain') ? 'on' : ''}>
-              <a className="link_rank" href="/shopmain?type=total" >
+              <Link to="/shopmain?type=total" className="link_rank">
                 <span className="txt_tab">많이 선물한</span>
-              </a>
+              </Link>
             </li>
             <li className={window.location.pathname.includes('/shopreceive') ? 'on' : ''}>
-              <a className="link_rank" href="/shopreceive">
+              <Link to="/shopreceive" className="link_rank">
                 <span className="txt_tab">받고 만족한</span>
-              </a>             
+              </Link>             
             </li>
           </ul>
       </div>  

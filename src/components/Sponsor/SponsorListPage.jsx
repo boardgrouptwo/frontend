@@ -9,6 +9,7 @@ import Bottom from '../include/Bottom';
 import { sponsorListDB } from '../../service/SponsorDBLogic';
 import { Table } from 'react-bootstrap';
 import SponsorRow from './SponsorRow';
+import SponsorTotal from './SponsorTotal';
 
 
 
@@ -65,13 +66,7 @@ const SponsorListPage = () => {
       <MainHeader />
       <SponsorListbar/>
       <div className='container' style={{position: "relative" }}>
-        <div className="page-header" >
-        <p className='sponComment'>
-          <strong className='totalList'>{`${totalList.length}`}</strong>
-          명의 기부자님이 
-          <strong className='totalList'>${totalList.reduce((acc, item) => acc + parseInt(item.spon_money), 0).toLocaleString()}</strong>
-          원 후원해주셨습니다</p>
-        </div>     
+        <SponsorTotal totalList={totalList}/>
         <h2 style={{marginTop: "30px", textAlign: "center"}}>🌠이번달 베스트 후원인🌠</h2>
                 {/* ========================== sponsorCard ========================== */}     
             <div className='sponcontainer' style={{position: "relative" }}>

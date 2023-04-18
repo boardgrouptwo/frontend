@@ -45,3 +45,18 @@ export const findUserPw = (user) => {
     }
   });
 };
+
+export const chagnePwDB = (user) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post", //@RequestBody
+        url: process.env.REACT_APP_SPRING_IP + "user/changePw",
+        data: user, //post방식으로 전송시 반드시 data속성으로 파라미터 줄 것
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

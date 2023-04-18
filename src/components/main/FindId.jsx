@@ -14,10 +14,16 @@ const FindId = () => {
   const[findUser, setFindUser] = useState("")
 
   const [showModal, setShowModal] = useState(false);
+  const [failModal, setFailShowModal] = useState(false);
+
   // 모달 열기, 닫기
   const openModal = () => setShowModal(true);
   const closeModal = () => {
     setShowModal(false)
+  };
+
+  const failcloseModal = () => {
+    setFailShowModal(false)
   };
 
   const handleName = useCallback((e) => {
@@ -34,14 +40,19 @@ const FindId = () => {
       event.stopPropagation(); //이벤트 중단
     }
     event.preventDefault();
-
     const user = {
       user_name: name,
-      user_number: number
+      user_tel: number
     }
-    console.log(user)
-    //const res = await findUserId(user)
-    setShowModal(true)
+
+    const res = await findUserId(user)
+    if(res.data !== '') {
+      setFindUser(res.data.user_id)
+      setShowModal(true)
+    } else {      
+      setFailShowModal(true)
+    }
+    
   }
   
   return (
@@ -105,11 +116,8 @@ const FindId = () => {
           <Modal.Title>ID 찾기</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <MyLabel htmlFor="mem_name">      
-            id
-          </MyLabel>
-          <div>
-            {findUser}
+          <div style={{fontWeight: "bold"}}>
+            찾고 있는 id는 : {findUser} 입니다.
           </div>
         </Modal.Body>
         <Modal.Footer>
@@ -118,6 +126,19 @@ const FindId = () => {
           </Button>
         </Modal.Footer>
       </Modal>
+
+      <Modal show={failModal} onHide={failcloseModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>이름이나 전화번호를 확인하세요</Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={failcloseModal}>
+            닫기
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+
       {/* <Bottom/> */}
     </>
   )

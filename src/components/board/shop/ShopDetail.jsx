@@ -121,6 +121,22 @@ const ShopDetail = () => {
     }
   };
 
+  //조회수에 따른 별이미지 추가
+  const generateStars = () => {
+    const stars = [];
+    let count = 0;
+    if(product.product_hit > 500) {
+      count = 400
+    } else {
+      count = product.product_hit
+    }
+
+    for (let i = 0; i <= Math.floor(count / 100); i++) {
+      stars.push(<img src="images/star.png" alt="" key={i} />);
+    }
+
+    return stars;
+  }
 
 
   return (
@@ -130,7 +146,7 @@ const ShopDetail = () => {
       <div style={{
         /* marginTop: "2%", marginLeft: "20%", */ position: "relative"
         ,border: "1px solid lightgray"
-        ,width: "1000px", height: "700px", padding: "0"
+        ,width: "1000px", height: "780px", padding: "0"
         ,flexShrink: "0"
       }}>
         <div style={{width: "520px", height:"60px", backgroundColor:"lightgray"}}/>        
@@ -157,14 +173,13 @@ const ShopDetail = () => {
           <br/>
           <hr/>
           <SPANPRICE>
-            {product.product_price}원
-            <br/>
+            {product.product_price.toLocaleString()}원
+            <br/>          
           </SPANPRICE>
-          <img src="images/star.png" alt="" />
-          <img src="images/star.png" alt="" />
-          <img src="images/star.png" alt="" />
-          <img src="images/star.png" alt="" />
-          <img src="images/star.png" alt="" />
+          <span>조회수 : {product.product_hit.toLocaleString()}</span>
+          <br/>
+          <br/>
+          <div>{generateStars()}</div>
           <hr/>
           <div>
             <img src="images/truck.png" style={{marginLeft: "3px"}}/>
@@ -218,7 +233,7 @@ const ShopDetail = () => {
           
           <div style={{width: "100%", height: "80px",paddingTop:"10px", backgroundColor: "#fafafa"}}>
             <span style={{margin: "20px", fontSize: "20px"}}>총 금액 : </span>
-            <span style={{fontSize: "30px"}}>{price}원</span>
+            <span style={{fontSize: "30px"}}>{price.toLocaleString()}원</span>
           </div>
           <div style={{marginTop: "20px"}}>            
             <Button onClick={handleMinus}>-</Button>
@@ -226,7 +241,6 @@ const ShopDetail = () => {
             <Button onClick={handleUp}>+</Button>
           </div>
           <div style={{marginTop: "20px"}}>
-            <Button style={{marginRight:"10px"}} variant="success">추천하기</Button>
             <Button style={{marginRight:"10px"}} variant="success">장바구니</Button>
             <Button variant="success" onClick={purchase}>상품구매</Button>            
           </div>

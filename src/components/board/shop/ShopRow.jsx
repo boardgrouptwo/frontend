@@ -44,9 +44,15 @@ const ShopRow = ({board}) => {
             }
               <strong className="productstrong">{board.product_title}</strong>
               <br/>
-              <div className="productspan">{board.product_price}원</div>
-              <span style={{fontSize: "15px"}}>
-                조회수 : {board.product_hit}
+              <div className="productspan">{board.product_price.toLocaleString()}원</div>
+              <span style={{
+                fontSize: "15px",
+                bottom: "0",
+                right: "15px",
+                position: "absolute"
+              }}>
+                <img style={{marginRight: "10px", marginBottom:"5px", width: "20px",height: "20px"}} src="images/star.png" alt="" />
+                조회수 : {board.product_hit.toLocaleString()}
               </span>
             </div>
           </div>
