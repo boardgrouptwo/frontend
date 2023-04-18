@@ -136,8 +136,8 @@ const Notice = () => {
           </div>
         </div> 
         <div className='book-list' style={{paddingBottom: "50px"}}>
-          <Table striped bordered hover >
-            <thead>
+          <Table bordered hover >
+            <thead style={{backgroundColor: "#F5F5F5"}}>
               <tr style={{textAlign: "center"}}>
                 <th style={{width: "100px"}}>NO</th>
                 <th style={{width: "200px"}}>제목</th>
