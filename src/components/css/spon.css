@@ -1,114 +1,110 @@
 .sponsor-form {
-    
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    max-width: 100%;
-    min-width: 350px;
-    padding: 80px 30px 80px 100px;
-    border-radius: 30px;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  max-width: 100%;
+  min-width: 350px;
+  padding: 80px 30px 80px 100px;
+  border-radius: 30px;
 
-    border: 2px solid lightgrey;
-
+  border: 2px solid lightgrey;
 }
 
-
 .sponsor-form-text {
-    width : 100%;
-    text-align : center;
-    margin : 0 auto;
-    padding: 0px 50px 0px 0px;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0px 50px 0px 0px;
 }
 
 .service-form {
-    
-    flex-direction: column;
-    align-items: center;
-    position: relative;
-    max-width: 100%;
-    min-width: 350px;
-    padding: 80px 30px 80px 100px;
-    border-radius: 30px;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  max-width: 100%;
+  min-width: 350px;
+  padding: 80px 30px 80px 100px;
+  border-radius: 30px;
 
-    border: 2px solid lightgrey;
-
+  border: 2px solid lightgrey;
 }
-
 
 .service-form-text {
-    width : 100%;
-    text-align : center;
-    margin : 0 auto;
-    padding: 0px 50px 0px 0px;
+  width: 100%;
+  text-align: center;
+  margin: 0 auto;
+  padding: 0px 50px 0px 0px;
 }
 
-
-.g-4, .gy-4{
-    --bs-gutter-y: 0rem;
-    margin : 5% 6%;
+.g-4,
+.gy-4 {
+  --bs-gutter-y: 0rem;
+  margin: 5% 6%;
 }
 
 .sponCard {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    border-radius: 10px;
-    border: 1px solid rgba(0,0,0,.07);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.07);
 }
 
 .sponCard:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
-    transform: scale(1.05);
-    border-color: rgb(255, 228, 155);
-  }
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  transform: scale(1.05);
+  border-color: rgb(255, 228, 155);
+}
 
-  .sponBackCard{
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    
-  }
+.sponBackCard {
+  height: 100%;
+  padding: 0px;
+  background-color: #4a9e5c;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+}
 
 .sponComment {
-    position: relative;
-    max-width: 1140px;
-    padding: 30px 0;
-    margin: 50px auto 0;
-    background-color: #f6f6f6;
-    border: 1px solid rgba(0,0,0,.07);
-    font-family: NanumSquareWebFont,dotum,Sans-serif;
-    font-size: 18px;
-    line-height: 20px;
-    letter-spacing: -.5px;
-    text-align: center;
-    
+  position: relative;
+  max-width: 1140px;
+  padding: 30px 0;
+  margin: 50px auto 0;
+  background-color: #f6f6f6;
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  font-family: NanumSquareWebFont, dotum, Sans-serif;
+  font-size: 18px;
+  line-height: 20px;
+  letter-spacing: -0.5px;
+  text-align: center;
 }
 
 .sponComment2 {
-    position: relative;
-    max-width: 1140px;
-    padding: 60px 0;
-    margin: 0px auto 0;
-    background-color: #f6f6f6;
-    letter-spacing: -.5px;
-    text-align: center;
-    border-radius: 10px;
+  position: relative;
+  max-width: 1140px;
+  padding: 60px 0;
+  margin: 0px auto 0;
+  background-color: #f6f6f6;
+  letter-spacing: -0.5px;
+  text-align: center;
+  border-radius: 10px;
 }
 
-.totalList{
-    font-family: NanumSquareWebFont,dotum,Sans-serif;
-    font-size: 18px;
-    line-height: 20px;
-    letter-spacing: -.5px;
-    text-align: center;
-    color: #00ab33;
-
+.totalList {
+  font-family: NanumSquareWebFont, dotum, Sans-serif;
+  font-size: 18px;
+  line-height: 20px;
+  letter-spacing: -0.5px;
+  text-align: center;
+  color: #00ab33;
 }
 
-.sponCardBack{
-    height: 250px;
-    padding: 0px;
+.sponCardBack {
+  height: 100%;
+  padding: 0px;
+  background-color: #4a9e5c;
+  color: white;
+  border: none;
 }
 
-.sponcontainer{
-    height: 0%;
-    padding: 0px;
-    
+.sponcontainer {
+  height: 0%;
+  padding: 0px;
 }

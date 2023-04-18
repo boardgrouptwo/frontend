@@ -1,13 +1,29 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MainBottom from '../include/MainBottom'
 import MainHeader from '../include/MainHeader'
 import "../css/main.css"
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import ChatbotButton from './ChatbotButton'
+import config from './chatbot/config'
+import ActionProvider from './chatbot/ActionProvider'
+import MessageParser from './chatbot/MessageParser'
+import Chatbot from 'react-chatbot-kit'
+import "../css/chatbot.css"
 const HomePage = () => {
 
   const token = useSelector(state => state.token);
   console.log(token);
 
+  const [showChatbot, setShowChatbot] = useState(false);
+
+  const handleClose = () => {
+    setShowChatbot(false);
+  };
+
+  const handleNewUserMessage = (newMessage) => {
+    console.log(`New message incoming! ${newMessage}`);
+  };
 
   return (
     <>
@@ -31,12 +47,47 @@ const HomePage = () => {
           <div className="link">
             <p>Link Service</p>
               <ul>
-                <li><a href="/home">요양원소개</a></li>
-                  <li><a href="/home">후원하기</a></li>
-                  <li><a href="/home">요양원 소식</a></li>
-                  <li><a href="/home">자료실</a></li>
-                  <li><a href="/home">자원봉사</a></li>
-                  <li><a href="/home">공지사항</a></li>
+                <li><Link to="/home">요양원소개</Link></li>
+                  <li><Link to="/home">후원하기</Link></li>
+                  <li><Link to="/home">요양원 소식</Link></li>
+                  <li><Link to="/home">자료실</Link></li>
+                  <li><Link to="/home">자원봉사</Link></li>
+                  {showChatbot && (
+                    <div className="chatbot-modal">
+                      <div className="chatbot-modal-content">
+                        <div className="chatbot-close-button" onClick={handleClose}>X</div>
+                        <Chatbot
+                          config={config}
+                          actionProvider={ActionProvider}
+                          messageParser={MessageParser}
+                          handleNewUserMessage={handleNewUserMessage}
+                          customStyles={{
+                            botMessageBox: {
+                              backgroundColor: '#fff', // 챗봇 말풍선의 배경색을 바꿉니다.
+                              borderRadius: '10px', // 챗봇 말풍선의 모서리를 둥글게 만듭니다.
+                            },
+                            chatButton: {
+                              backgroundColor: '#376B7E',
+                            },
+                            chatContainer: {
+                              maxWidth: '400px', // 챗봇 모달 창의 최대 너비를 지정합니다.
+                              padding: '20px',
+                              borderRadius: '10px',
+                              boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.2)', // 챗봇 모달 창에 그림자 효과를 추가합니다.
+                            },
+                            userMessageBox: {
+                              backgroundColor: '#376B7E',
+                            },
+                          }}
+                          headerComponent={
+                          <div className="chatbot-header">
+                            <span>React Chatbot</span>
+                          </div>}
+                        />
+                      </div>
+                    </div>
+                  )}
+                  <li><ChatbotButton setShowChatbot={setShowChatbot}/></li>
               </ul>
           </div> 
         </div>

@@ -98,8 +98,11 @@ const MainHeader = () => {
             <li className="list06"
               onMouseEnter={e=>{setStyle6({display:"block"})}}
               onMouseLeave={e=>{setStyle6({display:"none"})}}>
-              <Link to="/home">관리자</Link>
+              <Link to="/shopadd">관리자</Link>
               <ul style={style6}>
+                <li><Link to="/visit/management">면회관리</Link> </li>
+                <li><Link to="/sponsor/management">후원관리</Link> </li>
+                <li><Link to="/service/management">자원봉사관리</Link> </li>
                 <li><Link to="/shopadd">상품등록</Link> </li>
               </ul>
             </li>

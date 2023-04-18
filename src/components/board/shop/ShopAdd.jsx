@@ -3,6 +3,7 @@ import { Button, Col, Dropdown, DropdownButton, Figure, Form, InputGroup, Row } 
 import MainHeader from '../../include/MainHeader'
 import { ProductUploadDB, imageUploadDB, shopAddDB } from '../../../service/ShopDBLogic'
 import { useNavigate } from 'react-router'
+import Adminbar from '../../admin/Adminbar'
 
 const ShopAdd = () => {
 
@@ -78,6 +79,7 @@ const ShopAdd = () => {
   return (
     <>
       <MainHeader/>
+      <Adminbar/>
       <div className='sponContainer' style={{ }}>
       <Form className='sponsor-form' onSubmit={handleSubmit}>
           <h3 className='sponsor-form-text'>상품등록</h3>

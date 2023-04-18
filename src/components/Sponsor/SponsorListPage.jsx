@@ -94,7 +94,7 @@ const SponsorListPage = () => {
                       </Card.Body>
 
                   </FrontSide >
-                  <BackSide  className="sponBackCard" style={{height: "100%", padding: "0px"}}>
+                  <BackSide  className="sponBackCard" style={{backgroundColor: "#4a9e5c"}}>
                     {/* 카드 뒷면 */}
                     <Card  className="sponCardBack">
                       <Card.Body 
