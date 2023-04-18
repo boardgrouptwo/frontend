@@ -11,6 +11,7 @@ import { Table } from 'react-bootstrap';
 import SponsorRow from './SponsorRow';
 
 
+
 /* use effect 로 값을 담아와서 card와 list에 넘겨주기 */
 const SponsorListPage = () => {
 
@@ -22,6 +23,7 @@ const SponsorListPage = () => {
     // 게시글 목록
     const [cardList, setCardList] = useState([])
     const [sponList, setSponList] = useState([])
+    const [totalList, setTotalList] = useState([])
 
 
     
@@ -40,6 +42,7 @@ const SponsorListPage = () => {
         list.push(obj)
         console.log(list)
       })
+        setTotalList(list)
       if(list.length > 3) {   
         setCardList(list.slice(0, 3))  /* 3개만 card */
         setSponList(list.slice(3))   /* 네 번째 요소부터 마지막 요소까지 list */
@@ -63,41 +66,52 @@ const SponsorListPage = () => {
       <SponsorListbar/>
       <div className='container' style={{position: "relative" }}>
         <div className="page-header" >
+        <p className='sponComment'>
+          <strong className='totalList'>{`${totalList.length}`}</strong>
+          명의 기부자님이 
+          <strong className='totalList'>${totalList.reduce((acc, item) => acc + parseInt(item.spon_money), 0).toLocaleString()}</strong>
+          원 후원해주셨습니다</p>
         </div>     
         <h2 style={{marginTop: "30px", textAlign: "center"}}>🌠이번달 베스트 후원인🌠</h2>
                 {/* ========================== sponsorCard ========================== */}     
-            <div className='container' style={{position: "relative" }}>
+            <div className='sponcontainer' style={{position: "relative" }}>
               <Row xs={1} md={3} className="g-4">
                 {cardList.map((item, idx) => (
               <Col>
+              {/* 클릭시 카드 뒤집기 효과 */}
                 <Flippy
                 flipOnHover={false}
                 flipOnClick={true}
                 flipDirection="horizontal"
                 isFlipped={item.isFlipped}
                 onClick={() => handleClick(idx)}
+                
                 >
-                <FrontSide className="sponCard">
+                <FrontSide className="sponCard" >
 
                       <Card.Img variant="top" src={`\\images\\spon\\spon${idx}.png`} style={cardImgStyle} />
                       <Card.Body style={{textAlign: "center"}}>
                         <br />
                         <Card.Title>{item.spon_open==='공개' ? item.user_id : '익명의' } 후원자님</Card.Title>
                         <Card.Text>
-                          {item.spon_money}\
+                          {item.spon_money.toLocaleString()}\
                         </Card.Text>
                       </Card.Body>
 
-                  </FrontSide>
-                  <BackSide>
+                  </FrontSide >
+                  <BackSide  className="sponBackCard" style={{height: "100%", padding: "0px"}}>
                     {/* 카드 뒷면 */}
-                      <Card.Body style={{textAlign: "center",  marginTop:"20%"}}>
+                    <Card  className="sponCardBack">
+                      <Card.Body 
+                        style={{padding:"10%"}} 
+                      >
                       <Card.Title>후원자의 한마디</Card.Title>
                       <br />
-                        <Card.Text>
+                        <Card.Text style={{height: "100%", padding: "0px"}}>
                           <h4>{item.spon_content}</h4>
                         </Card.Text>
                       </Card.Body>
+                    </Card>
                   </BackSide>
                 </Flippy>
               </Col>
@@ -114,8 +128,8 @@ const SponsorListPage = () => {
         <h2 style={{marginTop: "30px", textAlign: "center"}}>🌞 명예의 전당 🌞</h2> 
         <br />
         <div className='book-list' style={{paddingBottom: "50px"}}>
-          <Table striped bordered hover >
-            <thead>
+          <Table bordered hover >
+            <thead style={{backgroundColor:"#F5F5F5"}}>
               <tr style={{textAlign: "center"}}>
                 <th style={{width: "50px"}}>순위</th>
                 <th style={{width: "150px"}}>후원자명</th>
