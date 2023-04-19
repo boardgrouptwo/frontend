@@ -88,8 +88,8 @@ const MainHeader = () => {
               onMouseLeave={e=>{setStyle4({display:"none"})}}>
               <Link to="/home">내정보</Link>
               <ul style={style4}>
-                <li><Link to="/home">결제</Link> </li>
-                <li><Link to="/home">결제내역</Link> </li>
+                <li><Link to="/home">장바구니</Link> </li>
+                <li><Link to="/paymentdetail">결제내역</Link> </li>
                 <li><Link to="/visit/sign">면회 신청</Link> </li>
               </ul>
             </li>

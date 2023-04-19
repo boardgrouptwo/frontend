@@ -31,6 +31,7 @@ import FindPassword from './components/main/FindPassword'
 import FullCalendarMain from './components/visit/FullCalendarMain'
 import Admin_Service from './components/admin/AdminService'
 import AdminService from './components/admin/AdminService'
+import PaymentDetail from './components/payment/PaymentDetail'
 
 
 
@@ -106,6 +107,8 @@ const App = () => {
         {/* 면회 */}
         <Route path="/visit/sign/" exact={true} element={<FullCalendarMain/>}/>
 
+        {/* 내정보 */}
+        <Route path="/paymentdetail" exact={true} element={<PaymentDetail />} />
 
       </Routes>      
     </>
