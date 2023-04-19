@@ -4,6 +4,7 @@ import MainHeader from '../../include/MainHeader'
 import { ProductUploadDB, imageUploadDB, shopAddDB } from '../../../service/ShopDBLogic'
 import { useNavigate } from 'react-router'
 import Adminbar from '../../admin/Adminbar'
+import Bottom from '../../include/Bottom'
 
 const ShopAdd = () => {
 
@@ -130,6 +131,7 @@ const ShopAdd = () => {
       <Button variant="success" onClick={handleCancel}>뒤로가기</Button>
       </Form>
       </div>
+      <Bottom/>
     </>
   )
 }
