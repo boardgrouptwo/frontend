@@ -73,7 +73,7 @@ const SponsorListPage = () => {
               <Row xs={1} md={3} className="g-4">
                 {cardList.map((item, idx) => (
               <Col>
-              {/* 클릭시 카드 뒤집기 효과 */}
+              {/* ==============클릭시 카드 뒤집기 효과 =================*/}
                 <Flippy
                 flipOnHover={false}
                 flipOnClick={true}

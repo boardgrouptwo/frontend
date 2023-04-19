@@ -14,3 +14,18 @@ export const serviceInsertDB = (member) => {
     }
   });
 };
+
+export const AdminServiceListDB = (member)  =>{
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "service/managerList",
+        params: member,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
