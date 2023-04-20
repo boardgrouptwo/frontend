@@ -35,6 +35,7 @@
     "react-bootstrap": "^2.7.2",
     "react-dom": "^18.2.0",
     "react-flippy": "^1.1.0",
+    "react-fullpage": "^0.1.19",
     "react-google-auth": "^0.4.1",
     "react-google-recaptcha": "^2.1.0",
     "react-quill": "^2.0.0",

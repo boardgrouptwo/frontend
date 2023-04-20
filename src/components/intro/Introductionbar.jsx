@@ -9,7 +9,7 @@ const Introductionbar = () => {
         position: "relative", margin: "0"
         ,padding: "0"}}/>
       </div>
-      <div id="co_aside">
+      <div id="co_aside" >
         <div className="co_aside_wrap">
           <div className="aside_tit">요양원소개</div>
           <ul className="l_menu">
