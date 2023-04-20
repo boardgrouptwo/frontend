@@ -14,10 +14,22 @@ const QnAWriteForm = () => {
 
     const token  = useSelector(state => state.token);
 
+    const[type, setType] = useState("후원하기")
+    const[name, setName] = useState("")
     const[title, setTitle] = useState("")
-
     const[content, setContent] = useState("")
+    const[date, setDate] = useState("")
+    const[result, setResult] = useState(0)
 
+
+    const handleType = useCallback((e) => {
+        setType(e)
+        console.log(e)
+    },[])
+
+    const handleName = useCallback((e) => {
+        setName(e)
+    },[])
 
     const handleTitle = useCallback((e) => {
         setTitle(e)
@@ -27,15 +39,29 @@ const QnAWriteForm = () => {
         setContent(e)
     },[])
 
+    const handleDate = useCallback((e)=> {
+        setDate(e)
+    },[])
+
+    const handleResult = useCallback((e)=> {
+        setResult(e)
+    },[])
+
     const quillRef = useRef()
 
+
+    //화면에 입력한 값을 DB에 보내는 값
     const boardInsert = async () => {
         const board = {
+            qna_type : type,
+            user_name : "apple", 
             qna_title : title,
-            qna_content : content
+            qna_content : content,
+            qna_date : date,
+            qna_result : result, 
         }
+        
         console.log(token)
-
         const res = await qnaInsertDB(board, token)
         console.log(res)
         navigate("/qna")
@@ -62,12 +88,12 @@ const QnAWriteForm = () => {
 
                 <h3>상세내용</h3>
                 <hr style={{margin:'10px 0px 10px 0px'}}/>
-                          <div className="col-3">
-                              <select id="gubun" className="form-select" aria-label="분류선택">
+                          <div className="col-3" style={{margin:'10px 0px 10px 0px'}}>
+                              <select id="gubun" className="form-select" aria-label="분류선택" onChange={(e) => handleType(e.target.value)}>
                                 <option defaultValue>후원하기</option>
-                                <option value="qna_type">자원봉사</option>
-                                <option value="qna_type">선물하기</option>
-                                <option value="qna_type">기타</option>
+                                <option value="자원봉사">자원봉사</option>
+                                <option value="선물하기">선물하기</option>
+                                <option value="기타">기타</option>
                               </select>
                           </div>
 

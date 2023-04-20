@@ -18,25 +18,30 @@ const QnADetailPage = () => {
     const [nextHovered, setNextHovered] = useState(false)
 
     const user = useSelector(state => state.user_type);
+    console.log(user)
 
     const location = useLocation();
 
     const searchParams = new URLSearchParams(location.search);
+    console.log(searchParams)
 
     const page_num = searchParams.get('page');
+    console.log(page_num)
 
     const qna_num = searchParams.get('qna_no');
+    console.log(qna_num)
 
 
     //qna 번호
     const[pboard, setPBoard] = useState({
         qna_no : qna_num,
     })
-
     
+
     //qna 내용
     const[board, setBoard] = useState({
       qna_no: 0,
+      qna_type:"",
       user_name: "",
       qna_title:"",
       qna_content:"",
@@ -68,14 +73,10 @@ const QnADetailPage = () => {
   const [rend, setRend] = useState(0)
 
   useEffect(()=>{
-      const qnaResult = async() => {
-          const res = await qnaResultDB(pboard)
-      }
-
-
       const qnaDetail = async() => {
           const res = await qnaListDB(pboard)
           const result = JSON.stringify(res.data)
+          console.log(res.data)
           const jsonDoc = JSON.parse(result)
           setBoard({
               qna_no:jsonDoc[0].qna_no,
@@ -85,22 +86,26 @@ const QnADetailPage = () => {
               qna_date:jsonDoc[0].qna_date,
               qna_result:jsonDoc[0].qna_result,
           })
-      }
+    }
 
-      const qnabeforeAfter = async() => {
-          const res = await qnabeforeAfterDB(pboard);
-          const result = JSON.stringify(res.data)
-          const jsonDoc = JSON.parse(result)
-
-          setQnaBoard({
-              afterQna: jsonDoc[0].afterQna,
-              afterNo:jsonDoc[0].afterNo,
-              beforeQna:jsonDoc[0].beforeQna,
-              beforeNo:jsonDoc[0].beforeNo
-          })
-      }
-      const fetchData = async () => {
-          await qnaResult()
+    const qnaResult = async() => {
+        const res = await qnaResultDB(pboard)
+    }
+    
+    const qnabeforeAfter = async() => {
+      const res = await qnabeforeAfterDB(pboard);
+      const result = JSON.stringify(res.data)
+      const jsonDoc = JSON.parse(result)
+      
+      setQnaBoard({
+        afterQna: jsonDoc[0].afterQna,
+        afterNo:jsonDoc[0].afterNo,
+        beforeQna:jsonDoc[0].beforeQna,
+        beforeNo:jsonDoc[0].beforeNo
+      })
+    }
+    const fetchData = async () => {
+      await qnaResult()
           await qnaDetail()
           await qnabeforeAfter()
       }

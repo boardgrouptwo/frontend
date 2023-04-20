@@ -12,7 +12,8 @@ import Bottom from '../../include/Bottom';
 const QnAListPage = () => {
   const navigate = useNavigate();
 
-  const user = useSelector(state => state.user_type); 
+  const user = useSelector(state => state.user_type);
+  const token = useSelector(state => state.token)
 
   // 게시글 목록
   const [qnaList, setQnaList] = useState([])
@@ -75,6 +76,7 @@ const QnAListPage = () => {
                 qna_result: item.qna_result        
           }
           list.push(obj)
+          console.log(obj)
         })    
         setTotal(res.data[0].total_count)
         //setTotal(100)
