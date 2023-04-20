@@ -19,7 +19,7 @@ const PaymentDetail = () => {
   // 배열 타입 [{},{},{}] -> List<Map>, List<VO>
   const [ listBody, setListBody ] = useState([]);
   // pay_type 구분 라벨
-  const [ payTypes ] = useState(["전체", "원비", "후원"]);
+  const [ payTypes ] = useState(["전체", "결제", "후원"]);
   // pay_type 상태 관리
   const [ pTitle, setPTitle ] = useState("전체");
 
@@ -39,16 +39,13 @@ const PaymentDetail = () => {
   const startPage = groupIndex * MAX_PAGE_ITEMS + 1;
   const endPage = startPage + MAX_PAGE_ITEMS - 1;
 
-
   const groups = Array.from({ length: Math.ceil(totalPages / MAX_PAGE_ITEMS) }, (_, index) => {
     const start = index * MAX_PAGE_ITEMS;
     return pageNumbers.slice(start, start + MAX_PAGE_ITEMS);
   }).filter(group => group.includes(startPage) || group.includes(endPage) || (group[0] <= startPage && group[group.length - 1] >= endPage));
 
-
-
-  const listHeaders = ["결제일", "결제금액", "결제내용"];
-  const HeaderWidth = ["25%", "25%", "50%"];
+  const listHeaders = ["결제정보", "결제일", "결제금액", "결제내용"];
+  const HeaderWidth = ["15%", "20%", "15%", "50%"];
 
   // 함수 메모이제이션 한다 - useCallback -> useMemo는 값을 메모이제이션
   const handlePTitle = useCallback((element) => {
@@ -86,8 +83,8 @@ const PaymentDetail = () => {
     const payList = async() => {
       // 콤보박스 내용 -> 원비, 후원 중 하나
       // 사용자가 입력한 키워드
-      // http://localhost:3000/paymentdetail?pay_type=전체|원비|후원
-      // [0] : ?pay_type=전체|원비|후원
+      // http://localhost:3000/paymentdetail?pay_type=전체|결제|후원
+      // [0] : ?pay_type=전체|결제|후원
       // [1] : 
       const pay_type = search.split("&").filter((item) => {
         return item.match("pay_type")
@@ -117,7 +114,8 @@ const PaymentDetail = () => {
           pay_amount: item.pay_amount, 
           pay_date: item.pay_date, 
           pay_content: item.pay_content, 
-          user_name: item.user_name
+          user_name: item.user_name,
+          pay_type: item.pay_type,
         }
 
         list.push(obj);

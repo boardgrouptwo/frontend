@@ -12,6 +12,7 @@ import "../css/spon.css"
 import { useNavigate } from 'react-router-dom';
 import { SponsorDB, sponsorInsertDB} from '../../service/SponsorDBLogic';
 import { useSelector } from 'react-redux'
+import { kakaoPayReady } from '../kakao/KakaoPay';
 
 
 const SponsorFrom = () => {
@@ -36,6 +37,7 @@ const SponsorFrom = () => {
     const [validated, setValidated] = useState(false); //폼 검증 유효성 검사
 
 
+
 // 폼 제출 이벤트 처리
     const handleSubmit = async(event) => {   // form 컴포넌트에서 submit 할 때 실행됨
       const form = event.currentTarget;
@@ -56,23 +58,51 @@ const SponsorFrom = () => {
         spon_pay: sponsorPay,
         spon_open: sponOpen,
         spon_content: sponsorContent,
-    }
+      }
+      console.log(member);
 
-    console.log(member);
 
+      // 카카오페이 결제 로직
+      if (sponRadiosHuwon === "일반 후원" && sponsorPay === "홈페이지 결제") {
+          const payForm = {
+            pay_type: "후원",                      // 결제 타입
+            user_id : user,                       // 사용자 정보
+            user_tel: sponsorNumber,              // 사용자 연락처
+            item_name : "기부",                    // 상품명
+            total_amount : sponsorMoney,          // 결제 금액
+            spon_open: sponOpen,                  // 익명 여부
+            spon_content: sponsorContent,         // 후원 내용
+            spon_pay: sponsorPay,                 // 결제 종류
+          }
+
+          const respose = await kakaoPayReady(payForm);
+          console.log(respose.data)
+
+          // 카카오페이 결제 성공 시 DB에 저장
+          if (!respose.data) {
+            console.log("결제 실패하였습니다")
+          } else {
+            console.log("카카오결제 성공하였습니다")
+
+            // 카카오페이 결제 팝업 출력
+            window.open(respose.data,'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
+          }
+      } // end of 카카오페이 결제
+      // 카카오페이 결제 이외 로직
+      else {
         // 수정완료 ///////////////////////
-    const res = await sponsorInsertDB(member)
-    console.log(res + "," + res.data)
-
-    if (!res.data){
-        console.log("폼작성에 실패하였습니다")
-    }else{
-        console.log("폼작성 성공")
-        //폼작성 성공시 작성성공 화면으로 이동
-        navigate("/sponsor/success");
-    }
-
-    };
+        const res = await sponsorInsertDB(member)
+        console.log(res + "," + res.data)
+  
+        if (!res.data){
+            console.log("폼작성에 실패하였습니다")
+        }else{
+            console.log("폼작성 성공")
+            //폼작성 성공시 작성성공 화면으로 이동
+            navigate("/sponsor/success");
+        }
+      }
+    };  // end of handleSubmit
 
     //되돌아가기 버튼
     const sponBack = () =>{
