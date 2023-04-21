@@ -6,6 +6,9 @@ import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import MainChatbot from './MainChatbot'
 import '../css/chatbot.css'
+
+
+
 const HomePage = () => {
 
   const token = useSelector(state => state.token);
@@ -47,11 +50,7 @@ const HomePage = () => {
                   <li><Link to="/qna">QNA</Link></li>
                   <li><Link to="/sponsor/from">후원하기</Link></li>
                   <li><Link to="/service/from">봉사신청</Link></li>
-                  <li>
-                    <img style={{marginTop: "30px"}} 
-                    src="images/star.png" onClick={handleOpenModal}/>
-                    챗봇
-                  </li>
+                  <li><Link onClick={handleOpenModal}>챗봇</Link></li>
               </ul>
           </div> 
         </div>

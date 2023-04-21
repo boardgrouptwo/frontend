@@ -152,22 +152,26 @@
   list-style-type: none;
 }
 .main_info_link .link ul li:nth-child(1) a {
-  background: url("../../../public/images/test.png") no-repeat center 25px;
+  background: url("../../../public/images/home/notice.png") no-repeat center
+    25px;
 }
 .main_info_link .link ul li:nth-child(2) a {
-  background: url("../../../public/images/test.png") no-repeat center 25px;
+  background: url("../../../public/images/home/calendar.png") no-repeat center
+    25px;
 }
 .main_info_link .link ul li:nth-child(3) a {
-  background: url("../../../public/images/test.png") no-repeat center 25px;
+  background: url("../../../public/images/home/qna.png") no-repeat center 25px;
 }
 .main_info_link .link ul li:nth-child(4) a {
-  background: url("../../../public/images/test.png") no-repeat center 25px;
+  background: url("../../../public/images/home/deal.png") no-repeat center 25px;
 }
 .main_info_link .link ul li:nth-child(5) a {
-  background: url("../../../public/images/test.png") no-repeat center 25px;
+  background: url("../../../public/images/home/service.png") no-repeat center
+    25px;
 }
 .main_info_link .link ul li:nth-child(6) a {
-  background: url("../../../public/images/test.png") no-repeat center 25px;
+  background: url("../../../public/images/home/chatbot.png") no-repeat center
+    25px;
 }
 
 .main_info_link .link ul li a {

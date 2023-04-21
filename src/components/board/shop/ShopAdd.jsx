@@ -1,14 +1,22 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { Button, Col, Dropdown, DropdownButton, Figure, Form, InputGroup, Row } from 'react-bootstrap'
 import MainHeader from '../../include/MainHeader'
 import { ProductUploadDB, imageUploadDB, shopAddDB } from '../../../service/ShopDBLogic'
 import { useNavigate } from 'react-router'
 import Adminbar from '../../admin/Adminbar'
 import Bottom from '../../include/Bottom'
+import { useSelector } from 'react-redux'
 
 const ShopAdd = () => {
 
   const navigate = useNavigate();
+  const auth = useSelector(state => state.user_type);
+
+  useEffect(() => {
+    if(auth !== 'admin') {
+      navigate("/login")
+    }
+  },[])
 
   const [selectedFile, setSelectedFile] = useState();
   const [imageUrl, setImageUrl] = useState()

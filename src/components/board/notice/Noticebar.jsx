@@ -10,7 +10,7 @@ const Noticebar = () => {
         position: "relative", margin: "0"
         ,padding: "0"}}/>
       </div>
-      <div id="co_aside">
+      <div id="co_aside" style={{fontFamily: "'Noto Sans KR', sans-serif"}}>
         <div className="co_aside_wrap">
           <div className="aside_tit">요양원소식</div>
           <ul className="l_menu">

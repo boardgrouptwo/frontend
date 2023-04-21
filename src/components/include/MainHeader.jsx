@@ -36,7 +36,7 @@ const MainHeader = () => {
 
   return (
     <>
-      <div id="sh_hd_wrapper">
+      <div id="sh_hd_wrapper" style={{fontFamily: "'Noto Sans KR', sans-serif"}}>
         <div id="topmenu_wrapper">
           <h1 id="top_logo">
             <Link to="/home">
@@ -58,13 +58,13 @@ const MainHeader = () => {
             <li className="list01"                     
               onMouseEnter={e=>{setStyle1({display:"block"})}}
               onMouseLeave={e=>{setStyle1({display:"none"})}}>
-              <Link to="/intro">요양원소개</Link>
+              <Link  to="/intro">요양원소개</Link>
             </li>
-
+            
             <li className="list02"
               onMouseEnter={e=>{setStyle2({display:"block"})}}
               onMouseLeave={e=>{setStyle2({display:"none"})}}>
-              <Link to="/sponsor/list">사랑나눔</Link>              
+              <Link style={{}} to="/sponsor/list">사랑나눔</Link>              
               <ul style={style2}>
                 <li><Link to="/sponsor/from">후원하기</Link> </li>
                 <li><Link to="/service/from">자원봉사신청</Link> </li>

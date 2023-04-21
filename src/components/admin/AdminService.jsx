@@ -5,7 +5,7 @@ import { Container } from 'react-bootstrap';
 import MainHeader from '../include/MainHeader';
 import Adminbar from './Adminbar';
 import Bottom from '../include/Bottom';
-import { AdminServiceListDB } from '../../service/KhServiceDBLogic';
+import { AdminServiceListDB, serviceUpdateDB } from '../../service/KhServiceDBLogic';
 import axios from 'axios';
 /*  Ant Design에서 제공하는 컴포넌트, 두 개의 목록(리스트) 간의 데이터 이동을 간편하게 제공해주는 컴포넌트  */
 const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
@@ -98,6 +98,7 @@ const AdminService = () => {
   const [UnCheckServiceList, setUnCheckServiceList] = useState([]) /* 미승인 리스트 */
   const [CheckServiceList, setCheckServiceList] = useState([]) /* 승인 리스트 */
   const [totalServiceList, setTotalServiceList] = useState([]) /* 전체 리스트 */
+  const [render, setRender] = useState(0);
  /************ 값 가져오기 start **********/
 useEffect(() =>{   
   openMessage();    /* 로딩  메시지*/
@@ -113,7 +114,8 @@ useEffect(() =>{
       service_radios: item.service_radios,
       service_person: item.service_person,
       service_memo: item.service_memo,        
-      service_check: item.service_check,        
+      service_check: item.service_check,      
+      service_no: item.service_no 
     }
     listAll.push(obj)
     setTotalServiceList(listAll) 
@@ -122,14 +124,12 @@ useEffect(() =>{
     }else{
       list1.push(obj)
     }
-    console.log(list0)
-    console.log(list1)
   })    
   setUnCheckServiceList(list0)
   setCheckServiceList(list1)   
 }
 boardList();
-},[])
+},[render])
  /************ 값 가져오기 end **********/
   /************ 값 넣기 start **********/
   const mockData = totalServiceList.map((item, i) => ({
@@ -140,11 +140,13 @@ boardList();
     service_radios: item.service_radios,
     service_memo: item.service_memo,
     service_check: item.service_check,
+    service_no: item.service_no
   }));
     /****** tem.service_check === 1 인 값 오른쪽으로 이동 **********/
   const originTargetKeys = mockData
   .filter((item) => item.service_check === 1 )
   .map((item) => item.key);
+  
 const leftTableColumns = [
   {
     dataIndex: 'user_id',
@@ -189,7 +191,17 @@ const rightTableColumns = [
   const [targetKeys, setTargetKeys] = useState([]); 
   const [disabled, setDisabled] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const onChange = (nextTargetKeys) => {
+  const onChange = async (nextTargetKeys, direction, movekeys) => {
+    const selectedData = mockData.filter((item) => nextTargetKeys.includes(item.key));
+    console.log(selectedData.length)    
+
+    const data = {
+      service_no: selectedData.map((item) => item.service_no)
+    };
+    const res = await serviceUpdateDB(data);
+    alert("완료되었습니다")
+    setRender(render+1);
+
     setTargetKeys(nextTargetKeys);
   };
   /* 비활성화 버튼 */

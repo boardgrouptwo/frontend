@@ -15,7 +15,22 @@ export const serviceInsertDB = (member) => {
   });
 };
 
-export const AdminServiceListDB = (member)  =>{
+export const serviceUpdateDB = (service) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "service/update",
+        data: service,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const AdminServiceListDB = (member) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
