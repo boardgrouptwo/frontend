@@ -34,6 +34,7 @@ import AdminService from './components/admin/AdminService'
 import PaymentDetail from './components/payment/PaymentDetail'
 import Introduction2 from './components/intro/Introduction2'
 import IntroPage from './components/intro/IntroPage'
+import Register from './components/main/Register'
 
 
 
@@ -72,6 +73,9 @@ const App = () => {
         <Route path="/home" exact={true} element={<HomePage/>}/>
         <Route path="/" exact={true} element={<Start/>}/>
         <Route path="/intro" exact={true} element={<IntroPage />}/>
+        {/* 회원가입 */}
+        <Route path="/join" exact={true} element={<Register />}/>
+
         {/* 로그인 */}
         <Route path="/login" exact={true} element={<Login/>}/>
         <Route path="/auth/kakao/callback" element={<KakaoAuthHandle/>}/>

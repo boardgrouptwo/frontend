@@ -128,7 +128,7 @@ const MainHeader = () => {
               onMouseLeave={e=>{setStyle5({display:"none"})}}>
               <Link to="/login">로그인</Link>
               <ul style={style5}>
-                <li><Link to="/home">회원가입</Link> </li>
+                <li><Link to="/join">회원가입</Link> </li>
               </ul> 
               </li> ): (
 
