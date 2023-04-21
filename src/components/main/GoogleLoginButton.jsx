@@ -26,10 +26,12 @@ const GoogleLoginButton = () => {
       type: 'GOOGLE_TOKEN', 
       payload: googleLogin.data,
       user_type: decoded.roles[0],
+      userid: decoded.user_id,
       user_name: decoded.user_name
     })
     Cookies.set('jwt', googleLogin.data, { expires: 30/1440 })
     Cookies.set('role', decoded.roles[0], { expires: 30/1440 })
+    Cookies.set('userid', decoded.user_id, { expires: 30/1440 })
     Cookies.set('user_name', decoded.user_name, { expires: 30/1440 })
     navigate("/home");
   }

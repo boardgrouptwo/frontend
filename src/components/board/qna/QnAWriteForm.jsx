@@ -13,9 +13,14 @@ const QnAWriteForm = () => {
     const navigate = useNavigate()
 
     const token  = useSelector(state => state.token);
+    const user = useSelector(state => state.nickname);
+
+    const real_user = (user !== "") ? user : "비회원";
+    console.log(real_user);
+    console.log(user);
 
     const[type, setType] = useState("후원하기")
-    const[name, setName] = useState("")
+    const[name, setName] = useState(user)
     const[title, setTitle] = useState("")
     const[content, setContent] = useState("")
     const[date, setDate] = useState("")
@@ -54,7 +59,7 @@ const QnAWriteForm = () => {
     const boardInsert = async () => {
         const board = {
             qna_type : type,
-            user_name : "apple", 
+            user_name : real_user, 
             qna_title : title,
             qna_content : content,
             qna_date : date,

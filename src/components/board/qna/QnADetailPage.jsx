@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router'
 import Bottom from '../../include/Bottom'
-import { qnaDeleteDB, qnaListDB, qnaResultDB, qnaUpdateDB, qnabeforeAfterDB } from '../../../service/QnADBLogic'
+import { qnaDeleteDB, qnaListDB,  qnaUpdateDB, qnabeforeAfterDB } from '../../../service/QnADBLogic'
 import MainHeader from '../../include/MainHeader'
 import Noticebar from '../notice/Noticebar'
 import { ContainerDiv, FormDiv, HeaderDiv, MyInput, MyLabel } from '../../css/FormStyle'
@@ -74,6 +74,7 @@ const QnADetailPage = () => {
 
   useEffect(()=>{
       const qnaDetail = async() => {
+        console.log(pboard);
           const res = await qnaListDB(pboard)
           const result = JSON.stringify(res.data)
           console.log(res.data)
@@ -86,10 +87,6 @@ const QnADetailPage = () => {
               qna_date:jsonDoc[0].qna_date,
               qna_result:jsonDoc[0].qna_result,
           })
-    }
-
-    const qnaResult = async() => {
-        const res = await qnaResultDB(pboard)
     }
     
     const qnabeforeAfter = async() => {
@@ -104,10 +101,9 @@ const QnADetailPage = () => {
         beforeNo:jsonDoc[0].beforeNo
       })
     }
-    const fetchData = async () => {
-      await qnaResult()
-          await qnaDetail()
-          await qnabeforeAfter()
+    const fetchData = async () => {      
+        await qnaDetail()
+        await qnabeforeAfter()
       }
       fetchData()
   },[pboard, rend])

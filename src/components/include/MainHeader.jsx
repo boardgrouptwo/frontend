@@ -22,11 +22,13 @@ const MainHeader = () => {
 
   const handleLogout = () => {
     Cookies.remove("jwt");
+    Cookies.remove("user_id");
     Cookies.remove("role");
     Cookies.remove("user_name");
     dispatch({
       type: "", 
       payload: "",
+      user_id: "",
       user_type: "",
       user_name: ""
     })
