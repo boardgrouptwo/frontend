@@ -6,7 +6,7 @@ import MainHeader from '../include/MainHeader';
 import Adminbar from './Adminbar';
 import Bottom from '../include/Bottom';
 import { AdminServiceListDB } from '../../service/KhServiceDBLogic';
-
+import axios from 'axios';
 /*  Ant Design에서 제공하는 컴포넌트, 두 개의 목록(리스트) 간의 데이터 이동을 간편하게 제공해주는 컴포넌트  */
 const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
   <Transfer {...restProps}>  
@@ -58,9 +58,6 @@ const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
     }}
   </Transfer>
 );
-
-
-
 const AdminService = () => {
 /* 로딩  메시지*/
   const [messageApi, contextHolder] = message.useMessage();
@@ -80,7 +77,6 @@ const AdminService = () => {
       });
     }, 500);
   };
-
   /************ 저장 버튼 start **********/
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
@@ -98,12 +94,10 @@ const AdminService = () => {
     }, 3000);
   };
  /************ 저장 버튼 end **********/
-
-
  /************ 게시글 목록 start**********/
   const [UnCheckServiceList, setUnCheckServiceList] = useState([]) /* 미승인 리스트 */
   const [CheckServiceList, setCheckServiceList] = useState([]) /* 승인 리스트 */
-
+  const [totalServiceList, setTotalServiceList] = useState([]) /* 전체 리스트 */
  /************ 값 가져오기 start **********/
 useEffect(() =>{   
   openMessage();    /* 로딩  메시지*/
@@ -111,6 +105,7 @@ useEffect(() =>{
   const res = await AdminServiceListDB()
   const list0 = []
   const list1 = []
+  const listAll =[]
   res.data.forEach((item) => {
     const obj = {
       user_id: item.user_id,
@@ -120,6 +115,8 @@ useEffect(() =>{
       service_memo: item.service_memo,        
       service_check: item.service_check,        
     }
+    listAll.push(obj)
+    setTotalServiceList(listAll) 
     if(item.service_check === 0){  /* 등록시 기본값 0, 관리자가 승인해주면 1 */
       list0.push(obj)
     }else{
@@ -134,17 +131,20 @@ useEffect(() =>{
 boardList();
 },[])
  /************ 값 가져오기 end **********/
-
   /************ 값 넣기 start **********/
-const mockData = UnCheckServiceList.map((item, i) => ({
-  key: i.toString(),
-  user_id: item.user_id, 
-  service_date: item.service_date,
-  service_person: item.service_person,
-  service_radios: item.service_radios,
-  service_memo: item.service_memo,
-}));
-
+  const mockData = totalServiceList.map((item, i) => ({
+    key: i.toString(),
+    user_id: item.user_id, 
+    service_date: item.service_date,
+    service_person: item.service_person,
+    service_radios: item.service_radios,
+    service_memo: item.service_memo,
+    service_check: item.service_check,
+  }));
+    /****** tem.service_check === 1 인 값 오른쪽으로 이동 **********/
+  const originTargetKeys = mockData
+  .filter((item) => item.service_check === 1 )
+  .map((item) => item.key);
 const leftTableColumns = [
   {
     dataIndex: 'user_id',
@@ -184,9 +184,9 @@ const rightTableColumns = [
   },
 ];
   /************ 값 넣기 end **********/
-
  /* 초기상태 선언 */
-  const [targetKeys, setTargetKeys] = useState(); 
+ 
+  const [targetKeys, setTargetKeys] = useState([]); 
   const [disabled, setDisabled] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const onChange = (nextTargetKeys) => {
@@ -200,8 +200,6 @@ const rightTableColumns = [
   const triggerShowSearch = (checked) => {
     setShowSearch(checked);
   };
-
-
   return (
     <>
      {contextHolder}   {/*로딩  메시지*/ }
@@ -215,7 +213,7 @@ const rightTableColumns = [
       
       <TableTransfer
         dataSource={mockData}
-        targetKeys={targetKeys}
+        targetKeys={originTargetKeys}
         disabled={disabled}
         operations={['승인', '취소']}
         showSearch={showSearch}
@@ -225,18 +223,15 @@ const rightTableColumns = [
           item.user_id.indexOf(inputValue) !== -1 
           || item.service_date.indexOf(inputValue) !== -1 
           || item.service_radios.indexOf(inputValue) !== -1
-
         }
         leftColumns={leftTableColumns}
         rightColumns={rightTableColumns}
       />
-
       <Space
         style={{
           marginTop: 16,
         }}
       >
-
         <Switch
           unCheckedChildren="비활성화"
           checkedChildren="비활성화"
@@ -249,7 +244,6 @@ const rightTableColumns = [
           checked={showSearch}
           onChange={triggerShowSearch}
         />
-
       <Button 
         type="primary" 
         loading={loadings[0]} 
@@ -257,12 +251,9 @@ const rightTableColumns = [
         style={{height:"23px", paddingTop:"0px", marginTop:"5px"}}>
           저장
       </Button>
-
-
     <Button type="primary" danger style={{height:"23px", paddingTop:"0px", marginTop:"5px"}}>
       삭제
     </Button>
-
       </Space>
       </Container>
       <br />

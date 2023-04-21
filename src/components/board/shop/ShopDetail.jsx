@@ -37,6 +37,12 @@ const CONTAINER = styled.div`
   
 `
 
+const IMG = styled.img`
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+`;
+
 const ShopDetail = () => {
 
   const isLogin = useSelector(state => state.isLogin)
@@ -236,24 +242,19 @@ const ShopDetail = () => {
             <span style={{fontSize: "30px"}}>{price.toLocaleString()}원</span>
           </div>
           <div style={{marginTop: "20px"}}>            
-            <Button onClick={handleMinus}>-</Button>
+            <IMG src="images/minus.png" onClick={handleMinus} alt="" />
             <span style={{fontSize: "20px",fontWeight: "bold", marginLeft: "30px", marginRight: "30px"}}>상품 수량 : {count}개</span>
-            <Button onClick={handleUp}>+</Button>
+            <IMG src="images/plus.png" onClick={handleUp} alt="" />
           </div>
           <div style={{marginTop: "20px"}}>
             <Button style={{marginRight:"10px"}} variant="success">장바구니</Button>
             <Button variant="success" onClick={purchase}>상품구매</Button>            
           </div>
-          <Modal show={showModal} onHide={closeModal}>
+          <Modal style={{width: "500px", height: "500px"}}show={showModal} onHide={closeModal}>            
             <Modal.Header closeButton>
               <Modal.Title>로그인이 필요합니다</Modal.Title>
             </Modal.Header>
-            <Modal.Body>로그인을 해주세요.</Modal.Body>
-            <Modal.Footer>
-              <Button variant="secondary" onClick={closeModal}>
-                닫기
-              </Button>
-            </Modal.Footer>
+            <Modal.Body>로그인을 해주세요.</Modal.Body>            
           </Modal>
         </COUNTDIV>
       </CONTAINER>

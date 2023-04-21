@@ -18,6 +18,7 @@ const MainHeader = () => {
 
   // 로그인 체크용
   const isLogin = useSelector(state => state.isLogin);
+  const auth = useSelector(state => state.user_type);
 
   const handleLogout = () => {
     Cookies.remove("jwt");
@@ -83,29 +84,37 @@ const MainHeader = () => {
               </ul>
             </li>
 
-            <li className="list04"
-              onMouseEnter={e=>{setStyle4({display:"block"})}}
-              onMouseLeave={e=>{setStyle4({display:"none"})}}>
-              <Link to="/home">내정보</Link>
-              <ul style={style4}>
-                <li><Link to="/home">장바구니</Link> </li>
-                <li><Link to="/paymentdetail">결제내역</Link> </li>
-                <li><Link to="/visit/sign">면회 신청</Link> </li>
-              </ul>
-            </li>
+            {
+              (auth==='user') ? (
+                <li className="list04"
+                onMouseEnter={e=>{setStyle4({display:"block"})}}
+                onMouseLeave={e=>{setStyle4({display:"none"})}}>
+                <Link to="/home">내정보</Link>
+                <ul style={style4}>
+                  <li><Link to="/home">장바구니</Link> </li>
+                  <li><Link to="/paymentdetail">결제내역</Link> </li>
+                  <li><Link to="/visit/sign">면회 신청</Link> </li>
+                </ul>
+              </li>
+              ) : (<></>)
+            }
 
+            {
+              (auth==='admin') ? (
+                <li className="list06"
+                onMouseEnter={e=>{setStyle6({display:"block"})}}
+                onMouseLeave={e=>{setStyle6({display:"none"})}}>
+                <Link to="/shopadd">관리자</Link>
+                <ul style={style6}>
+                  <li><Link to="/visit/management">면회관리</Link> </li>
+                  <li><Link to="/sponsor/management">후원관리</Link> </li>
+                  <li><Link to="/service/management">자원봉사관리</Link> </li>
+                  <li><Link to="/shopadd">상품등록</Link> </li>
+                </ul>
+              </li>
+              ) : (<></>)
+            }
 
-            <li className="list06"
-              onMouseEnter={e=>{setStyle6({display:"block"})}}
-              onMouseLeave={e=>{setStyle6({display:"none"})}}>
-              <Link to="/shopadd">관리자</Link>
-              <ul style={style6}>
-                <li><Link to="/visit/management">면회관리</Link> </li>
-                <li><Link to="/sponsor/management">후원관리</Link> </li>
-                <li><Link to="/service/management">자원봉사관리</Link> </li>
-                <li><Link to="/shopadd">상품등록</Link> </li>
-              </ul>
-            </li>
 
             {/* 
               로그인 확인하여 로그인이 필요시 로그인 버튼이
