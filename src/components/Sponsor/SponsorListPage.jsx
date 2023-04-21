@@ -89,7 +89,7 @@ const SponsorListPage = () => {
                         <br />
                         <Card.Title>{item.spon_open==='공개' ? item.user_id : '익명의' } 후원자님</Card.Title>
                         <Card.Text>
-                          {item.spon_money.toLocaleString()}\
+                          {item.spon_money.toLocaleString()}원
                         </Card.Text>
                       </Card.Body>
 

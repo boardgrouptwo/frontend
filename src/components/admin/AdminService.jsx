@@ -5,60 +5,63 @@ import { Container } from 'react-bootstrap';
 import MainHeader from '../include/MainHeader';
 import Adminbar from './Adminbar';
 import Bottom from '../include/Bottom';
-import { AdminServiceListDB, serviceUpdateDB } from '../../service/KhServiceDBLogic';
+import { AdminServiceListDB, serviceDeleteDB, serviceUpdateDB } from '../../service/KhServiceDBLogic';
 import axios from 'axios';
-/*  Ant Design에서 제공하는 컴포넌트, 두 개의 목록(리스트) 간의 데이터 이동을 간편하게 제공해주는 컴포넌트  */
-const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
-  <Transfer {...restProps}>  
-    {({
-      direction,
-      filteredItems,
-      onItemSelectAll,
-      onItemSelect,
-      selectedKeys: listSelectedKeys,
-      disabled: listDisabled,
-    }) => {
-      const columns = direction === 'left' ? leftColumns : rightColumns;
-      const rowSelection = {
-        getCheckboxProps: (item) => ({  /* 각 행의 체크박스 속성을 설정 */
-          disabled: listDisabled || item.disabled,
-        }),
-        onSelectAll(selected, selectedRows) {  /* 전체 선택 체크박스가 클릭되었을 때 호출 */
-          const treeSelectedKeys = selectedRows
-            .filter((item) => !item.disabled)
-            .map(({ key }) => key);
-          const diffKeys = selected
-            ? difference(treeSelectedKeys, listSelectedKeys)
-            : difference(listSelectedKeys, treeSelectedKeys);
-          onItemSelectAll(diffKeys, selected); 
-          /* 선택된 행의 key 값을 배열로 받아와서, 현재 선택된 행의 key 값과 이전에 선택된 행의 key 값을 비교하여, 선택된 항목의 key 값을 반환 */
-        },
-        onSelect({ key }, selected) { /* 각 행의 체크박스가 클릭되었을 때 호출 */
-          onItemSelect(key, selected);  /* 선택된 행의 key 값과 선택 여부를 반환 */
-        },
-        selectedRowKeys: listSelectedKeys,  /* 선택된 행의 key 값을 배열로 가짐 */
-      };
-      return (
-        <Table
-          rowSelection={rowSelection} /* 테이블에서 선택한 행을 관리하는 객체 */
-          columns={columns}  /* 테이블에서 컬럼의 구성을 나타내는 배열 */
-          dataSource={filteredItems} /* 테이블에서 표시할 데이터 소스 */
-          size="small" 
-          style={{
-            pointerEvents: listDisabled ? 'none' : undefined, 
-          }}  /*  테이블의 요소에 대한 마우스 이벤트를 허용/차단할지를 결정 */
-          onRow={({ key, disabled: itemDisabled }) => ({ /* 각 행에 대한 이벤트 핸들러를 정의하는 함수 */
-            onClick: () => {
-              if (itemDisabled || listDisabled) return;
-              onItemSelect(key, !listSelectedKeys.includes(key));
-            },
-          })}
-        />
-      );
-    }}
-  </Transfer>
-);
+
 const AdminService = () => {
+
+  /*  Ant Design에서 제공하는 컴포넌트, 두 개의 목록(리스트) 간의 데이터 이동을 간편하게 제공해주는 컴포넌트  */
+  const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
+    <Transfer {...restProps}>  
+      {({
+        direction,
+        filteredItems,
+        onItemSelectAll,
+        onItemSelect,
+        selectedKeys: listSelectedKeys,
+        disabled: listDisabled,
+      }) => {
+        const columns = direction === 'left' ? leftColumns : rightColumns;
+        const rowSelection = {
+          getCheckboxProps: (item) => ({  /* 각 행의 체크박스 속성을 설정 */
+            disabled: listDisabled || item.disabled,
+          }),
+          onSelectAll(selected, selectedRows) {  /* 전체 선택 체크박스가 클릭되었을 때 호출 */
+            const treeSelectedKeys = selectedRows
+              .filter((item) => !item.disabled)
+              .map(({ key }) => key);
+            const diffKeys = selected
+              ? difference(treeSelectedKeys, listSelectedKeys)
+              : difference(listSelectedKeys, treeSelectedKeys);
+            onItemSelectAll(diffKeys, selected); 
+            /* 선택된 행의 key 값을 배열로 받아와서, 현재 선택된 행의 key 값과 이전에 선택된 행의 key 값을 비교하여, 선택된 항목의 key 값을 반환 */
+          },
+          onSelect({ key }, selected) { /* 각 행의 체크박스가 클릭되었을 때 호출 */
+            onItemSelect(key, selected);  /* 선택된 행의 key 값과 선택 여부를 반환 */
+          },
+          selectedRowKeys: listSelectedKeys,  /* 선택된 행의 key 값을 배열로 가짐 */
+        };
+        return (
+          <Table
+            rowSelection={rowSelection} /* 테이블에서 선택한 행을 관리하는 객체 */
+            columns={columns}  /* 테이블에서 컬럼의 구성을 나타내는 배열 */
+            dataSource={filteredItems} /* 테이블에서 표시할 데이터 소스 */
+            size="small" 
+            style={{
+              pointerEvents: listDisabled ? 'none' : undefined, 
+            }}  /*  테이블의 요소에 대한 마우스 이벤트를 허용/차단할지를 결정 */
+            onRow={({ key, disabled: itemDisabled }) => ({ /* 각 행에 대한 이벤트 핸들러를 정의하는 함수 */
+              onClick: () => {
+                if (itemDisabled || listDisabled) return;
+                onItemSelect(key, !listSelectedKeys.includes(key));
+              },
+            })}
+          />
+        );
+      }}
+    </Transfer>
+  );
+
 /* 로딩  메시지*/
   const [messageApi, contextHolder] = message.useMessage();
   const key = 'updatable';
@@ -77,6 +80,7 @@ const AdminService = () => {
       });
     }, 500);
   };
+
   /************ 저장 버튼 start **********/
   const [loadings, setLoadings] = useState([]);
   const enterLoading = (index) => {
@@ -94,11 +98,13 @@ const AdminService = () => {
     }, 3000);
   };
  /************ 저장 버튼 end **********/
+
  /************ 게시글 목록 start**********/
   const [UnCheckServiceList, setUnCheckServiceList] = useState([]) /* 미승인 리스트 */
   const [CheckServiceList, setCheckServiceList] = useState([]) /* 승인 리스트 */
   const [totalServiceList, setTotalServiceList] = useState([]) /* 전체 리스트 */
   const [render, setRender] = useState(0);
+
  /************ 값 가져오기 start **********/
 useEffect(() =>{   
   openMessage();    /* 로딩  메시지*/
@@ -131,6 +137,7 @@ useEffect(() =>{
 boardList();
 },[render])
  /************ 값 가져오기 end **********/
+
   /************ 값 넣기 start **********/
   const mockData = totalServiceList.map((item, i) => ({
     key: i.toString(),
@@ -142,6 +149,7 @@ boardList();
     service_check: item.service_check,
     service_no: item.service_no
   }));
+
     /****** tem.service_check === 1 인 값 오른쪽으로 이동 **********/
   const originTargetKeys = mockData
   .filter((item) => item.service_check === 1 )
@@ -187,22 +195,17 @@ const rightTableColumns = [
 ];
   /************ 값 넣기 end **********/
  /* 초기상태 선언 */
- 
+
   const [targetKeys, setTargetKeys] = useState([]); 
   const [disabled, setDisabled] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
-  const onChange = async (nextTargetKeys, direction, movekeys) => {
+  const onChange = async(nextTargetKeys, direction, movekeys) => {
     const selectedData = mockData.filter((item) => nextTargetKeys.includes(item.key));
-    console.log(selectedData.length)    
-
     const data = {
-      service_no: selectedData.map((item) => item.service_no)
-    };
-    const res = await serviceUpdateDB(data);
-    alert("완료되었습니다")
-    setRender(render+1);
-
-    setTargetKeys(nextTargetKeys);
+        service_no : selectedData.map((item)=>item.service_no)
+      };
+    await serviceUpdateDB(data);
+    setRender(render+1); 
   };
   /* 비활성화 버튼 */
   const triggerDisable = (checked) => {
@@ -212,6 +215,25 @@ const rightTableColumns = [
   const triggerShowSearch = (checked) => {
     setShowSearch(checked);
   };
+  
+/* 삭제하기 버튼 */
+const serviceDelete = async ({ nextTargetKeys, direction, moveKeys, ...restProps }) => {
+  console.log(restProps);
+  
+  // nextTargetKeys에서 체크된 데이터만 선택
+  const selectedData = mockData.filter((item) => nextTargetKeys.includes(item.key));
+  console.log(selectedData);
+  
+  const data = {
+    service_no: selectedData.map((item) => item.service_no)
+  };
+  
+  const res = await serviceDeleteDB(data);
+  console.log(res); // 삭제 결과 확인
+};
+
+
+
   return (
     <>
      {contextHolder}   {/*로딩  메시지*/ }
@@ -256,14 +278,7 @@ const rightTableColumns = [
           checked={showSearch}
           onChange={triggerShowSearch}
         />
-      <Button 
-        type="primary" 
-        loading={loadings[0]} 
-        onClick={() => enterLoading(0)} 
-        style={{height:"23px", paddingTop:"0px", marginTop:"5px"}}>
-          저장
-      </Button>
-    <Button type="primary" danger style={{height:"23px", paddingTop:"0px", marginTop:"5px"}}>
+    <Button type="primary" danger style={{height:"23px", paddingTop:"0px", marginTop:"5px"}} onClick={serviceDelete}>
       삭제
     </Button>
       </Space>

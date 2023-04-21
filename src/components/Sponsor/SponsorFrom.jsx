@@ -212,7 +212,7 @@ const SponsorFrom = () => {
           <Form.Label  column sm={2} >금액</Form.Label>
           <Col sm={8}>
           <InputGroup hasValidation>  {/* 유효성 검사 설정*/}
-            <InputGroup.Text id="sponsorMoney"> \ </InputGroup.Text>
+            <InputGroup.Text id="sponsorMoney"> 원 </InputGroup.Text>
             <Form.Control
               type="text"
               pattern="[0-9]*"

@@ -48,7 +48,7 @@ const Introduction = () => {
       <div className='container' style={{ textAlign: 'center' }}>
       <img
           ref={imgRef1}
-          src='/images/intro_image2.png'
+          src='/images/intro/intro_image2.png'
           alt='intro_image'
           className='fadeIn'
           style={{ maxWidth: '100%', height: 'auto', opacity: 1, paddingLeft:'8%', paddingRight:'8%' }}

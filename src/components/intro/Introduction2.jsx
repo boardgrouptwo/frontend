@@ -18,7 +18,7 @@ const Introduction2 = () => {
       <body>
 
       <img
-          src='/images/intro_image5.png'
+          src='/images/intro/intro_image5.png'
           alt='intro_image'
           style={{ align: "center", width: '100%', height: '650px', opacity: 1, padding:"1%" }}
         />
@@ -29,7 +29,7 @@ const Introduction2 = () => {
 
             <div className='container' style={{ textAlign: 'center' }}>
             <img
-          src='/images/scroll.png'
+          src='/images/intro/scroll.png'
           style={{ align: "center", width: 'auto', opacity: 1, padding:"1%" }}
         />
             <br />
@@ -74,7 +74,7 @@ const Introduction2 = () => {
         </p>
         <br />
         <img
-          src='/images/scroll.png'
+          src='/images/intro/scroll.png'
           style={{ align: "center", width: 'auto',opacity: 1, padding:"1%" }}
         />
         <br />
