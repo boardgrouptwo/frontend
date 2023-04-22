@@ -187,3 +187,14 @@
 .main_info_link .link ul li a:hover {
   color: #fff;
 }
+
+/****** main bottom 속성 *******/
+.p-footer__social-list {
+  display: flex;
+  padding: 0;
+  list-style: none;
+}
+
+.p-footer__social-list-item{
+  margin-right: 10px;
+}

@@ -31,9 +31,8 @@ import FullCalendarMain from './components/visit/FullCalendarMain'
 import Admin_Service from './components/admin/AdminService'
 import AdminService from './components/admin/AdminService'
 import PaymentDetail from './components/payment/PaymentDetail'
-import Introduction2 from './components/intro/Introduction2'
-import IntroPage from './components/intro/IntroPage'
 import Register from './components/main/Register'
+import IntroPage from './components/intro/IntroPage'
 
 
 
