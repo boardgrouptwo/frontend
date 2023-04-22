@@ -187,10 +187,16 @@ const rightTableColumns = [
   {
     dataIndex: 'service_date',
     title: '방문일자',
+    render: (service_date) => <Tag>{service_date}</Tag>,
   },
   {
     dataIndex: 'service_person',
     title: '인원',
+  },
+  {
+    dataIndex: 'service_radios',
+    title: '신청목적',
+    render: (service_radios) => <Tag>{service_radios}</Tag>,
   },
 ];
   /************ 값 넣기 end **********/

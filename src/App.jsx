@@ -33,6 +33,7 @@ import AdminService from './components/admin/AdminService'
 import PaymentDetail from './components/payment/PaymentDetail'
 import Register from './components/main/Register'
 import IntroPage from './components/intro/IntroPage'
+import LoginError from './components/main/LoginError'
 
 
 
@@ -76,6 +77,7 @@ const App = () => {
 
         {/* 로그인 */}
         <Route path="/login" exact={true} element={<Login/>}/>
+        <Route path="/loginError" exact={true} element={<LoginError/>}/>
         <Route path="/auth/kakao/callback" element={<KakaoAuthHandle/>}/>
         <Route path="/auth" element={<Auth/>}/>
         <Route path="/findId" element={<FindId/>}/>

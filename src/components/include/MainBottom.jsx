@@ -14,7 +14,6 @@ const FooterAddress = styled.div`
 const MainBottom = () => {
   return (
     <>
-
       <div style={{
         backgroundColor: "#191F28", color: "#f4f4f4" 
         ,fontFamily: "S-CoreDream-3Light"
@@ -72,6 +71,7 @@ const MainBottom = () => {
           <KakaoMap/>
         </div>
       </div>
+
     </>
   )
 }

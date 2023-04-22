@@ -12,10 +12,11 @@ import KhServiceFrombar from './KhServiceFrombar';
 import { useSelector } from 'react-redux'
 import { serviceInsertDB, seviceInsertDB } from '../../service/KhServiceDBLogic';
 import Bottom from '../include/Bottom';
+import { useEffect } from 'react';
 
 
 const KhServiceForm = () => {
-    const navigate = useNavigate();
+    const isLogin = useSelector(state => state.isLogin);
     const user = useSelector(state => state.nickname); //user 닉네임 가져오기
     // 초기값 설정
     const[serviceId, setServiceId]= useState(''); // 아이디
@@ -31,6 +32,14 @@ const KhServiceForm = () => {
     const [showError3, setShowError3] = useState(false);//폼 검증 유효성 검사
     const [validated, setValidated] = useState(false); //폼 검증 유효성 검사
 
+
+    const navigate = useNavigate();
+    useEffect(()=> {
+      //로그인 한 사용자는 home으로 이동
+      if(isLogin === true) {
+        navigate("/loginError")
+      }
+    },[]);
 
 // 폼 제출 이벤트 처리
     const handleSubmit = async(event) => {   // form 컴포넌트에서 submit 할 때 실행됨
