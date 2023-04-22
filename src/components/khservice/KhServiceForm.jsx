@@ -10,13 +10,15 @@ import "../css/spon.css"
 import { useNavigate } from 'react-router-dom';
 import KhServiceFrombar from './KhServiceFrombar';
 import { useSelector } from 'react-redux'
-import { serviceInsertDB, seviceInsertDB } from '../../service/KhServiceDBLogic';
+import { serviceInsertDB } from '../../service/KhServiceDBLogic';
 import Bottom from '../include/Bottom';
 import { useEffect } from 'react';
+import KhPrivacy from './KhPrivacy';
+import Accordion from 'react-bootstrap/Accordion';
 
 
 const KhServiceForm = () => {
-    const isLogin = useSelector(state => state.isLogin);
+    const isLogin = useSelector(state => state.isLogin);  //로그인정보 가져오기
     const user = useSelector(state => state.nickname); //user 닉네임 가져오기
     // 초기값 설정
     const[serviceId, setServiceId]= useState(''); // 아이디
@@ -85,6 +87,8 @@ const KhServiceForm = () => {
     const onChange = (value) => {
         console.log('Captcha value:', value);
         }
+
+    
 
 
   return (
@@ -226,10 +230,6 @@ const KhServiceForm = () => {
             </Form.Group>
         </fieldset>
 
-
-
-
-
           <Form.Group as={Row} className="mb-3" controlId="serviceMemo">
           <Form.Label column sm={2}>
             자기소개
@@ -245,12 +245,6 @@ const KhServiceForm = () => {
         </Form.Group>
 
 <br />
-<br />
-<br />
-        <Form.Group as={Row} className="mb-3" controlId="service_Check">
-          <Form.Label column sm={5}>
-            개인정보 처리방침 안내
-          </Form.Label>
 
         <Form.Check
           required
@@ -258,7 +252,17 @@ const KhServiceForm = () => {
           feedback="동의 필수 항목입니다."
           feedbackType="invalid"
         />
-      </Form.Group>
+
+        <Form.Group as={Row} className="mb-3" controlId="service_Check">
+            <Form.Label column sm={10}>
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>개인정보 처리방침 안내</Accordion.Header>
+                  <Accordion.Body> <KhPrivacy /></Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+          </Form.Label>
+        </Form.Group>
 
 
 {/* 구글 캡차 서비스 */}

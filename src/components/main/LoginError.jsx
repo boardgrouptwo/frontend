@@ -21,21 +21,18 @@ const LoginError = () => {
 
   
  /************ 오류메시지 띄우기 start**********/
-  // 1. 마운트 시 notification 훅 초기화
   const [api, contextHolder] = notification.useNotification();
-  
-  const openMessage = () => {
-
+  const openMessage = (placement) => {
     api.info({
-      message: `로그인 오류 `,
+      message: `회원전용 서비스`,
       description:
-        '해당 서비스는 로그인 후 이용가능합니다.'
+        '해당 서비스는 로그인 후 이용가능합니다.',
+        placement,
     });
   }
   
   useEffect(() => {
-    openMessage();
-    // 2. 언마운트 시 notification 객체 정리
+    openMessage('top'); /* 위쪽으로 배치 */
     return () => api.destroy();
   }, []);
 
@@ -145,6 +142,7 @@ const LoginError = () => {
          {contextHolder}   {/*로딩  메시지*/ }
 
       <MainHeader/>
+      
       <LoginForm>        
         <MyH1>로그인</MyH1>
         <MyLabel htmlFor="mem_id"> 아이디     

@@ -13,13 +13,16 @@ import { useNavigate } from 'react-router-dom';
 import { SponsorDB, sponsorInsertDB} from '../../service/SponsorDBLogic';
 import { useSelector } from 'react-redux'
 import { kakaoPayReady } from '../kakao/KakaoPay';
+import { useEffect } from 'react';
+import Accordion from 'react-bootstrap/Accordion';
+import KhPrivacy from '../khservice/KhPrivacy';
 
 
 const SponsorFrom = () => {
+    const isLogin = useSelector(state => state.isLogin);  //로그인정보 가져오기
     const navigate = useNavigate();
     // 초기값 설정
     const user = useSelector(state => state.nickname); //user 닉네임 가져오기
-
     const[sponsorId, setSponsorId]= useState(''); // 아이디
     const[sponsorName, setSponsorName]= useState(''); // 이름 
     const[sponsorNumber, setSponsorNumber]= useState('');  //전화번호
@@ -37,6 +40,12 @@ const SponsorFrom = () => {
     const [validated, setValidated] = useState(false); //폼 검증 유효성 검사
 
 
+    useEffect(()=> {
+      //로그인 한 사용자는 home으로 이동
+      if(isLogin === true) {
+        navigate("/loginError")
+      }
+    },[]);
 
 // 폼 제출 이벤트 처리
     const handleSubmit = async(event) => {   // form 컴포넌트에서 submit 할 때 실행됨
@@ -212,7 +221,7 @@ const SponsorFrom = () => {
           <Form.Label  column sm={2} >금액</Form.Label>
           <Col sm={8}>
           <InputGroup hasValidation>  {/* 유효성 검사 설정*/}
-            <InputGroup.Text id="sponsorMoney"> 원 </InputGroup.Text>
+
             <Form.Control
               type="text"
               pattern="[0-9]*"
@@ -223,6 +232,7 @@ const SponsorFrom = () => {
               value={sponsorMoney}
               onChange={(e) => setSponsorMoney(e.target.value)}
             />
+            <InputGroup.Text id="sponsorMoney"> 원 </InputGroup.Text>
         <Form.Control.Feedback type="invalid" style={{ display: showError3 ? "block" : "none" }}> {/*폼 컨트롤이 틀릴 경우 피드백 요소 추가  */}
         숫자만 입력 가능합니다. 물품 후원일 경우 0을 입력하세요.
         </Form.Control.Feedback>
@@ -306,20 +316,23 @@ const SponsorFrom = () => {
         </Form.Group>
 
 <br />
-<br />
-<br />
-        <Form.Group as={Row} className="mb-3" controlId="sponsor_Check">
-          <Form.Label column sm={5}>
-            개인정보 처리방침 안내
-          </Form.Label>
-
         <Form.Check
           required
           label="아래 내용을 확인하였으며 개인정보 처리 방침안내의 내용에 동의합니다. (체크필수)"
           feedback="동의 필수 항목입니다."
           feedbackType="invalid"
         />
-      </Form.Group>
+
+        <Form.Group as={Row} className="mb-3" controlId="service_Check">
+            <Form.Label column sm={10}>
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>개인정보 처리방침 안내</Accordion.Header>
+                  <Accordion.Body> <KhPrivacy /></Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+          </Form.Label>
+        </Form.Group>
 
       {/* 구글 캡차 서비스 */}
       <GoogleRecaptcha />
