@@ -1,38 +1,92 @@
+/* global kakao */
 import React from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {SectionsContainer, Section} from 'react-fullpage';
-import { Link } from 'react-router-dom';
 import Introductionbar from './Introductionbar';
 import MainHeader from '../include/MainHeader';
-import KakaoMap from '../kakao/KakaoMap';
-
+import '../css/intro.css';
 
 const Introduction2 = () => {
+  /************ 화면분할 *****************/
   let options = {
     anchors: ['sectionOne', 'sectionTwo', 'sectionThree'],
   };
+
+
+/************ 카카오맵 *****************/
+  const kakaomap = useRef()
+  const [map, setMap] = useState();
+  const[positions, setPositions] = useState([
+    {
+      content: '<div>KH요양원</div>',
+      latlng: new kakao.maps.LatLng(37.4989931, 127.0329085)
+    }
+  ])
+  useEffect(()=> {
+    const container = document.getElementById("map");
+    const options = {
+      center: positions[0].latlng,
+      level: 1,
+    };
+    if(!map) {
+      setMap(new kakao.maps.Map(container,options));
+    } else {
+      if(positions[1]){//자바스크립트에서는 0이 아닌건 모두 true
+        map.setCenter(positions[1].latlng)
+      }
+    }
+    //마커 표시하기
+    for(let i=0; i<positions.length; i++) {
+      //마커 생성하기
+      const marker = new kakao.maps.Marker({
+        map: map, //마커를 표시할 지도
+        position: positions[i].latlng, //마커의 위치
+      });
+      // 마커에 표시할 인포윈도우 생성하기
+      const infowindow = new kakao.maps.InfoWindow({
+        content: positions[i].content
+      });
+      //마커에 이벤트를 등록하는 함수를 만들고 즉시 호출되도록 클로저 만듦
+      //클로저를 추가하지 않으면 마커가 여러개 있을 때 마지막 에만 이벤트 적용
+      (function(marker,infowindow){
+        //마커에 mouse over이벤트 등록 마우스 오버시 인포윈도우를 표시함
+        kakao.maps.event.addListener(marker,'mouseover',function(){
+          infowindow.open(map,marker)
+        });
+        //마커에 mouseout 이벤트 등록 마우스 아웃시 인포윈도우 닫기처리함
+        kakao.maps.event.addListener(marker,'mouseout',function(){
+          infowindow.close()
+        });
+      })(marker,infowindow)
+    } // end of for
+  },[positions, map])
+/************ 카카오맵 end*****************/
+
   return (
     <>
           <MainHeader />
       <Introductionbar />
     <SectionsContainer {...options}>
-      <body>
+      <body style={{ overflow: 'hidden'}}>
 
       <img
           src='/images/intro/intro_image5.png'
           alt='intro_image'
-          style={{ align: "center", width: '100%', height: '650px', opacity: 1, padding:"1%" }}
+          style={{ align: "center", width: '100%', height: '550px', opacity: 1, padding:"1%" }}
         />
-        <font style={{zIndex:'99', textAlign: "center", position: "absolute", top: "9%", left:"40%", fontSize:"30px", fontWeight: 'bold'}}> 요양원의 새로운 기준 </font>
-        <font style={{zIndex:'99', textAlign: "center", position: "absolute", top: "10%", left:"40%", fontSize:"100px", fontWeight: 'bold', color: '#004445'}}> KH요양원 </font>
+        <font style={{zIndex:'99', textAlign: "center", position: "absolute", top: "7%", left:"40%", fontSize:"30px", fontWeight: 'bold'}}> 요양원의 새로운 기준 </font>
+        <font style={{zIndex:'99', textAlign: "center", position: "absolute", top: "8%", left:"40%", fontSize:"100px", fontWeight: 'bold', color: '#004445'}}> KH요양원 </font>
         <Section>
           <column>
 
             <div className='container' style={{ textAlign: 'center' }}>
             <img
-          src='/images/intro/scroll.png'
-          style={{ align: "center", width: 'auto', opacity: 1, padding:"1%" }}
-        />
-            <br />
+              src='/images/intro/scroll.png'
+              style={{ align: "center", width: 'auto', opacity: 1, padding:"1%", cursor: "pointer", transition: "transform 0.3s ease" }}
+              onMouseOver={(e) => {e.currentTarget.style.transform = "translateY(15px)";}}
+              onMouseOut={(e) => {e.currentTarget.style.transform = "none";}}
+              onClick={() => window.location.href = "http://localhost:3000/intro#sectionTwo"}
+            />
             <br />
             <br />
             <br />
@@ -45,7 +99,7 @@ const Introduction2 = () => {
             <br />
             <br />
             
-          <h1 style={{ color: '#595959', fontWeight: 'bold', fontSize: '2rem', marginTop: '2rem' }}>
+        <h1 style={{ color: '#595959', fontWeight: 'bold', fontSize: '2rem', marginTop: '2rem' }}>
           어르신이 머물고 싶은 집
         </h1>
         <h1 style={{ color: '#004445', fontWeight: 'bold', fontSize: '3rem', marginTop: '0rem' }}>
@@ -73,12 +127,16 @@ const Introduction2 = () => {
         감사합니다
         </p>
         <br />
+        <br />
+        <br />
         <img
-          src='/images/intro/scroll.png'
-          style={{ align: "center", width: 'auto',opacity: 1, padding:"1%" }}
-        />
-        <br />
-        <br />
+              src='/images/intro/scroll.png'
+              style={{ align: "center", width: 'auto', opacity: 1, padding:"1%", cursor: "pointer", transition: "transform 0.3s ease" }}
+              onMouseOver={(e) => {e.currentTarget.style.transform = "translateY(15px)";}}
+              onMouseOut={(e) => {e.currentTarget.style.transform = "none";}}
+              onClick={() => window.location.href = "http://localhost:3000/intro#sectionThree"}
+            />
+    
         </div>
         </div>
           </column>
@@ -100,16 +158,29 @@ const Introduction2 = () => {
         <br />
         <br />
         <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
+  
         
         <div className='container' style={{ textAlign: 'center' }}>
-        <h2 style={{ color: '#004445', fontWeight: 'bold', fontSize: '3rem', marginTop: '0rem', marginBottom: '30px'}}>오시는 길</h2>
-        <KakaoMap/>
+          <h2 style={{ color: '#004445', fontWeight: 'bold', fontSize: '3rem', marginTop: '0rem', marginBottom: '30px'}}>오시는 길</h2>
+          <div className="leftDiv">
+            <ul className='leftSide'>
+              <li>
+                <p className="buslabel" style={{backgroundColor:"#5ab354", marginRight:"5px"}}>2</p>
+                <p><span style={{color:"#5ab354", marginRight:"20px"}}>역삼역</span> ㅤㅤㅤ3번 출구에서 도보 6분</p>
+              </li>
+              <br />
+              <li>
+                <p className="buslabel" style={{backgroundColor:"#5ab354", marginLeft:"-31px", marginRight:"5px"}} >2</p> 
+                <p className="buslabel2" style={{backgroundColor:"#8B0000" , marginRight:"5px"}}>신분당</p>
+                <p><span style={{color:"#8B0000", marginRight:"20px"}}>강남역</span>1번 출구 도보 7분</p>
+              </li>
+            </ul>
+          </div>
+            <div id="" style={{display: "flex", alignItems:"center", justifyContent:"space-around", flexDirection:"column"}}>
+              <div id="map" ref={kakaomap} style={{width: "1000px", height: "500px", marginBottom: "20px", border:"2px solid lightgray", borderRadius: "20px"}}></div>
+            </div>
         </div>
+
 
 
         </Section>
