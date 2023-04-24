@@ -16,6 +16,7 @@ import { kakaoPayReady } from '../kakao/KakaoPay';
 import { useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import KhPrivacy from '../khservice/KhPrivacy';
+import PaymentModal from '../payment/PaymentModal';
 
 
 const SponsorFrom = () => {
@@ -39,6 +40,14 @@ const SponsorFrom = () => {
     const [showError3, setShowError3] = useState(false);//폼 검증 유효성 검사
     const [validated, setValidated] = useState(false); //폼 검증 유효성 검사
 
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const openModal = () => {
+      setModalOpen(true);
+    }
+    const closeModal = () => {
+      setModalOpen(false);
+    }
 
     useEffect(()=> {
       //로그인 한 사용자는 home으로 이동
@@ -73,29 +82,34 @@ const SponsorFrom = () => {
 
       // 카카오페이 결제 로직
       if (sponRadiosHuwon === "일반 후원" && sponsorPay === "홈페이지 결제") {
-          const payForm = {
-            pay_type: "후원",                      // 결제 타입
-            user_id : user,                       // 사용자 정보
-            user_tel: sponsorNumber,              // 사용자 연락처
-            item_name : "기부",                    // 상품명
-            total_amount : sponsorMoney,          // 결제 금액
-            spon_open: sponOpen,                  // 익명 여부
-            spon_content: sponsorContent,         // 후원 내용
-            spon_pay: sponsorPay,                 // 결제 종류
-          }
+        console.log("test")
+        openModal();
 
-          const respose = await kakaoPayReady(payForm);
-          console.log(respose.data)
+        const payForm = {
+          pay_type: "후원",                      // 결제 타입
+          user_id : user,                       // 사용자 정보
+          user_tel: sponsorNumber,              // 사용자 연락처
+          item_name : "기부",                    // 상품명
+          total_amount : sponsorMoney,          // 결제 금액
+          spon_open: sponOpen,                  // 익명 여부
+          spon_content: sponsorContent,         // 후원 내용
+          spon_pay: sponsorPay,                 // 결제 종류
+        };
 
-          // 카카오페이 결제 성공 시 DB에 저장
-          if (!respose.data) {
-            console.log("결제 실패하였습니다")
-          } else {
-            console.log("카카오결제 성공하였습니다")
+        //<PaymentModal payForm={payForm} open={modalOpen} close={closeModal} header="결제 방식 선택" />
 
-            // 카카오페이 결제 팝업 출력
-            window.open(respose.data,'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
-          }
+        const respose = await kakaoPayReady(payForm);
+        console.log(respose.data)
+
+        // 카카오페이 결제 성공 시 DB에 저장
+        if (!respose.data) {
+          console.log("결제 실패하였습니다")
+        } else {
+          console.log("카카오결제 성공하였습니다")
+
+          // 카카오페이 결제 팝업 출력
+          window.open(respose.data,'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
+        }
       } // end of 카카오페이 결제
       // 카카오페이 결제 이외 로직
       else {
