@@ -75,3 +75,24 @@ export const chagnePwDB = (user) => {
     }
   });
 };
+
+
+// 사용자 정보 출력
+export const userInfoDB = (user) => {
+  console.log("userInfoDB 출력")
+  console.log(user)
+
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "POST",
+        url: process.env.REACT_APP_SPRING_IP + "user/userInfo",
+        data: user,
+      });
+
+      resolve(response)
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

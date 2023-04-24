@@ -14,9 +14,9 @@ const MyPageBar = () => {
         <div className="co_aside_wrap">
           <div className="aside_tit">내정보</div>
           <ul className="l_menu">
-            <li className={window.location.pathname.includes('/home') ? 'on' : ''}>
+            <li className={window.location.pathname.includes('/mypage') ? 'on' : ''}>
               {/* <Link to="/mypage">내정보</Link> */}
-              <Link to="/home">내정보</Link>
+              <Link to="/mypage">내정보</Link>
             </li>
             <li className={window.location.pathname.includes('/home') ? 'on' : ''}>
               {/* <Link to="/basket">장바구니</Link> */}
