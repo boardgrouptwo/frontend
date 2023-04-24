@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Button, Col, Collapse, Fade, Form, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router';
+import { joinDB } from '../../service/MemberDBLogic';
 import GoogleRecaptcha from '../google/GoogleRecaptcha';
 import MainHeader from '../include/MainHeader';
 
@@ -48,16 +49,19 @@ const Register = () => {
       //화면에 입력된 값을 DB로 보내는
       const member= {
         user_id: userId,
-        user_pw: userPw,
+        password: userPw,
         user_name: userName,
         user_birth: userBday,
         user_gender: userGender,
         user_tel: userTel,
         user_email: userEmail,
         user_enter: userEnter, 
-        enter_date: enterDate,
+        user_date: enterDate,
       }
       console.log(member);
+
+      const res = await joinDB(member);
+
   };  // end of handleSubmit
 
 

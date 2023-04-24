@@ -33,6 +33,7 @@
     "qs": "^6.11.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
+    "react-card-slider-component": "^1.0.9",
     "react-dom": "^18.2.0",
     "react-flippy": "^1.1.0",
     "react-fullpage": "^0.1.19",

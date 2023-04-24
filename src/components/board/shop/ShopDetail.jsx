@@ -129,6 +129,15 @@ const ShopDetail = () => {
         }
       })
     }
+
+    const obj = {
+      product_date: product.product_date,
+      product_hit: product.product_hit,
+      product_image: product.product_image,
+      product_price: price,
+      product_title: product.product_title
+    }
+    
   };
 
   //장바구니

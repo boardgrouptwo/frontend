@@ -16,6 +16,21 @@ export const loginCheck = (member) => {
   });
 };
 
+export const joinDB = (member) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "user/join",
+        data: member, //post방식으로 전송시 반드시 data속성으로 파라미터 줄 것
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 export const findUserId = (user) => {
   return new Promise((resolve, reject) => {
     try {

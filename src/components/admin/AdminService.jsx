@@ -1,6 +1,6 @@
 import { Button, Space, Switch, Table, Tag, Transfer, message} from 'antd';
 import difference from 'lodash/difference';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Container } from 'react-bootstrap';
 import MainHeader from '../include/MainHeader';
 import Adminbar from './Adminbar';
@@ -8,7 +8,7 @@ import Bottom from '../include/Bottom';
 import { AdminServiceListDB, serviceDeleteDB, serviceUpdateDB } from '../../service/KhServiceDBLogic';
 import axios from 'axios';
 
-const AdminService = () => {
+const AdminService = () => {  
 
   /*  Ant Design에서 제공하는 컴포넌트, 두 개의 목록(리스트) 간의 데이터 이동을 간편하게 제공해주는 컴포넌트  */
   const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
@@ -62,7 +62,7 @@ const AdminService = () => {
     </Transfer>
   );
 
-/* 로딩  메시지*/
+/* 로딩  메시지*/  
   const [messageApi, contextHolder] = message.useMessage();
   const key = 'updatable';
   const openMessage = () => {
@@ -103,7 +103,7 @@ const AdminService = () => {
   const [UnCheckServiceList, setUnCheckServiceList] = useState([]) /* 미승인 리스트 */
   const [CheckServiceList, setCheckServiceList] = useState([]) /* 승인 리스트 */
   const [totalServiceList, setTotalServiceList] = useState([]) /* 전체 리스트 */
-  const [render, setRender] = useState(0);
+  const [render, setRender] = useState(0);  
 
  /************ 값 가져오기 start **********/
 useEffect(() =>{   
@@ -201,18 +201,33 @@ const rightTableColumns = [
 ];
   /************ 값 넣기 end **********/
  /* 초기상태 선언 */
-
+  const tableTransferRef = useRef(null);
   const [targetKeys, setTargetKeys] = useState([]); 
   const [disabled, setDisabled] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+
+  const [selectedKeys, setSelectedKeys] = useState([]);
+  
+  
   const onChange = async(nextTargetKeys, direction, movekeys) => {
-    const selectedData = mockData.filter((item) => nextTargetKeys.includes(item.key));
-    const data = {
-        service_no : selectedData.map((item)=>item.service_no)
+      console.log(nextTargetKeys)
+      const selectedData = mockData.filter((item) => nextTargetKeys.includes(item.key));
+      const data = {
+          service_no : selectedData.map((item)=>item.service_no)
       };
-    await serviceUpdateDB(data);
-    setRender(render+1); 
+      await serviceUpdateDB(data);
+      setRender(render+1); 
   };
+  
+  let checkService = [];
+
+  const onSelectChange = (sourceSelectedKeys, targetSelectedKeys) => {
+    const selectedKeys = [...sourceSelectedKeys, ...targetSelectedKeys];
+    const selectedItems = mockData.filter((item) => selectedKeys.includes(item.key));
+    checkService=[]
+    checkService.push(selectedItems)
+  }
+
   /* 비활성화 버튼 */
   const triggerDisable = (checked) => {
     setDisabled(checked);
@@ -223,22 +238,14 @@ const rightTableColumns = [
   };
   
 /* 삭제하기 버튼 */
-const serviceDelete = async ({ nextTargetKeys, direction, moveKeys, ...restProps }) => {
-  console.log(restProps);
-  
-  // nextTargetKeys에서 체크된 데이터만 선택
-  const selectedData = mockData.filter((item) => nextTargetKeys.includes(item.key));
-  console.log(selectedData);
-  
+
+const serviceDelete = async () => {
   const data = {
-    service_no: selectedData.map((item) => item.service_no)
+    service_no : checkService[0].map((item)=>item.service_no)
   };
-  
-  const res = await serviceDeleteDB(data);
-  console.log(res); // 삭제 결과 확인
+  await serviceDeleteDB(data);
+  setRender(render+1); 
 };
-
-
 
   return (
     <>
@@ -251,22 +258,22 @@ const serviceDelete = async ({ nextTargetKeys, direction, moveKeys, ...restProps
       <br />
     <Container>
       
-      <TableTransfer
+    <TableTransfer      
         dataSource={mockData}
         targetKeys={originTargetKeys}
         disabled={disabled}
         operations={['승인', '취소']}
         showSearch={showSearch}
         onChange={onChange}
-        
+        onSelectChange={onSelectChange}
         filterOption={(inputValue, item) =>
-          item.user_id.indexOf(inputValue) !== -1 
-          || item.service_date.indexOf(inputValue) !== -1 
-          || item.service_radios.indexOf(inputValue) !== -1
+            item.user_id.indexOf(inputValue) !== -1 
+            || item.service_date.indexOf(inputValue) !== -1 
+            || item.service_radios.indexOf(inputValue) !== -1
         }
         leftColumns={leftTableColumns}
         rightColumns={rightTableColumns}
-      />
+    />
       <Space
         style={{
           marginTop: 16,
@@ -284,9 +291,15 @@ const serviceDelete = async ({ nextTargetKeys, direction, moveKeys, ...restProps
           checked={showSearch}
           onChange={triggerShowSearch}
         />
-    <Button type="primary" danger style={{height:"23px", paddingTop:"0px", marginTop:"5px"}} onClick={serviceDelete}>
-      삭제
-    </Button>
+
+      <Button
+            type="primary"
+            danger
+            style={{ height: '23px', paddingTop: '0px', marginTop: '5px' }}
+            onClick={serviceDelete}
+          >
+            삭제
+          </Button>
       </Space>
       </Container>
       <br />
