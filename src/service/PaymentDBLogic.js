@@ -17,6 +17,23 @@ export const paymentListDB = (board) => {
   });
 };
 
+export const paymentListPreviewDB = (board) => {
+  console.log("paymentListPreviewDB 호출");
+
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "payment/listpreview",
+        params: board,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 export const paymentInsertDB = (board, token) => {
   console.log("paymentInsertDB 호출");
 

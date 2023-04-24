@@ -7,8 +7,12 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { paymentListDB } from '../../service/PaymentDBLogic'
 import PayFilter from './PayFilter'
 import PaymentRow from './PaymentRow'
+import { useSelector } from 'react-redux'
 
 const PaymentDetail = () => {
+  const userId = useSelector(state => state.userid);      // 사용자 아이디
+  const token = useSelector(state => state.token); 
+
   // 페이징 처리 시에 현재 내가 바라보는 페이지 정보
   let page = 1;
   // 화면 전환 시 필요한 훅
@@ -93,10 +97,11 @@ const PaymentDetail = () => {
 
       // 쿼리스트링 없을 경우 "전체" 출력
       setPTitle(pay_type||"전체");
+      console.log("사용자ID ===> " + userId);
 
       const paylist = {
         pay_type: pay_type,
-        user_id: "",             // 사용자 정보
+        user_id: userId,             // 사용자 정보
       }
 
       const res = await paymentListDB(paylist);

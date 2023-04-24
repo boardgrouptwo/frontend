@@ -7,7 +7,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         token: action.payload,
         user_type: action.user_type,
-        userid: action.user_id,
+        userid: action.userid,
         nickname: action.user_name,
         isLogin: false,
       };
@@ -16,7 +16,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         token: action.payload,
         user_type: action.role,
-        userid: action.user_id,
+        userid: action.userid,
         nickname: action.user_name,
         isLogin: false,
       };
@@ -25,7 +25,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         token: action.payload,
         user_type: action.role,
-        userid: action.user_id,
+        userid: action.userid,
         nickname: action.user_name,
         isLogin: false,
       };

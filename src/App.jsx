@@ -34,6 +34,8 @@ import PaymentDetail from './components/payment/PaymentDetail'
 import Register from './components/main/Register'
 import IntroPage from './components/intro/IntroPage'
 import LoginError from './components/main/LoginError'
+import MyPage from './components/board/mypage/MyPage'
+import MyPageDetail from './components/board/mypage/MyPageDetail'
 
 
 
@@ -50,6 +52,7 @@ const App = () => {
   const token = Cookies.get("jwt")
   const role = Cookies.get("role")
   const username = Cookies.get("user_name")
+  const userid = Cookies.get("userid")
 
   // 카카오 로그인
   //const kakaoToken = window.localStorage.getItem("kakaotoken")
@@ -61,6 +64,7 @@ const App = () => {
     dispatch({
       type: 'SET_TOKEN', 
       payload: token,
+      userid: userid,
       user_type: role,
       user_name: username
     })
@@ -113,6 +117,8 @@ const App = () => {
         <Route path="/visit/sign/" exact={true} element={<FullCalendarMain/>}/>
 
         {/* 내정보 */}
+        <Route path="/mypage" exact={true} element={<MyPage />} />
+        <Route path="/mypage/detail" exact={true} element={<MyPageDetail />} />
         <Route path="/paymentdetail" exact={true} element={<PaymentDetail />} />
 
       </Routes>      
