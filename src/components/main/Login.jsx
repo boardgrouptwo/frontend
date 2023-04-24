@@ -12,6 +12,7 @@ import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin, useGoogleOneTapLogin 
 import GoogleLoginButton from './GoogleLoginButton';
 import { Button, Modal } from 'react-bootstrap';
 import { findUserId } from '../../service/MemberDBLogic';
+import Swal from 'sweetalert2';
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -99,8 +100,18 @@ const Login = () => {
       Cookies.set('user_name', decoded.user_name, { expires: 30/1440 })
 
       navigate("/home")      
-    } catch(err) {
-      alert("아이디나 비밀번호를 확인하세요")
+      Swal.fire({
+        icon: "success",
+        title: "로그인 성공",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        customClass: {
+          confirmButton: "my-confirm-button"
+        }
+      })
+
+      } catch(err) {
+        alert("아이디나 비밀번호를 확인하세요")
     }
   }
 
@@ -143,7 +154,7 @@ const Login = () => {
         <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_KEY}>
           <GoogleLoginButton/>
         </GoogleOAuthProvider>        
-        <MyP style={{marginTop:"30px"}}>신규 사용자이신가요?&nbsp;<Link to="/home" className="text-decoration-none" style={{color: "blue"}}>계정 만들기</Link></MyP>
+        <MyP style={{marginTop:"30px"}}>신규 사용자이신가요?&nbsp;<Link to="/join" className="text-decoration-none" style={{color: "blue"}}>계정 만들기</Link></MyP>
         <MyP>아이디를 잊으셨나요?&nbsp;
           {/* <span className="text-decoration-none" onClick={openModal} style={{color: "blue"}}>아이디 찾기</span> */}
           <Link to="/findId" className="text-decoration-none" style={{color: "blue"}}>아이디 찾기</Link>

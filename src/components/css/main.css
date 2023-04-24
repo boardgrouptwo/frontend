@@ -1,3 +1,8 @@
+/* sweetalert 버튼 */
+.my-confirm-button {
+  background-color: #4a9e5c !important;
+}
+
 /*main_banner_info_link*/
 
 .main_banner {
@@ -195,6 +200,6 @@
   list-style: none;
 }
 
-.p-footer__social-list-item{
+.p-footer__social-list-item {
   margin-right: 10px;
 }

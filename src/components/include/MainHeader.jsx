@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import "../css/header.css"
 
 const MainHeader = () => {
@@ -33,6 +34,16 @@ const MainHeader = () => {
       user_name: ""
     })
     navigate("/login");
+    
+    Swal.fire({
+      icon: "success",
+      title: "로그아웃 성공",
+      showCancelButton: false,
+      confirmButtonText: "확인",
+      customClass: {
+        confirmButton: "my-confirm-button"
+      }
+    })
     window.location.reload();
   }
 

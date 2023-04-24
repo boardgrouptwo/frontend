@@ -6,6 +6,7 @@ import MainHeader from '../../include/MainHeader'
 import styled from 'styled-components'
 import { Alert, Button, Modal } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 const PRODUCTSPAN = styled.span`  
   font-size: 30px;
@@ -46,10 +47,6 @@ const IMG = styled.img`
 const ShopDetail = () => {
 
   const isLogin = useSelector(state => state.isLogin)
-  const [showModal, setShowModal] = useState(false);
-
-  // 모달 닫기
-  const closeModal = () => setShowModal(false);
 
   const navigate = useNavigate();
   const defaultimage = "http://localhost:3000/images/shop/test.jpg"
@@ -120,12 +117,35 @@ const ShopDetail = () => {
   }
 
   // 상품 구매
-  // 상품 구매
   const purchase = () => {
     if (isLogin) {
-      setShowModal(true);
+      Swal.fire({
+        icon: "warning",
+        title: "로그인이 필요합니다",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        customClass: {
+          confirmButton: "my-confirm-button"
+        }
+      })
     }
   };
+
+  //장바구니
+  const shopping = () => {
+    if (isLogin) {
+      Swal.fire({
+        icon: "warning",
+        title: "로그인이 필요합니다",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        customClass: {
+          confirmButton: "my-confirm-button"
+        }
+      })
+    }    
+  }
+
 
   //조회수에 따른 별이미지 추가
   const generateStars = () => {
@@ -247,15 +267,9 @@ const ShopDetail = () => {
             <IMG src="images/plus.png" onClick={handleUp} alt="" />
           </div>
           <div style={{marginTop: "20px"}}>
-            <Button style={{marginRight:"10px"}} variant="success">장바구니</Button>
+            <Button style={{marginRight:"10px"}} onClick={shopping}variant="success">장바구니</Button>
             <Button variant="success" onClick={purchase}>상품구매</Button>            
           </div>
-          <Modal style={{width: "500px", height: "500px"}}show={showModal} onHide={closeModal}>            
-            <Modal.Header closeButton>
-              <Modal.Title>로그인이 필요합니다</Modal.Title>
-            </Modal.Header>
-            <Modal.Body>로그인을 해주세요.</Modal.Body>            
-          </Modal>
         </COUNTDIV>
       </CONTAINER>
     </>

@@ -6,6 +6,7 @@ import { GoogleLoginCheck } from '../../service/authLogic'
 import { GoogleButton } from '../css/FormStyle'
 import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router'
+import Swal from 'sweetalert2'
 
 const GoogleLoginButton = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,16 @@ const GoogleLoginButton = () => {
     Cookies.set('role', decoded.roles[0], { expires: 30/1440 })
     Cookies.set('userid', decoded.user_id, { expires: 30/1440 })
     Cookies.set('user_name', decoded.user_name, { expires: 30/1440 })
+
+    Swal.fire({
+      icon: "success",
+      title: "로그인 성공",
+      showCancelButton: false,
+      confirmButtonText: "확인",
+      customClass: {
+        confirmButton: "my-confirm-button"
+      }
+    })
     navigate("/home");
   }
   return (
