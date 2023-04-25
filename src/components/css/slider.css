@@ -32,11 +32,31 @@
 .slider-card-title {
     font-weight: 500px;
     margin-top: 10px;
+    font-size: 130%;
   }
 
 .slider-card-description {
   opacity: 0.5;
-  font-size: 13px;
+  font-size: 20px;
+  float: bottom;
+}
+
+.slider-card-number {
+  position: absolute;
+  margin-top: 10px;
+  margin-left: 10px;
+  font-size: 40px;
+  color: whitesmoke;
+  padding: 5px;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
+  z-index: 99;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.4);
+  font-style: italic;
 }
 
 .slider-card-image {
@@ -44,6 +64,8 @@
   height: 300px;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  position: relative;
+  z-index: 1;
 }
 
 .slider-icon.left,
@@ -89,19 +111,19 @@
     z-index: 10;
     width: 45px;
     height: 45px;
-    background: rgba(darkslategrey, 0.5);
+    background: rgba(#F8B400, 0.5);
     border-radius: 50%;
     transition: background 0.5s;
     &:hover {
         &::before {
-            color: rgba(darkslategrey, 0.5);
+            color: rgba(#F8B400, 0.5);
         }
     }
     &::before {
         font-weight: 800;
         font-size: 50px;
         transition: all 0.5s;
-        color: darkslategrey;
+        color: white;
     }
 }
 

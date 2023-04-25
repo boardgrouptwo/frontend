@@ -45,6 +45,7 @@ const ShopReceiveRow = ({board}) => {
               <strong className="productstrong">{board.product_title}</strong>
               <br/>
               <div className="productspan">{board.product_price.toLocaleString()}원</div>
+              <div className="productspan" style={{fontSize:'13px'}}>" {board.product_detail} "</div>
               <span style={{
                 fontSize: "15px",
                 bottom: "0",

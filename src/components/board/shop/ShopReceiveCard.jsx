@@ -7,6 +7,7 @@ import { useEffect } from 'react';
 import { productReceiveListDB } from '../../../service/ShopDBLogic';
 import styled from 'styled-components';
 import ShopReceiveRow from './ShopReceiveRow';
+import { useMemo } from 'react';
 
 const Button = styled.button`
   width: 100px;
@@ -51,26 +52,8 @@ const settings = {
 ]
 };
 
-/****** 임시 데이터 ******/
-const data = [
-  {image:"images/shop/sample1.jpg",title:" 1. This is a title",description:"This is a description"},
-  {image:"images/shop/sample2.jpg",title:" 2. This is a second title",description:"This is a second description"},
-  {image:"images/shop/sample3.jpg",title:" 3. This is a third title",description:"This is a third description"},
-  {image:"images/shop/sample4.jpg",title:" 4. This is a fourth title",description:"This is a fourth description"},
-  {image:"images/shop/sample5.jpg",title:" 5. This is a fifth title",description:"This is a fifth description"},
-  {image:"images/shop/sample6.jpg",title:" 6. This is a sixth title",description:"This is a sixth description"},
-  {image:"images/shop/sample7.jpg",title:" 7. This is a seventh title",description:"This is a seventh description"},
-  {image:"images/shop/sample8.jpg",title:" 8.This is a seventh title",description:"This is a seventh description"},
-  {image:"images/shop/sample9.jpg",title:" 9.This is a seventh title",description:"This is a seventh description"},
-  {image:"images/shop/sample10.jpg",title:" 10.This is a seventh title",description:"This is a seventh description"},
-];
-
-
 
 const ShopReceiveCard = () => {
-
-
-
   /******* 하단 데이터 ******/
   const navigate = useNavigate();
   const location = useLocation();
@@ -81,7 +64,9 @@ const ShopReceiveCard = () => {
   })
   // 상품 목록
   const [productList, setProductList] = useState([])
+  const [productBasicList, setProductBasicList] = useState([])
 
+  /****** 하단 카드에 productList 데이터 넣기 ******/
   useEffect(() => {
     const boardList = async() => {
       
@@ -117,30 +102,58 @@ const ShopReceiveCard = () => {
     console.log(productList)
   },[protype])
 
-/****** 상단 카드에 데이터 넣기 ******/
-/*   const slides = data.map((item) => {
+
+  /****** 상단 카드에 productBasicList 데이터 넣기 ******/
+  useEffect(()=>{
+    const basicBoardList = async() => {
+      let page_type = {select_type : "total"}
+      const response = await productReceiveListDB(page_type)
+      console.log(response.data)
+      const list = []
+      response.data.forEach((item) => {
+        const obj = {
+          product_no: item.product_no,
+          product_title: item.product_title,
+          product_price: item.product_price,
+          product_image: item.product_image,     
+          product_hit: item.product_hit,
+          product_detail: item.product_detail,
+        } 
+        list.push(obj)       
+      })
+      setProductBasicList(list)
+    }
+    basicBoardList();
+  },[])
+
+
+  /****** 사용x 상단 카드에 데이터 넣기1 ***** 주소바뀔 때 같이 바뀜*/
+/* const slides = productList.map((board, index) => {
     return (
-      <div className="slider-card" key={item.title}>
-        <div className="slider-card-image" style={{backgroundImage:`url(${item.image})`, backgroundSize: "100%"}} />
+      <div className="slider-card" key={board.product_title}>
+        <div className="slider-card-number">{index+1}</div>
+        <div className="slider-card-image" style={{backgroundImage:`url(/images/shop/${board.product_image})`, backgroundSize: "cover" }} />
         <div className="slider-card-info">
-          <h3 className="slider-card-title">{item.title}</h3>
-          <p className="slider-card-description">{item.description}</p>
+          <h3 className="slider-card-title">{board.product_title}</h3>
+          <p className="slider-card-description" style={{float:'bottom'}}>{board.product_price.toLocaleString()}원</p>
         </div>
       </div>
     );
   }); */
-  const slides = productList.map((board) => {
+
+
+    const slides = productBasicList.map((board, index) => {
     return (
       <div className="slider-card" key={board.product_title}>
-        <div className="slider-card-image" style={{backgroundImage:`url(/images/shop/${board.product_image})`, backgroundSize: "100%"}} />
+        <div className="slider-card-number">{index+1}</div>
+        <div className="slider-card-image" style={{backgroundImage:`url(/images/shop/${board.product_image})`, backgroundSize: "cover" }} />
         <div className="slider-card-info">
           <h3 className="slider-card-title">{board.product_title}</h3>
-          <p className="slider-card-description">{board.product_price}원</p>
+          <p className="slider-card-description" style={{float:'bottom'}}>{board.product_price.toLocaleString()}원</p>
         </div>
       </div>
     );
   });
-
 
   const handleTotal = () => {
     setProType({select_type: "total"})
