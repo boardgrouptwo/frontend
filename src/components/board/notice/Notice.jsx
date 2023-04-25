@@ -15,6 +15,10 @@ const Notice = () => {
   const user = useSelector(state => state.user_type); 
   const token = useSelector(state => state.token); 
 
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const page_num = searchParams.get('page');  
+
   // 게시글 목록
   const [noticeList, setNoticeList] = useState([])
 
@@ -35,9 +39,7 @@ const Notice = () => {
     return pageNumbers.slice(start, start + MAX_PAGE_ITEMS);
   }).filter(group => group.includes(startPage) || group.includes(endPage) || (group[0] <= startPage && group[group.length - 1] >= endPage));
   
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const page_num = searchParams.get('page');
+
 
   const[pageNum, setPageNum] = useState({
     page: page_num,
@@ -55,7 +57,10 @@ const Notice = () => {
     setSearch(e)
   },[])
 
-  useEffect(() =>{    
+  useEffect(() =>{  
+    if (page_num !== null) {
+      setCurrentPage(parseInt(page_num));
+    }    
     setPageNum({page: page_num})
     const newPageNum = {page: page_num}
     const boardList = async() => {

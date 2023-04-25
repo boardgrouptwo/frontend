@@ -1,5 +1,4 @@
 import React from 'react'
-import '../css/PaymentModal.css'
 import { kakaoPayReady } from '../kakao/KakaoPay';
 
 const PaymentModal = ({payForm, open, close, header}) => {

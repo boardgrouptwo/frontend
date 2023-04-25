@@ -76,11 +76,25 @@ export const chagnePwDB = (user) => {
   });
 };
 
+export const duplicateDB = (user) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "user/duplicate",
+        data: user,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 // 사용자 정보 출력
 export const userInfoDB = (user) => {
-  console.log("userInfoDB 출력")
-  console.log(user)
+  console.log("userInfoDB 출력");
+  console.log(user);
 
   return new Promise((resolve, reject) => {
     try {
@@ -90,7 +104,7 @@ export const userInfoDB = (user) => {
         data: user,
       });
 
-      resolve(response)
+      resolve(response);
     } catch (error) {
       reject(error);
     }
