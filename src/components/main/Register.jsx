@@ -66,7 +66,11 @@ const Register = () => {
         user_gender: userGender,
         user_tel: userTel,
         user_email: userEmail,
+<<<<<<< Updated upstream
         user_enter: userEnter, 
+=======
+        user_enter: userEnter,         
+>>>>>>> Stashed changes
       }
       console.log(member);
 

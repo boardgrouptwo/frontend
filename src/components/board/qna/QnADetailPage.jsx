@@ -6,7 +6,7 @@ import { qnaDeleteDB, qnaListDB,  qnaRepleDB,  qnaUpdateDB, qnabeforeAfterDB } f
 import MainHeader from '../../include/MainHeader'
 import Noticebar from '../notice/Noticebar'
 import { ContainerDiv, FormDiv, HeaderDiv, MyInput, MyLabel } from '../../css/FormStyle'
-import { Button, Col, Form, Modal, Row } from 'react-bootstrap'
+import { Button, Col, Form, ListGroup, Modal, Row } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import QuillEditor from './QuillEditor'
 import Swal from 'sweetalert2'
@@ -18,6 +18,8 @@ const QnADetailPage = () => {
 
     const user = useSelector(state => state.user_type);
     const userid = useSelector(state => state.user_id);
+    console.log(userid)
+    const [dbid, setDbid] = useState(null)
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const page_num = searchParams.get('page');
@@ -74,7 +76,16 @@ const QnADetailPage = () => {
           if(jsonDoc[0].qna_result == 1){
             setRshow(true)
           }
-    }
+          if(jsonDoc[0].user_id != null){
+            setDbid(jsonDoc[0].user_id)
+            console.log("Dbid has been set: ", jsonDoc[0].user_id)
+            console.log(dbid)
+          }
+          console.log(jsonDoc[0].user_id)
+          console.log(dbid)
+          console.log(userid)
+        }
+        
 
     const fetchData = async () => {      
         await qnaDetail()
@@ -214,14 +225,14 @@ const QnADetailPage = () => {
                       목록
                     </Button>
                     {
-                      (user === "admin" || userid == `user_id`) ? (
+                      (dbid !== null) && (user === "admin" || userid === dbid) ? (
                       <Button variant="success" style={{margin:'0px 10px 0px 10px'}} onClick={handleShow}>
                         수정
                       </Button>
                       ) : (<div></div>)
                     }
                     {
-                      (user === "admin" || userid == `jsonDoc[0].user_id`) ? (
+                      (dbid !== null) && (user === "admin" || userid === dbid) ? (
                       <Button variant="success" style={{margin:'0px 10px 0px 10px'}} onClick={qnaDelete}>
                         삭제
                       </Button>
@@ -256,7 +267,7 @@ const QnADetailPage = () => {
           </div>
           <div style={{marginBottom:"300px"}}></div>
 
-              {/* <hr/> */}
+              <hr/>
               {/* 댓글을 입력하면 입력한 댓글 값이 보이는 화면 */}
               {
               (rshow)?
