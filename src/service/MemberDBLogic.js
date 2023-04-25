@@ -110,3 +110,23 @@ export const userInfoDB = (user) => {
     }
   });
 };
+
+// 사용자 정보 수정
+export const userUpdateDB = (user) => {
+  console.log("userUpdateDB 출력")
+  console.log(user)
+
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "POST",
+        url: process.env.REACT_APP_SPRING_IP + "user/userUpdate",
+        data: user,
+      });
+
+      resolve(response)
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
