@@ -13,14 +13,14 @@ const QnAWriteForm = () => {
     const navigate = useNavigate()
 
     const token  = useSelector(state => state.token);
-    const user = useSelector(state => state.nickname);
+    const user = useSelector(state => state.userid);
 
     const real_user = (user !== "") ? user : "비회원";
     console.log(real_user);
     console.log(user);
 
     const[type, setType] = useState("후원하기")
-    const[name, setName] = useState(user)
+    const[id, setId] = useState(user)
     const[title, setTitle] = useState("")
     const[content, setContent] = useState("")
     const[date, setDate] = useState("")
@@ -33,7 +33,7 @@ const QnAWriteForm = () => {
     },[])
 
     const handleName = useCallback((e) => {
-        setName(e)
+        setId(e)
     },[])
 
     const handleTitle = useCallback((e) => {
@@ -59,7 +59,7 @@ const QnAWriteForm = () => {
     const boardInsert = async () => {
         const board = {
             qna_type : type,
-            user_name : real_user, 
+            user_id : real_user, 
             qna_title : title,
             qna_content : content,
             qna_date : date,
@@ -69,7 +69,7 @@ const QnAWriteForm = () => {
         console.log(token)
         const res = await qnaInsertDB(board, token)
         console.log(res)
-        navigate("/qna")
+        navigate("/qna?page=1")
     }
 
 

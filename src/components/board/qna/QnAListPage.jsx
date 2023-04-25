@@ -69,7 +69,7 @@ const QnAListPage = () => {
           const obj = {
                 qna_no: item.qna_no,
                 qna_type: item.qna_type,
-                user_name: item.user_name,
+                user_id: item.user_id,
                 qna_title: item.qna_title,
                 qna_content: item.qna_content,
                 qna_date: item.qna_date,        
@@ -101,7 +101,7 @@ const QnAListPage = () => {
           const obj = {
                 qna_no: item.qna_no,
                 qna_type: item.qna_type,
-                user_name: item.user_name,
+                user_id: item.user_id,
                 qna_title: item.qna_title,
                 qna_content: item.qna_content,
                 qna_date: item.qna_date,        

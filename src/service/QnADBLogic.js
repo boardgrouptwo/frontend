@@ -36,6 +36,23 @@ export const qnaInsertDB = (board, token) => {
   });
 };
 
+export const qnaRepleDB = (board, token) => {
+  return new Promise((resolve, reject) => {
+      try{
+        const response = axios({
+            method: "post",
+            url: process.env.REACT_APP_SPRING_IP + "qna/repleInsert",
+            data: board,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+        })
+        resolve(response);
+      }catch(error){
+          reject(error)
+      }
+  });
+};
 
 
 export const qnaUpdateDB = (board) => {

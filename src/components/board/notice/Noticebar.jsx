@@ -24,7 +24,7 @@ const Noticebar = () => {
               <Link to="/meal">식단표</Link>
             </li>        
             <li className={window.location.pathname.includes('/qna') ? 'on' : ''}>
-              <Link to="/qna">QNA</Link>
+              <Link to="/qna?page=1">QNA</Link>
             </li>        
           </ul>
         </div>

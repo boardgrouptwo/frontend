@@ -66,7 +66,11 @@ const Register = () => {
         user_gender: userGender,
         user_tel: userTel,
         user_email: userEmail,
+<<<<<<< Updated upstream
         user_enter: userEnter,         
+=======
+        user_enter: userEnter, 
+>>>>>>> Stashed changes
       }
       console.log(member);
 
@@ -268,6 +272,10 @@ const Register = () => {
                   </Col>
                 </Form.Group>
               </fieldset>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
               <br />
               <br />
               <Form.Group as={Row} className="mb-3" controlId="sponsor_Check">
