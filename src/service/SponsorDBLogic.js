@@ -30,4 +30,22 @@ export const sponsorListDB = (board)  =>{
   });
 };
 
+export const sponsorUserSumDB = (user)  =>{
+  console.log("sponsorUserSumDB 호출")
+  console.log(user)
+
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "spon/sponsorUserSum",
+        params: user,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 

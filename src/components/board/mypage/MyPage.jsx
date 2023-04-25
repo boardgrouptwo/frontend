@@ -57,7 +57,7 @@ const MyPage = () => {
           {/* 내 정보 카드 */}
           <MyInfo userInfo={userInfo} />
           {/* 내원자 정보 카드 */}
-          <ElderInfo userInfo={userInfo} />
+          <ElderInfo />
         </div>
         <div style={{marginTop: "7%"}}/>
         <hr />
