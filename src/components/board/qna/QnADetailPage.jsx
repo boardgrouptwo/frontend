@@ -65,11 +65,11 @@ const QnADetailPage = () => {
   const handleShow = () => {
       setShow(true)
       setTitle(board.qna_title)
-      setContent(board.qna_content)
   }
 
   const handleClose = () => setShow(false)
 
+  //수정 후 useEffect가 되도록 설정
   const [rend, setRend] = useState(0)
 
   useEffect(()=>{
@@ -135,6 +135,9 @@ const QnADetailPage = () => {
   //qna수정
   const[title, setTitle] = useState(board.qna_title)
   const[content, setContent] = useState(board.qna_content)
+  const[name, setName] = useState(board.user_name)
+  const[date, setDate] = useState(board.qna_date)
+  const[result, setResult] = useState(board.qna_result)
 
   const handleTitle = useCallback((e)=>{
       setTitle(e)
@@ -151,14 +154,20 @@ const QnADetailPage = () => {
   const qnaUpdate = async () => {
       const board = {
           qna_num,
+          user_name: name,
           qna_title: title,
-          qna_content: content
+          qna_content: content,
+          qna_date: date,
+          qna_result: result,
       }
       const res = await qnaUpdateDB(board)
+      console.log(res)
+      console.log(res.data)
 
       alert("수정이 완료되었습니다.")
       setRend(rend+1)
       handleClose();
+      navigate(`/qna/detail?page=${page_num}&qna_no=${qna_num}`)
   }
 
 

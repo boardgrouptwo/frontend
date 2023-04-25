@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Button, Col, Collapse, Fade, Form, Row } from 'react-bootstrap'
+import { Button, Col, Fade, Form, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
 import { duplicateDB, joinDB } from '../../service/MemberDBLogic';
@@ -18,7 +18,6 @@ const Register = () => {
   const[userTel, setUserTel]= useState('');  //전화번호
   const[userEmail, setUserEmail]= useState('');  //이메일
   const [userEnter, setUserEnter] = useState(""); //입원자 유무 라디오 버튼
-  const [enterDate, setEnterDate] = useState(""); //입원일자
 
   const [showError, setShowError] = useState(false);//폼 검증 유효성 검사
   const [showError2, setShowError2] = useState(false);//폼 검증 유효성 검사
@@ -58,19 +57,19 @@ const Register = () => {
 
     event.preventDefault();
 
-    //화면에 입력된 값을 DB로 보내는
-    const member= {
-      user_id: userId,
-      password: userPw,
-      user_name: userName,
-      user_birth: userBday,
-      user_gender: userGender,
-      user_tel: userTel,
-      user_email: userEmail,
-      user_enter: userEnter, 
-      user_date: enterDate,
-    }
-    console.log(member);
+      //화면에 입력된 값을 DB로 보내는
+      const member= {
+        user_id: userId,
+        password: userPw,
+        user_name: userName,
+        user_birth: userBday,
+        user_gender: userGender,
+        user_tel: userTel,
+        user_email: userEmail,
+        user_enter: userEnter, 
+        user_date: enterDate,
+      }
+      console.log(member);
 
     const res = await joinDB(member);
 
@@ -144,18 +143,18 @@ const Register = () => {
               </Fade>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="userPw"> 
-              <Form.Label column sm={2}>비밀번호</Form.Label>
-              <Col sm={8}>
-                  <Form.Control 
-                  type="text"
-                  onChange={(e) => setUserPw(e.target.value)}
-                  />
-                  <Form.Control.Feedback type="invalid" style={{ display: showError ? "block" : "none" }}>
-                    특수문자 포함 6~8글자로 작성해주세요.
-                  </Form.Control.Feedback>
-              </Col>
-            </Form.Group>
+                          <Form.Group as={Row} className="mb-3" controlId="userPw"> 
+                                  <Form.Label column sm={2}>비밀번호</Form.Label>
+                                  <Col sm={8}>
+                                      <Form.Control 
+                                      type="text"
+                                      onChange={(e) => setUserPw(e.target.value)}
+                                      />
+                                      <Form.Control.Feedback type="invalid" style={{ display: showError ? "block" : "none" }}>
+                                        특수문자 포함 6~8글자로 작성해주세요.
+                                      </Form.Control.Feedback>
+                                  </Col>
+                          </Form.Group>
 
             <Form.Group as={Row} className="mb-3" controlId="userName">  {/* //controlId로 label과 input 요소를 연결, Form.Control.Feedback을 사용하여 폼 유효성 검사 메시지를 표시 */}
               <Form.Label column sm={2}>이름</Form.Label>
