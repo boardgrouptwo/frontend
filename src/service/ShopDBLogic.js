@@ -58,3 +58,18 @@ export const ProductUploadDB = (product) => {
     }
   });
 };
+
+export const productReceiveListDB = (board) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "shop/productReceiveList",
+        params: board,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
