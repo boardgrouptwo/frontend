@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router'
 import Adminbar from '../../admin/Adminbar'
 import Bottom from '../../include/Bottom'
 import { useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
 
 const ShopAdd = () => {
 
@@ -23,6 +24,7 @@ const ShopAdd = () => {
   const [imageName, setImageName] = useState()
   const[title,setTitle] = useState("") 
   const[price,setPrice] = useState(0)
+  const[detail,setDetail] = useState("")
   const [showError, setShowError] = useState(false);//폼 검증 유효성 검사
   const [validated, setValidated] = useState(false); //폼 검증 유효성 검사
 
@@ -31,6 +33,9 @@ const ShopAdd = () => {
   },[])
   const handlePrice = useCallback((e) => { //QuillEditor에서 담김 - 태그포함된 정보
     setPrice(e)
+  },[])
+  const handleDetail = useCallback((e) => {
+    setDetail(e)
   },[])
 
   const handleFileChange = (event) => {
@@ -69,7 +74,8 @@ const ShopAdd = () => {
       product_title: title, //상품명
       product_price: price, //금액
       product_image: imageName, //이미지 이름
-      product_type: u_select // 상품 타입
+      product_detail: detail, //상품 상세 설명
+      product_type: u_select // 상품 타입      
     }
   
     if(title==="") {
@@ -77,12 +83,21 @@ const ShopAdd = () => {
     } else {
       console.log(product)
       const res = await ProductUploadDB(product);
-      navigate("/shop")
+      Swal.fire({
+        icon: "success",
+        title: "상품 등록되었습니다",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        customClass: {
+          confirmButton: "my-confirm-button"
+        }
+      }) 
+      navigate("/shopmain?type=total")
     }
   };
 
   const handleCancel = () => {
-    navigate("/shop")
+    navigate("/shopmain?type=total")
   }
 
   return (
@@ -93,7 +108,7 @@ const ShopAdd = () => {
       <Form className='sponsor-form' onSubmit={handleSubmit}>
           <h3 className='sponsor-form-text'>상품등록</h3>
         <Form.Group as={Row} className="mb-3" controlId="sponsor_number"
-          style={{marginTop: "30px"}}>
+          style={{marginTop: "20px"}}>
           <Form.Label column sm={2}>
             상품명
           </Form.Label>
@@ -120,14 +135,25 @@ const ShopAdd = () => {
             <Form.Control.Feedback type="invalid" style={{ display: showError ? "block" : "none" }}>
               숫자만 입력 가능합니다.
             </Form.Control.Feedback>
-          </InputGroup>
+          </InputGroup>          
           </Col>
+        </Form.Group>
+
+        <Form.Group as={Row} className="mb-3" controlId="sponsor_number"
+          style={{marginTop: "10px"}}>
+          <Form.Label column sm={2}>
+            상세설명
+          </Form.Label>
+          <Col sm={8}>
+          <Form.Control type="tel" placeholder="상품 상세설명을 작성해주세요"
+          onChange={(e)=>{handleDetail(e.target.value)}} />
+          </Col>
+
           <Form.Select id="select" aria-label="Default select example" style={{ marginTop: "20px", height: '38px', width:'160px'}}>
             <option value="많이 선물한">많이 선물한</option>
             <option value="받고 만족한">받고 만족한</option>
           </Form.Select>
-
-        </Form.Group>
+        </Form.Group>  
         <div style={{margin: "20px"}}>
             <input type="file" onChange={handleFileChange} />
             {imageUrl 
