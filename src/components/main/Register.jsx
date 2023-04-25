@@ -66,8 +66,7 @@ const Register = () => {
         user_gender: userGender,
         user_tel: userTel,
         user_email: userEmail,
-        user_enter: userEnter, 
-        user_date: enterDate,
+        user_enter: userEnter,         
       }
       console.log(member);
 
@@ -269,22 +268,6 @@ const Register = () => {
                   </Col>
                 </Form.Group>
               </fieldset>
-
-              <Form.Group as={Row} className="mb-3" controlId="sponsorDate">
-                  <Form.Label column sm={2}>
-                  입원일자
-                  </Form.Label>
-                  <Col sm={8}>
-                  <Form.Control 
-                  type="date" 
-                  placeholder="입원 신청일을 입력해주세요." 
-                  required
-                  value={enterDate}
-                  onChange={(e) => setEnterDate(e.target.value)}
-                  disabled={userEnter==='입원'?false:true}
-                  />
-                  </Col>
-              </Form.Group>
               <br />
               <br />
               <Form.Group as={Row} className="mb-3" controlId="sponsor_Check">

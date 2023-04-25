@@ -1,8 +1,4 @@
 import React, { useEffect, useState } from 'react';
-<<<<<<< Updated upstream
-=======
-
->>>>>>> Stashed changes
 
 const Modal = ({ modalOpen, onClose, date, timeSlots, onTimeClick }) => {
   document.body.style.overflow = "hidden";
