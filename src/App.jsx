@@ -36,6 +36,7 @@ import IntroPage from './components/intro/IntroPage'
 import LoginError from './components/main/LoginError'
 import MyPage from './components/board/mypage/MyPage'
 import MyPageDetail from './components/board/mypage/MyPageDetail'
+import Elder from './components/main/Elder'
 
 
 
@@ -78,6 +79,8 @@ const App = () => {
         <Route path="/intro" exact={true} element={<IntroPage />}/>
         {/* 회원가입 */}
         <Route path="/join" exact={true} element={<Register />}/>
+        {/* 어르신 정보 */}
+        <Route path="/elder" exact={true} element={<Elder />}/>
 
         {/* 로그인 */}
         <Route path="/login" exact={true} element={<Login/>}/>

@@ -12,14 +12,12 @@ import QuillEditor from './QuillEditor'
 import Swal from 'sweetalert2'
 
 const QnADetailPage = () => {
-
-
     const navigate = useNavigate()
 
     const user = useSelector(state => state.user_type);
-    const userid = useSelector(state => state.user_id);
+    const userid = useSelector(state => state.userid);
     console.log(userid)
-    const [dbid, setDbid] = useState(null)
+    const [dbid, setDbid] = useState()
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
     const page_num = searchParams.get('page');
@@ -78,12 +76,8 @@ const QnADetailPage = () => {
           }
           if(jsonDoc[0].user_id != null){
             setDbid(jsonDoc[0].user_id)
-            console.log("Dbid has been set: ", jsonDoc[0].user_id)
-            console.log(dbid)
+            console.log("Dbid : ", jsonDoc[0].user_id)
           }
-          console.log(jsonDoc[0].user_id)
-          console.log(dbid)
-          console.log(userid)
         }
         
 
@@ -225,14 +219,14 @@ const QnADetailPage = () => {
                       목록
                     </Button>
                     {
-                      (dbid !== null) && (user === "admin" || userid === dbid) ? (
+                      (user === "admin" || userid === dbid) ? (
                       <Button variant="success" style={{margin:'0px 10px 0px 10px'}} onClick={handleShow}>
                         수정
                       </Button>
                       ) : (<div></div>)
                     }
                     {
-                      (dbid !== null) && (user === "admin" || userid === dbid) ? (
+                      (user === "admin" || userid === dbid) ? (
                       <Button variant="success" style={{margin:'0px 10px 0px 10px'}} onClick={qnaDelete}>
                         삭제
                       </Button>
@@ -365,9 +359,6 @@ const QnADetailPage = () => {
     </>
   )
 }
-
-
-
 
 
 export default QnADetailPage
