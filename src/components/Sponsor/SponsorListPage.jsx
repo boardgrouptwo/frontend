@@ -67,7 +67,8 @@ const SponsorListPage = () => {
       <SponsorListbar/>
       <div className='container' style={{position: "relative" }}>
         <SponsorTotal totalList={totalList}/>
-        <h2 style={{marginTop: "30px", textAlign: "center"}}>🌠이번달 베스트 후원인🌠</h2>
+        <img src='/images/line1.png' style={{width:"60%", marginLeft:"20%"}}/>
+        <h2 style={{marginTop: "30px", textAlign: "center"}}> 명예의 전당</h2>
                 {/* ========================== sponsorCard ========================== */}     
             <div className='sponcontainer' style={{position: "relative" }}>
               <Row xs={1} md={3} className="g-4">
@@ -82,7 +83,7 @@ const SponsorListPage = () => {
                 onClick={() => handleClick(idx)}
                 
                 >
-                <FrontSide className="sponCard" >
+                <FrontSide className="sponCard">
 
                       <Card.Img variant="top" src={`\\images\\spon\\spon${idx}.png`} style={cardImgStyle} />
                       <Card.Body style={{textAlign: "center"}}>
@@ -113,14 +114,17 @@ const SponsorListPage = () => {
             ))}
           </Row>
         </div>
+
         {/* ========================== sponsorCard ========================== */}
-
-
+        
+<br />
+<hr />
 {/* ========================== sponsorList ========================== */}
     <div className='container' style={{position: "relative" }}>
         <div className="page-header" >
-        </div>     
-        <h2 style={{marginTop: "30px", textAlign: "center"}}>🌞 명예의 전당 🌞</h2> 
+        </div>
+
+        <h2 style={{marginTop: "30px", textAlign: "center"}}> 올해의 후원인</h2> 
         <br />
         <div className='book-list' style={{paddingBottom: "50px"}}>
           <Table bordered hover >
@@ -142,10 +146,13 @@ const SponsorListPage = () => {
           <div className='booklist-footer'>
 
           </div>
+
         </div>
       </div>
 {/* ========================== sponsorList ========================== */}
+
       </div>
+
       <br />
       <br />
       <Bottom /> 

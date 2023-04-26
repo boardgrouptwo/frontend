@@ -16,48 +16,44 @@ const ShopReceiveRow = ({board}) => {
 
   return (
     <>
-        <div className="productul"
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-          onClick={handleDetail}
-          style={{ 
-            cursor: "pointer", 
-            boxShadow: hovered ? "0 0 10px rgba(0, 0, 0, 0.3)" : "none" // hovered 상태에 따라 그림자 생성
-          }}
-        >
-          <div className="productli">
-            <div className="productdiv">
-            {
-              (board.product_image !== "defaultimage") ? (
-                <img 
-                  style={{ width: "305px", height: "300px"}}
-                  src={`http://localhost:3000/images/shop/${board.product_image}`}
-                  alt={board.product_title} 
-                />
-              ) : (
-                <img 
-                  style={{ width: "305px", height: "300px"}}
-                  src={defaultimage}
-                  alt={board.product_title} 
-                />                
-              )
-            }
-              <strong className="productstrong">{board.product_title}</strong>
-              <br/>
-              <div className="productspan">{board.product_price.toLocaleString()}원</div>
-              <div className="productspan" style={{fontSize:'13px'}}>" {board.product_detail} "</div>
-              <span style={{
-                fontSize: "15px",
-                bottom: "0",
-                right: "15px",
-                position: "absolute"
-              }}>
-                <img style={{marginRight: "10px", marginBottom:"5px", width: "20px",height: "20px"}} src="images/star.png" alt="" />
-                조회수 : {board.product_hit.toLocaleString()}
-              </span>
-            </div>
-          </div>
-        </div>
+  <div className="productli">
+  <div style={{ display: "flex" }}>
+    <div style={{ marginRight: "20px" }}>
+      {
+        (board.product_image !== "defaultimage") ? (
+          <img 
+            style={{ width: "305px", height: "300px"}}
+            src={`http://localhost:3000/images/shop/${board.product_image}`}
+            alt={board.product_title} 
+          />
+        ) : (
+          <img 
+            style={{ width: "305px", height: "300px"}}
+            src={defaultimage}
+            alt={board.product_title} 
+          />                
+        )
+      }
+    </div>
+    <div>
+      <strong className="productstrong">{board.product_title}</strong>
+      <br/>
+      <div className="productspan">{board.product_price.toLocaleString()}원</div>
+      <span style={{
+        fontSize: "15px",
+        display: "flex",
+        alignItems: "center",
+        marginBottom: "5px"
+      }}>
+        <img style={{ marginRight: "10px", width: "20px", height: "20px" }} src="images/star.png" alt="" />
+        조회수 : {board.product_hit.toLocaleString()}
+      </span>
+      <div className="productspan" style={{ fontSize:'13px'}}>
+        "{board.product_detail}"
+      </div>
+    </div>
+  </div>
+</div>
     </>
   )
 }

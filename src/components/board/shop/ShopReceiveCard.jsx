@@ -7,7 +7,9 @@ import { useEffect } from 'react';
 import { productReceiveListDB } from '../../../service/ShopDBLogic';
 import styled from 'styled-components';
 import ShopReceiveRow from './ShopReceiveRow';
-import { useMemo } from 'react';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
 
 const Button = styled.button`
   width: 100px;
@@ -17,6 +19,13 @@ const Button = styled.button`
   font-size: 18px;
   font-weight: bold;    
 `;
+
+/****** OverlayTrigger 효과 ******/
+  const renderTooltip = (props) => (
+    <Tooltip id="button-tooltip" {...props}>
+      조회수 기준 랭킹입니다
+    </Tooltip>
+  );
 
 /****** slides 움직이게 효과 ******/
 const settings = {
@@ -53,7 +62,7 @@ const settings = {
 };
 
 
-const ShopReceiveCard = () => {
+const ShopReceiveCard = ({board}) => {
   /******* 하단 데이터 ******/
   const navigate = useNavigate();
   const location = useLocation();
@@ -62,9 +71,34 @@ const ShopReceiveCard = () => {
   const[protype, setProType] = useState({
     select_type: type
   })
+
   // 상품 목록
   const [productList, setProductList] = useState([])
   const [productBasicList, setProductBasicList] = useState([])
+
+  //
+  const handleTotal = () => {
+    setProType({select_type: "total"})
+    navigate("/shopreceive?type=total")
+  }
+
+  const handleLow = () => {
+    setProType({select_type: "low"})
+    navigate("/shopreceive?type=low")
+  }
+
+  const handleMiddle = () => {
+    setProType({select_type: "middle"})
+    navigate("/shopreceive?type=middle")
+  }
+
+  const handleHigh = () => {
+    setProType({select_type: "high"})
+    navigate("/shopreceive?type=high")
+  }
+
+
+
 
   /****** 하단 카드에 productList 데이터 넣기 ******/
   useEffect(() => {
@@ -79,7 +113,7 @@ const ShopReceiveCard = () => {
         page_type = {select_type : "middle"}      
       } else if(protype.select_type==="high") {
         page_type = {select_type : "high"}
-      }
+      } 
       console.log(page_type);
 
       const res = await productReceiveListDB(page_type)
@@ -106,7 +140,7 @@ const ShopReceiveCard = () => {
   /****** 상단 카드에 productBasicList 데이터 넣기 ******/
   useEffect(()=>{
     const basicBoardList = async() => {
-      let page_type = {select_type : "total"}
+      let page_type = {select_type : "basic"}
       const response = await productReceiveListDB(page_type)
       console.log(response.data)
       const list = []
@@ -146,7 +180,11 @@ const ShopReceiveCard = () => {
     return (
       <div className="slider-card" key={board.product_title}>
         <div className="slider-card-number">{index+1}</div>
-        <div className="slider-card-image" style={{backgroundImage:`url(/images/shop/${board.product_image})`, backgroundSize: "cover" }} />
+        <div 
+          className="slider-card-image" 
+          style={{backgroundImage:`url(/images/shop/${board.product_image})`, backgroundSize: "cover" }} 
+          onClick={() => navigate("/shopdetail?product_no="+board.product_no)}
+        />
         <div className="slider-card-info">
           <h3 className="slider-card-title">{board.product_title}</h3>
           <p className="slider-card-description" style={{float:'bottom'}}>{board.product_price.toLocaleString()}원</p>
@@ -155,26 +193,6 @@ const ShopReceiveCard = () => {
     );
   });
 
-  const handleTotal = () => {
-    setProType({select_type: "total"})
-    navigate("/shopreceive?type=total")
-  }
-
-  const handleLow = () => {
-    setProType({select_type: "low"})
-    navigate("/shopreceive?type=low")
-  }
-
-  const handleMiddle = () => {
-    setProType({select_type: "middle"})
-    navigate("/shopreceive?type=middle")
-  }
-
-  const handleHigh = () => {
-    setProType({select_type: "high"})
-    navigate("/shopreceive?type=high")
-  }
-
 
 
   return (
@@ -182,7 +200,15 @@ const ShopReceiveCard = () => {
 
     {/* 상단 TOTAL RANKING 부분 */}
         <div style={{ paddingTop: "40px", paddingBottom: "70px", backgroundColor: "#F8B400" }}>
-            <p style={{ fontSize: "25px", color: "white", margin: "0px 0px 20px 45%" }}>TOTAL RANKING</p>
+            <p style={{ fontSize: "25px", color: "white", margin: "0px 0px 20px 45%" }}>TOTAL RANKING
+            <OverlayTrigger
+              placement="right"
+              delay={{ show: 250, hide: 400 }}
+              overlay={renderTooltip}
+            >
+              <img src="/images/shop/question-mark.png" alt="question_mark" style={{marginBottom:"5px", marginLeft:"5px"}}/>
+            </OverlayTrigger>
+            </p>
             <Slider {...settings}>{slides}</Slider>
         </div>
 
@@ -223,11 +249,7 @@ const ShopReceiveCard = () => {
             <ShopReceiveRow key={index} board={board} />
           ))}
       </div>
-
-        
-
     </>
-    
     );
 };
 

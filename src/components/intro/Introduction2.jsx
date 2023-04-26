@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import {SectionsContainer, Section} from 'react-fullpage';
 import Introductionbar from './Introductionbar';
 import MainHeader from '../include/MainHeader';
+import MainBottom from '../include/MainBottom';
 import '../css/intro.css';
 
 const Introduction2 = () => {
@@ -26,7 +27,7 @@ const Introduction2 = () => {
     const container = document.getElementById("map");
     const options = {
       center: positions[0].latlng,
-      level: 1,
+      level: 2,
     };
     if(!map) {
       setMap(new kakao.maps.Map(container,options));
@@ -68,37 +69,35 @@ const Introduction2 = () => {
       <Introductionbar />
     <SectionsContainer {...options}>
       <body style={{ overflow: 'hidden'}}>
-
+      <div  style={{height: "35rem",  padding:"0px", border: "2px solid black", marginTop:"1%"}}>
+      <Section className="oneSecion">
+   
       <img
           src='/images/intro/intro_image5.png'
           alt='intro_image'
-          style={{ align: "center", width: '100%', height: '550px', opacity: 1, padding:"1%" }}
+          style={{ align: "center", width: '100%', height: '550px', opacity: 1, padding:"0%" }}
         />
         <font style={{zIndex:'99', textAlign: "center", position: "absolute", top: "7%", left:"40%", fontSize:"30px", fontWeight: 'bold'}}> 요양원의 새로운 기준 </font>
         <font style={{zIndex:'99', textAlign: "center", position: "absolute", top: "8%", left:"40%", fontSize:"100px", fontWeight: 'bold', color: '#004445'}}> KH요양원 </font>
-        <Section>
-          <column>
-
-            <div className='container' style={{ textAlign: 'center' }}>
+        <div className='container' style={{ textAlign: 'center'}}>       
             <img
               src='/images/intro/scroll.png'
-              style={{ align: "center", width: 'auto', opacity: 1, padding:"1%", cursor: "pointer", transition: "transform 0.3s ease" }}
+              style={{align: "center", width: 'auto', opacity: 1, padding:"1%", cursor: "pointer", transition: "transform 0.3s ease" }}
               onMouseOver={(e) => {e.currentTarget.style.transform = "translateY(15px)";}}
               onMouseOut={(e) => {e.currentTarget.style.transform = "none";}}
               onClick={() => window.location.href = "http://localhost:3000/intro#sectionTwo"}
             />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            <br />
-            
+        </div>
+        </Section>
+        </div>
+
+
+
+
+        <div className='container' style={{paddingTop: "5%", height: "50rem", textAlign: 'center', marginTop:"10%", border: "2px solid blue", position:"absolute"}}>  
+        <Section className="twoSecion">
+        <img src='/images/intro/goldBorder.png'style={{width:"90%", height:"20%", position:"relative", zIndex:"0"}}/>
+        <div style={{margin:"0", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", position:"relative", zIndex:"1"}}>
         <h1 style={{ color: '#595959', fontWeight: 'bold', fontSize: '2rem', marginTop: '2rem' }}>
           어르신이 머물고 싶은 집
         </h1>
@@ -107,7 +106,7 @@ const Introduction2 = () => {
         </h1>
         <br />
        
-       <div className='container' style={{ textAlign: 'center' }}>
+
         <p style={{ fontSize: '1.2rem', color: '#595959', marginTop: '1.5rem' }}>
           안녕하세요, 저희 요양원 사이트에 방문해 주셔서 감사합니다. <br /> 저희 요양원은 노인분들의 안락하고 행복한 노후생활을 위해 최선을 다하고 있습니다.
         </p>
@@ -135,32 +134,18 @@ const Introduction2 = () => {
               onMouseOver={(e) => {e.currentTarget.style.transform = "translateY(15px)";}}
               onMouseOut={(e) => {e.currentTarget.style.transform = "none";}}
               onClick={() => window.location.href = "http://localhost:3000/intro#sectionThree"}
-            />
+              />
+              </div>
     
-        </div>
-        </div>
-          </column>
         </Section>
+                </div>
+
+
+
+                <div className='container' style={{paddingTop: "5%", height: "50rem", textAlign: 'center', marginTop:"100%", border: "2px solid red"}}>  
+        <Section className="threeSecion">
 
         
-
-        <Section>
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-  
-        
-        <div className='container' style={{ textAlign: 'center' }}>
           <h2 style={{ color: '#004445', fontWeight: 'bold', fontSize: '3rem', marginTop: '0rem', marginBottom: '30px'}}>오시는 길</h2>
           <div className="leftDiv">
             <ul className='leftSide'>
@@ -179,14 +164,11 @@ const Introduction2 = () => {
             <div id="" style={{display: "flex", alignItems:"center", justifyContent:"space-around", flexDirection:"column"}}>
               <div id="map" ref={kakaomap} style={{width: "1000px", height: "500px", marginBottom: "20px", border:"2px solid lightgray", borderRadius: "20px"}}></div>
             </div>
-        </div>
-
-
-
         </Section>
-        
+        </div>
       </body>
     </SectionsContainer>
+    <MainBottom />
     </>
   );
 }

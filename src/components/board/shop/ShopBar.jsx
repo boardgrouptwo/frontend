@@ -15,7 +15,7 @@ const ShopBar = () => {
               </Link>
             </li>
             <li className={window.location.pathname.includes('/shopreceive') ? 'on' : ''}>
-              <Link to="/shopreceive" className="link_rank">
+              <Link to="/shopreceive?type=total" className="link_rank">
                 <span className="txt_tab">받고 만족한</span>
               </Link>             
             </li>

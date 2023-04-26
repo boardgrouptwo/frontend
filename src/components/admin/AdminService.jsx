@@ -7,6 +7,40 @@ import Adminbar from './Adminbar';
 import Bottom from '../include/Bottom';
 import { AdminServiceListDB, serviceDeleteDB, serviceUpdateDB } from '../../service/KhServiceDBLogic';
 import axios from 'axios';
+import * as XLSX from 'xlsx'
+
+/******** 엑셀 내보내기start *********/
+const exportToExcel = (data) => { // 함수를 정의합니다. data 파라미터는 엑셀로 내보낼 데이터입니다.
+  const worksheet = XLSX.utils.json_to_sheet(data); // data를 엑셀 워크시트 형식으로 변환합니다.
+
+  ['순번', '이름', '봉사신청일자', '인원', '신청목적', '자기소개', '승인여부(1:승인)', '고유번호'].forEach((columnName, index) => {
+    const cellAddress = XLSX.utils.encode_cell({ c: index, r: 0 }); // 셀 주소를 계산합니다. 첫 번째 행의 각 열에 컬럼명이 들어갑니다.
+    worksheet[cellAddress].v = columnName; // 각 셀에 컬럼명을 입력합니다.
+  });
+  
+  const hiddenColumns = ['service_no']; // 엑셀에서 숨길 컬럼명을 배열에 담습니다.
+  hiddenColumns.forEach((columnName, index) => {
+    const columnIndex = XLSX.utils.decode_col(columnName); // 숨길 컬럼의 인덱스를 계산합니다.
+    worksheet[`!cols`] = worksheet[`!cols`] || []; // 만약 worksheet에 !cols 속성이 없으면 생성합니다.
+    worksheet[`!cols`][columnIndex] = { hidden: true }; // 숨길 컬럼의 속성(hidden)을 true로 설정합니다.
+  });
+  
+  const workbook = XLSX.utils.book_new(); // 빈 워크북 객체를 생성합니다.
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Data'); // 워크시트를 워크북에 추가합니다.
+  const wbout = XLSX.write(workbook, { type: 'binary', bookType: 'xlsx' }); // 워크북을 바이너리 형식의 엑셀 파일로 변환합니다.
+  const fileName = '봉사신청목록.xlsx'; // 다운로드할 파일명을 지정합니다.
+  const fileBuffer = new ArrayBuffer(wbout.length); // ArrayBuffer 객체를 생성합니다.
+  const view = new Uint8Array(fileBuffer); // Uint8Array 객체를 생성합니다.
+  for (let i = 0; i < wbout.length; i++) { // 워크북의 각 바이트에 대해 반복합니다.
+    view[i] = wbout.charCodeAt(i) & 0xff; // 각 바이트를 Uint8Array에 저장합니다.
+  }
+  const blob = new Blob([fileBuffer], { type: 'application/octet-stream' }); // Blob 객체를 생성합니다.
+  const link = document.createElement('a'); // a 요소를 생성합니다.
+  link.href = URL.createObjectURL(blob); // 다운로드 링크를 생성합니다.
+  link.download = fileName; // 파일명을 지정합니다.
+  link.click(); // 다운로드 링크를 클릭합니다.
+};
+/******** 엑셀 내보내기end *********/
 
 const AdminService = () => {  
 
@@ -256,6 +290,7 @@ const serviceDelete = async () => {
   
       <h2 style={{marginTop: "30px", textAlign: "center"}}> 자원봉사 신청목록 </h2>
       <br />
+
     <Container>
       
     <TableTransfer      
@@ -299,7 +334,15 @@ const serviceDelete = async () => {
             onClick={serviceDelete}
           >
             삭제
-          </Button>
+      </Button>
+      <Button
+            type="default"
+            style={{ height: '23px', paddingTop: '0px', marginTop: '5px' }}
+            onClick={() => exportToExcel(mockData)}
+          >
+            엑셀 다운
+      </Button>
+
       </Space>
       </Container>
       <br />
