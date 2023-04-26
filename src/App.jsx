@@ -37,6 +37,7 @@ import LoginError from './components/main/LoginError'
 import MyPage from './components/board/mypage/MyPage'
 import MyPageDetail from './components/board/mypage/MyPageDetail'
 import Elder from './components/main/Elder'
+import SponsorManagement from './components/Sponsor/SponsorManagement'
 
 
 
@@ -107,6 +108,7 @@ const App = () => {
         <Route path="/sponsor/from" exact={true} element={<SponsorFrom />}/> {/* 후원폼 */}
         <Route path="/sponsor/list" exact={true} element={<SponsorListPage />}/> {/* 후원리스트 */}
         <Route path="/sponsor/success" exact={true} element={<SponsorSuccess />}/> {/* 후원성공 */}
+        <Route path="/sponsor/management" exact={true} element={<SponsorManagement />}/> {/* 후원내역 - 관리자 */}
         {/* 자원봉사 */}
         <Route path="/service/from" exact={true} element={<KhServiceForm />}/> {/* 자원봉사폼 */}
         <Route path="/service/success" exact={true} element={<KhServiceSuccess />}/> {/* 자원봉사신청성공 */}

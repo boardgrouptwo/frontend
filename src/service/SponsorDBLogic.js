@@ -49,3 +49,22 @@ export const sponsorUserSumDB = (user)  =>{
 };
 
 
+export const sponStatisticDB = (sponlist)  =>{
+  console.log("sponStatisticDB 호출")
+  console.log(sponlist)
+
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "spon/sponStatistic",
+        params: sponlist,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+
