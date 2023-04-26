@@ -1,10 +1,6 @@
 import React from 'react'
-import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
-import { elderSelectDB } from '../../../service/ElderDBLogic'
-import { useState } from 'react'
-import VisitDateP from './VisitDateP'
 
 const ElderInfoDiv = styled.div`
   width: 40%;
@@ -45,28 +41,10 @@ const CardP = styled.p`
   margin-bottom: 1em;
 `
 
-const ElderInfo = () => {
+const ElderInfo = ({elderInfo, visitDate}) => {
   const userid = useSelector(state => state.userid);      // 사용자 아이디
   const token = useSelector(state => state.token); 
 
-  // 내원자 정보 객체
-  const [ elderInfo, setElderInfo ] = useState({});
-
-  useEffect(() => {
-    const elderSelect = async () => {
-      console.log("elderSelect 호출")
-      const user = {
-        user_id: userid,
-      }
-
-      const res = await elderSelectDB(user);
-      console.log(res.data)
-
-      setElderInfo(res.data)
-    }
-
-    elderSelect();
-  }, [])
 
   return (
     <>
@@ -83,13 +61,16 @@ const ElderInfo = () => {
             </div>
             <div class="card-body" style={{width: '50%', paddingLeft: '3%'}}>
             {
-              elderInfo.elder_name != null ?
+              elderInfo != null ?
                 <div>
-                  <NameH1>elderInfo.elder_name</NameH1>
+                  <NameH1>{elderInfo.elder_name}</NameH1>
                   <CardP>내원자 정보</CardP>
                   <div style={{display: "flex"}}>
                     <CardP>면회신청 일정</CardP>
-                    <VisitDateP />
+                    {
+                      visitDate != null ? <p>{visitDate}</p>
+                      : <p>일정이 없습니다</p>
+                    }
                   </div>
                   <a href="/mypage/payment" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >내원비 결제</a>
                 </div>

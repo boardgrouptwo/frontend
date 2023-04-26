@@ -59,3 +59,22 @@ export const serviceDeleteDB = (member) => {
     }
   });
 };
+
+
+export const serviceDateDB = (user) => {
+  console.log("serviceDateDB 호출")
+  console.log(user)
+  
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "GET",
+        url: process.env.REACT_APP_SPRING_IP + "service/userDate",
+        params: user,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

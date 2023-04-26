@@ -1,8 +1,5 @@
 import React from 'react'
-import { useEffect } from 'react'
-import { useState } from 'react'
 import styled from 'styled-components'
-import { sponsorUserSumDB } from '../../../service/SponsorDBLogic'
 
 const MyInfoDiv = styled.div`
   width: 40%;
@@ -42,32 +39,16 @@ const CardP = styled.p`
   font-size: 1rem;
   margin-bottom: 1em;
 `
+const InfoP = styled.p`
+  margin-left: 10px;
+  color: #C88B00;
+`
 
 
-const MyInfo = ({userInfo}) => {
-  const [ sponSum, setSponSum ] = useState();
-
+const MyInfo = ({userInfo, sponSum, servDate}) => {
   if (userInfo.user_profile_url  == null) {
     userInfo.user_profile_url = "/images/free-icon-daughter.png"
   }
-
-  // 사용자 총 후원금액
-  const sponsorUserSum = async () => {
-    console.log("sponsorUserSum 호출")
-
-    const user = {
-      user_id: userInfo.user_id,
-    }
-
-    const res = await sponsorUserSumDB(user);
-    console.log(res.data)
-
-    setSponSum(res.data);
-  }
-
-  useEffect(() => {
-    sponsorUserSum();
-  })
 
   return (
     <>
@@ -86,13 +67,19 @@ const MyInfo = ({userInfo}) => {
               <NameH1>{userInfo.user_name}</NameH1>
               <div style={{display: "flex"}}>
                 <CardP>자원봉사 일정</CardP>
+                <InfoP>
+                  {
+                    servDate != null ? {servDate}
+                    : "없음"
+                  }
+                </InfoP>
                 
               </div>
               <div style={{display: "flex"}}>
                 <CardP>총 후원금액</CardP>
-                <p style={{marginLeft: "10px", color: "#C88B00"}}>{sponSum}</p>
+                <InfoP>{sponSum} 원</InfoP>    
               </div>
-              <a href="/mypage/detail" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}}>회원정보 수정</a>
+              <a href="/mypage/detail" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}}>회원정보 수정/탈퇴</a>
             </div>
           </CardLi>
         </div>
