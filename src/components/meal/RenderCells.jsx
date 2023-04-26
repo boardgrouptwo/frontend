@@ -12,8 +12,6 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick }) => {
     let days = [];
     let day = startDate;
     let formattedDate = '';
-  
-
 
 
     while (day <= endDate) {
@@ -25,13 +23,12 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick }) => {
                                                         ? 'selected' : format(currentMonth, 'M') !== format(day, 'M')
                                                         ? 'not-valid': 'valid'}`}
                                   key={`${day.getFullYear()}-${day.getMonth()}-${day.getDate()}`} onClick = {() => onDateClick(cloneDay)} >
-                          <span id={formattedDate} className={format(currentMonth, 'M') !== format(day, 'M')? 'text not-valid': ''} >{formattedDate}</span>
+                          <p id={formattedDate} className={format(currentMonth, 'M') !== format(day, 'M')? 'text not-valid': ''} style={{paddingTop:"5px"}}>{formattedDate}</p>
                         </div> );
                     day = addDays(day, 1);
-                    
                   }//end of for
                   rows.push(<div className='row' key={day} >{days}</div>);
-          days = [];
+                  days = [];
     }
 
 

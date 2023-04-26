@@ -10,11 +10,9 @@ import axios from 'axios';
 import MealDetail from './MealDetail';
 
 const DivContainer = styled.div`
-    
     display: flex;
     flex-direction: column;
     justify-content : center;
-    
 `
 
 const Calender = () => {

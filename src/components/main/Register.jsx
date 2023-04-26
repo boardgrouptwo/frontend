@@ -84,7 +84,7 @@ const Register = () => {
           else if(userEnter === "비입원"){
             Swal.fire({
               icon: "success",
-              title: "회원가입을 축하드립니다!",
+              title: "회원가입을 축하드립니다! 로그인 페이지로 이동합니다",
               showCancelButton: false,
               confirmButtonText: "확인",
               customClass: {
