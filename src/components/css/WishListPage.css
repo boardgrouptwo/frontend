@@ -1,0 +1,154 @@
+* {
+    /* 모든요소 의미 */
+ /*    box-sizing: border-box; 
+    border: 1px solid gray */
+  }
+  @media screen and (max-width: 768px) {
+    .cartpage {
+      width: 100%;
+    }
+    .price_info {
+      margin-right: 0;
+      width: 100%;
+    }
+  }
+  .page-title{
+    padding: 48px 0px 30px;
+    height:20px;
+    
+  }
+.div-container{
+  padding: 0px 60px;
+}
+  .cartlist{
+    
+    width: 350px;
+    font-weight: 500;
+    font-family:'ad', 'sans-serif';
+    justify-content: center;
+    padding: 50px 8px;
+    color: #555;
+    text-align: center;
+    list-style:none;
+  }
+  .p-price{
+    text-align:left;
+    font-weight: 500;
+    font-family:'ad', 'sans-serif';
+
+  }
+.wishlist_check_checkbox{
+  float: left;
+}
+.checkbox:focus {
+  outline: none;
+}
+.checkbox:after {
+  content: "✔";
+  width: 100%;
+  height: 100%;
+  font-size: 0.75rem;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.chk-bind{
+  float: left;
+  text-align: left;
+  list-style:none;
+  font-weight: 500;
+  font-family:'ad', 'sans-serif';
+}
+.checkbox-label {
+  padding-left: 7px;
+}
+
+
+/*  */
+
+.cart_chk {
+  width: 80%;
+  border-bottom: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  font-weight: 500;
+  font-family:'ad', 'sans-serif';
+}
+
+.wishlist_check_checkbox_all {
+  margin-right: 1rem;
+}
+
+.btn_delete {
+  background-color: #c0392b;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+
+.btn_delete:hover {
+  background-color: #e74c3c;
+}
+
+/*  */
+
+
+.sectionleft{
+   padding: 50px 8px;
+}
+.sublayout {
+  display: flex;
+
+}
+.cartpage{
+  float: left;
+  width:50%;
+  height: 50%;
+}
+.price_info{
+ 
+  width: 20%;
+  border: 1px solid gray ;
+  border-radius: 10px 10px 10px 10px;
+  position: sticky;
+  bottom: 0;
+  background-color: #fff;
+  padding: 20px;
+}
+.btn_buy_chk{
+
+  border-radius: 5px 5px 5px 5px;
+}
+.btn_buy_all{
+  border-radius: 5px 5px 5px 5px;
+}
+.section-body{
+  display: flex;
+  flex-wrap: wrap;
+}
+.btn_buy_chk,
+.btn_buy_all {
+  margin-top: 10px;
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #1abc9c;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+}
+
+.btn_buy_chk:hover,
+.btn_buy_all:hover {
+  background-color: #148f77;
+}

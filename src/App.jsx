@@ -38,7 +38,8 @@ import MyPage from './components/board/mypage/MyPage'
 import MyPageDetail from './components/board/mypage/MyPageDetail'
 import Elder from './components/main/Elder'
 import SponsorManagement from './components/Sponsor/SponsorManagement'
-
+import WishlistPage from './components/cart/WishListPage'
+import MemoList from './components/memo/MemoList'
 
 
 const App = () => {
@@ -100,6 +101,7 @@ const App = () => {
         <Route path="/shopreceive" exact={true} element={<ShopReceive/>}/>
         <Route path="/shopadd" exact={true} element={<ShopAdd/>}/>
         <Route path="/shopdetail" element={<ShopDetail/>}/>
+        <Route path="/cart" exact={true}element={<WishlistPage/>}/>
         
         {/* 식단표 */}
         <Route path="/meal" exact={true} element={<Meal/>}/>
@@ -120,6 +122,9 @@ const App = () => {
         <Route path="/qna/detail/" exact={true} element={<QnADetailPage/>}/>
         {/* 면회 */}
         <Route path="/visit/sign/" exact={true} element={<FullCalendarMain/>}/>
+        {/* 월간 */}
+        <Route path="/memo" exact={true} element={<MemoList/>}/>
+
 
         {/* 내정보 */}
         <Route path="/mypage" exact={true} element={<MyPage />} />
