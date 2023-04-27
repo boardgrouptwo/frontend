@@ -16,32 +16,21 @@ export const elderJoinDB = (elder) => {
   });
 };
 
-<<<<<<< Updated upstream
 
 // 내원자 정보 출력
 export const elderSelectDB = (user, token) => {
   console.log("elderSelectDB 출력")
   console.log(user)
-=======
-// 어르신 정보 출력
-export const elderSelectDB = (elder) => {
-  console.log("elderSelectDB 출력");
-  console.log(elder);
->>>>>>> Stashed changes
 
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "GET",
         url: process.env.REACT_APP_SPRING_IP + "elder/elderSelect",
-<<<<<<< Updated upstream
         params: user,
         headers: {
           Authorization: `Bearer ${token}`,
         }
-=======
-        params: elder,
->>>>>>> Stashed changes
       });
 
       resolve(response);

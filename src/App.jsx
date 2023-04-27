@@ -38,14 +38,10 @@ import MyPage from './components/board/mypage/MyPage'
 import MyPageDetail from './components/board/mypage/MyPageDetail'
 import Elder from './components/main/Elder'
 import SponsorManagement from './components/Sponsor/SponsorManagement'
-<<<<<<< Updated upstream
 import WishlistPage from './components/cart/WishListPage'
 import MemoList from './components/memo/MemoList'
-=======
 import ElderUpdate from './components/board/mypage/ElderUpdate'
 import ElderInsert from './components/board/mypage/ElderInsert'
-
->>>>>>> Stashed changes
 
 
 const App = () => {
