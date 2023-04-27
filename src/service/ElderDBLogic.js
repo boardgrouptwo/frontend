@@ -19,7 +19,7 @@ export const elderJoinDB = (elder) => {
 
 
 // 내원자 정보 출력
-export const elderSelectDB = (user) => {
+export const elderSelectDB = (user, token) => {
   console.log("elderSelectDB 출력")
   console.log(user)
 
@@ -29,6 +29,9 @@ export const elderSelectDB = (user) => {
         method: "GET",
         url: process.env.REACT_APP_SPRING_IP + "elder/elderSelect",
         params: user,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
 
       resolve(response)

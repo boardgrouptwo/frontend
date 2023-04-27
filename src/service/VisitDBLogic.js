@@ -1,7 +1,7 @@
 import axios from "axios";
 
 // 면회일정
-export const visitDateDB = (user) => {
+export const visitDateDB = (user, token) => {
   console.log("visitDateDB 출력")
   console.log(user)
 
@@ -11,6 +11,9 @@ export const visitDateDB = (user) => {
         method: "GET",
         url: process.env.REACT_APP_SPRING_IP + "visit/visitDate",
         params: user,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
 
       resolve(response)

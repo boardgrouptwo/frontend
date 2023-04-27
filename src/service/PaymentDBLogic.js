@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const paymentListDB = (board) => {
+export const paymentListDB = (board, token) => {
   console.log("paymentListDB 호출");
 
   return new Promise((resolve, reject) => {
@@ -9,6 +9,9 @@ export const paymentListDB = (board) => {
         method: "get",
         url: process.env.REACT_APP_SPRING_IP + "payment/list",
         params: board,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
       resolve(response);
     } catch (error) {
@@ -17,7 +20,7 @@ export const paymentListDB = (board) => {
   });
 };
 
-export const paymentListPreviewDB = (board) => {
+export const paymentListPreviewDB = (board, token) => {
   console.log("paymentListPreviewDB 호출");
 
   return new Promise((resolve, reject) => {
@@ -26,6 +29,9 @@ export const paymentListPreviewDB = (board) => {
         method: "get",
         url: process.env.REACT_APP_SPRING_IP + "payment/listpreview",
         params: board,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
       resolve(response);
     } catch (error) {

@@ -92,7 +92,7 @@ export const duplicateDB = (user) => {
 };
 
 // 사용자 정보 출력
-export const userInfoDB = (user) => {
+export const userInfoDB = (user, token) => {
   console.log("userInfoDB 출력");
   console.log(user);
 
@@ -102,6 +102,9 @@ export const userInfoDB = (user) => {
         method: "POST",
         url: process.env.REACT_APP_SPRING_IP + "user/userInfo",
         data: user,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
 
       resolve(response);

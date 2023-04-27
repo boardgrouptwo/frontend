@@ -42,7 +42,7 @@ const MyPage = () => {
       user_id: userId,
     }
 
-    const res = await userInfoDB(user);
+    const res = await userInfoDB(user, token);
     console.log(res.data);
 
     const obj = {
@@ -72,7 +72,7 @@ const MyPage = () => {
     }
     console.log(payInfo);
 
-    const res = await paymentListPreviewDB(payInfo);
+    const res = await paymentListPreviewDB(payInfo, token);
     console.log(res.data);
 
     const list = [];
@@ -107,7 +107,7 @@ const MyPage = () => {
       user_id: userId,
     }
 
-    const res = await sponsorUserSumDB(user);
+    const res = await sponsorUserSumDB(user, token);
     console.log(res.data)
 
     setSponSum(res.data);
@@ -122,7 +122,7 @@ const MyPage = () => {
       user_id: userId,
     };
     
-    const res = await serviceDateDB(user);
+    const res = await serviceDateDB(user, token);
     console.log(res.data);
     
     // TODO: 일정이 있는지 코드 작성 필요!!!
@@ -140,7 +140,7 @@ const MyPage = () => {
       user_id: userId,
     };
     
-    const res = await elderSelectDB(user);
+    const res = await elderSelectDB(user, token);
     console.log(res.data);
 
     const obj = {
@@ -165,7 +165,7 @@ const MyPage = () => {
       user_id: userId,
     };
 
-    const res = await visitDateDB(user);
+    const res = await visitDateDB(user, token);
     console.log(res.data);
 
     // TODO: 일정이 있는지 코드 작성 필요!!!

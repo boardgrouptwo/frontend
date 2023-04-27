@@ -61,7 +61,7 @@ export const serviceDeleteDB = (member) => {
 };
 
 
-export const serviceDateDB = (user) => {
+export const serviceDateDB = (user, token) => {
   console.log("serviceDateDB 호출")
   console.log(user)
   
@@ -71,6 +71,9 @@ export const serviceDateDB = (user) => {
         method: "GET",
         url: process.env.REACT_APP_SPRING_IP + "service/userDate",
         params: user,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
       resolve(response);
     } catch (error) {

@@ -30,7 +30,7 @@ export const sponsorListDB = (board)  =>{
   });
 };
 
-export const sponsorUserSumDB = (user)  =>{
+export const sponsorUserSumDB = (user, token)  =>{
   console.log("sponsorUserSumDB 호출")
   console.log(user)
 
@@ -40,6 +40,9 @@ export const sponsorUserSumDB = (user)  =>{
         method: "get",
         url: process.env.REACT_APP_SPRING_IP + "spon/sponsorUserSum",
         params: user,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
       resolve(response);
     } catch (error) {

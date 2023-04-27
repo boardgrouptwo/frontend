@@ -107,7 +107,7 @@ const MyPageDetail = () => {
         user_id: userid,
       }
 
-      const res = await userInfoDB(user);
+      const res = await userInfoDB(user, token);
       console.log(res.data);
 
       const obj = {

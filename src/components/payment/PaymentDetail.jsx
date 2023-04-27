@@ -104,7 +104,7 @@ const PaymentDetail = () => {
         user_id: userId,             // 사용자 정보
       }
 
-      const res = await paymentListDB(paylist);
+      const res = await paymentListDB(paylist, token);
       console.log(res.data);
 
       const list = [];
