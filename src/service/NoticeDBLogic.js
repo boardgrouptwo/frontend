@@ -34,13 +34,16 @@ export const noticeInsertDB = (board, token) => {
   });
 };
 
-export const noticeUpdateDB = (board) => {
+export const noticeUpdateDB = (board, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "notice/update",
         data: board,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {
@@ -49,13 +52,16 @@ export const noticeUpdateDB = (board) => {
   });
 };
 
-export const noticeDeleteDB = (board) => {
+export const noticeDeleteDB = (board, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "get",
         url: process.env.REACT_APP_SPRING_IP + "notice/delete",
         params: board,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {

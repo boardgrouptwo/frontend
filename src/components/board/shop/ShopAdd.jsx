@@ -12,6 +12,7 @@ const ShopAdd = () => {
 
   const navigate = useNavigate();
   const auth = useSelector(state => state.user_type);
+  const token = useSelector(state => state.token);
 
   useEffect(() => {
     if(auth !== 'admin') {
@@ -44,9 +45,11 @@ const ShopAdd = () => {
   };
 
   const handleImageUpload = (file) => {
+    console.log(file)
     const formData = new FormData();
     formData.append("file", file)
-    imageUploadDB(formData)
+    console.log(formData)
+    imageUploadDB(formData, token)
       .then((res) => {
         setImageName(res.data)
         setImageUrl("http://localhost:3000/images/shop/"+res.data)
@@ -82,7 +85,7 @@ const ShopAdd = () => {
       alert("상품명을 입력하세요")
     } else {
       console.log(product)
-      const res = await ProductUploadDB(product);
+      const res = await ProductUploadDB(product, token);
       Swal.fire({
         icon: "success",
         title: "상품 등록되었습니다",
