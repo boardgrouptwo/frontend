@@ -121,7 +121,7 @@ const MainHeader = () => {
                 <Link to="/shopadd">관리자</Link>
                 <ul style={style6}>
                   <li><Link to="/visit/management">면회관리</Link> </li>
-                  <li><Link to="/sponsor/management">후원관리</Link> </li>
+                  <li><Link to="/sponsor/management?page=1">후원관리</Link> </li>
                   <li><Link to="/service/management">자원봉사관리</Link> </li>
                   <li><Link to="/shopadd">상품등록</Link> </li>
                 </ul>
