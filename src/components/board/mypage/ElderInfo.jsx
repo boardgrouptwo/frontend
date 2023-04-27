@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const ElderInfoDiv = styled.div`
@@ -72,10 +73,10 @@ const ElderInfo = ({elderInfo, visitDate}) => {
                       : <p>일정이 없습니다</p>
                     }
                   </div>
-                  <a href="/mypage/payment" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >내원비 결제</a>
+                  <Link to="/mypage/payment" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >내원비 결제</Link>
                 </div>
                 : <div>
-                    <a href="/mypage" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >내원자 추가</a>
+                    <Link to="/elder" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >내원자 추가</Link>
                   </div>
             }
             </div>
