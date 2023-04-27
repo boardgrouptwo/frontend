@@ -27,8 +27,8 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick }) => {
                           <p id={formattedDate} className={format(currentMonth, 'M') !== format(day, 'M')? 'text not-valid': ''} style={{paddingTop:"5px"}}>{formattedDate}</p>
                           <div style={{ marginTop:"17%", whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis", width:"100%", textAlign:"center"}}>
                             <ul style={{listStyle:"none", paddingLeft:"10px"}}>
-                              <li><Link to='/meal/page'>점심</Link></li>
-                              <li>저녁</li>
+                              <li><Link to=''>점심</Link></li>
+                              <li><Link to=''>저녁</Link></li>
                             </ul>
                           </div>
                         </div> );

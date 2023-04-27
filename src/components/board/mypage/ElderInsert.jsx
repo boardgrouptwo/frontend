@@ -91,7 +91,7 @@ const ElderInsert = () => {
       <MainHeader/>
         <div className='sponContainer' >
           <Form className='sponsor-form' noValidate validated={validated} onSubmit={handleSubmit} > 
-            <h3 className='sponsor-form-text'> <img src='/images/elder.gif' style={{width:"11%"}}/>입원자 추가하기</h3>
+            <h3 className='sponsor-form-text'> <img src='/images/write.gif' style={{width:"11%"}}/>입원자 추가하기</h3>
             <br />
             <br />
 
