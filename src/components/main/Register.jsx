@@ -40,7 +40,6 @@ const Register = () => {
 // 폼 제출 이벤트 처리
   const handleSubmit = async(event) => {   // form 컴포넌트에서 submit 할 때 실행됨
 
-<<<<<<< Updated upstream
       const form = event.currentTarget;
       if (form.checkValidity() === false) { //유효 확인 실패 했을 경우
         event.preventDefault();  //이벤트 중단
@@ -56,37 +55,6 @@ const Register = () => {
           showCancelButton: false,
           confirmButtonText: "확인",
         })
-=======
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) { //유효 확인 실패 했을 경우
-      event.preventDefault();  //이벤트 중단
-      event.stopPropagation(); //이벤트 중단
-    }
-    setValidated(true);  // validated 변수를 true로 설정
-    
-    /* 아이디 중복검사를 안했으면 제출할 수 없음 */
-    if(check === false){
-      Swal.fire({
-        icon: "warning",
-        title: "아이디 중복검사를 해주세요",
-        showCancelButton: false,
-        confirmButtonText: "확인",
-      })
-    }
-
-    event.preventDefault();
-
-      //화면에 입력된 값을 DB로 보내는
-      const member= {
-        user_id: userId,
-        password: userPw,
-        user_name: userName,
-        user_birth: userBday,
-        user_gender: userGender,
-        user_tel: userTel,
-        user_email: userEmail,
-        user_enter: userEnter,         
->>>>>>> Stashed changes
       }
 
       event.preventDefault();
@@ -106,7 +74,6 @@ const Register = () => {
 
       const res = await joinDB(member);
       console.log(userEnter)
-      console.log(res.user_enter)
 
       /* 제출하기를 클릭했을 때 입원이면 elder정보 입력하는 폼으로 넘어가고 아니면 회원 가입 완료되게끔 처리 */
       if(check !== false){
