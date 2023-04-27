@@ -18,7 +18,7 @@ const Adminbar = () => {
               <Link to="/visit/management">면회관리</Link>
             </li>
             <li className={window.location.pathname.includes('/sponsor/management') ? 'on' : ''}>
-              <Link to="/sponsor/management">후원관리</Link>
+              <Link to="/sponsor/management?page=1">후원관리</Link>
             </li>
             <li className={window.location.pathname.includes('/service/management') ? 'on' : ''}>
               <Link to="/service/management">자원봉사관리</Link>

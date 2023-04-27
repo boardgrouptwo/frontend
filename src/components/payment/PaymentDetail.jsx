@@ -78,7 +78,7 @@ const PaymentDetail = () => {
     console.log("handlePageClick 호출")
 
     setCurrentPage(pageNumber);
-    navigate("/pagementdetail?page="+pageNumber)
+    navigate("/paymentdetail?pay_type="+pTitle+"&page="+pageNumber)
   }
 
 

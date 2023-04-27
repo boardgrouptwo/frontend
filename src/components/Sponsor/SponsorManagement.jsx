@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import Adminbar from '../admin/Adminbar';
 import Bottom from '../include/Bottom';
-import { Button, Form, InputGroup, Row, Table } from 'react-bootstrap';
+import { Button, Form, InputGroup, Pagination, Row, Table } from 'react-bootstrap';
 import MainHeader from '../include/MainHeader';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -17,44 +17,27 @@ const SponsorManagement = () => {
   const navigate = useNavigate();
   // URL주소
   const search = decodeURIComponent(useLocation().search);
+  console.log(search);
+
   // DB서버에서 받아온 정보 담기
   // 배열 타입 [{},{},{}] -> List<Map>, List<VO>
   const [ listBody, setListBody ] = useState([]);
-  // pay_type 구분 라벨
-  const [ payTypes ] = useState(["전체", "결제", "후원"]);
-  // pay_type 상태 관리
-  const [ pTitle, setPTitle ] = useState("전체");
-  // 사용자 ID
-  const [ user_id, setUserId ] = useState();
-  // 사용자 이름
-  const [ user_name, setUserName ] = useState();
-  // 전화번호
-  const [ spon_number, setSponNumber ] = useState();
-  // 후원일
-  const [ spon_date, setSponDate ] = useState();
-  // 후원종류
-  const [ spon_huwon, setSponHuwon ] = useState();
-  // 후원금액
-  const [ spon_money, setMoney ] = useState();
-  // 결제방법
-  const [ spon_pay, setSponPay ] = useState();
-  // 익명여부
-  const [ spon_open, setSponOpen ] = useState();
-  // 후원내용
-  const [ spon_content, setSponContent ] = useState();
+  const [ user_id, setUserId ] = useState();                // 사용자 ID
+  const [ user_name, setUserName ] = useState();            // 사용자 이름
+  const [ spon_number, setSponNumber ] = useState();        // 전화번호
+  const [ start_date, setStartDate ] = useState();          // 후원일
+  const [ end_date, setEndDate ] = useState();
+  const [ spon_huwon, setSponHuwon ] = useState();          // 후원종류
+  const [ spon_money, setMoney ] = useState();              // 후원금액
+  const [ spon_pay, setSponPay ] = useState();              // 결제방법
+  const [ spon_open, setSponOpen ] = useState();            // 익명여부
+  const [ spon_content, setSponContent ] = useState();      // 후원내용
 
-
+  // 테이블 컬럼 정보
   const listHeaders = ["후원일", "후원자명", "후원금액", "후원종류", "결제방법", "익명여부", "후원내용"];
   const HeaderWidth = ["20%", "10%", "10%", "10%", "10%", "10%", "30%"];
 
-  // listBody(컬럼명)는 상태 훅이다
-  const listHeadersElements = listHeaders.map((listHeader, index) => 
-    listHeader === "결제내용" ?
-      <th key={index} style={{borderStyle: "solid", width: HeaderWidth[index], paddingLeft: "40px"}}>{listHeader}</th>
-      : <th key={index} style={{width: HeaderWidth[index], textAlign: "center"}}>{listHeader}</th>
-  )
-
-  // 결제 리스트 출력
+  // 후원 리스트 출력
   const listItemsElements = listBody.map((listItem, index) => {
     console.log("listItemsElements 호출");
 
@@ -64,36 +47,158 @@ const SponsorManagement = () => {
     )
   })
 
-  const handleSubmit = (event) => {
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      event.preventDefault();
-      event.stopPropagation();
-    }
-  };
+
+  ////////////////////////// 페이징 ///////////////////////
+  // const [currentPage, setCurrentPage] = useState(1);        // 현재 페이지 번호
+  // const [itemsPerPage, setItemsPerPage] = useState(10);     // 10건씩 출력
+  // const [totalItems, setTotalItems] = useState(0);          // 검색된 후원 건수
+  // const MAX_PAGE_ITEMS = 5;                                 // 페이지네이션에서 최대로 보일 페이지 수
+  // const totalPages = Math.ceil(totalItems / itemsPerPage);  // 총 페이지 수
+  // const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+
+
+  // const groupIndex = Math.floor((currentPage - 1) / MAX_PAGE_ITEMS);
+  // const startIndex = (currentPage - 1) * itemsPerPage;
+  // const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+  // const startPage = groupIndex * MAX_PAGE_ITEMS + 1;
+  // const endPage = startPage + MAX_PAGE_ITEMS - 1;
+
+  // const groups = Array.from({ length: Math.ceil(totalPages / MAX_PAGE_ITEMS) }, (_, index) => {
+  //   const start = index * MAX_PAGE_ITEMS;
+  //   return pageNumbers.slice(start, start + MAX_PAGE_ITEMS);
+  // })
+  // .filter(group => group.includes(startPage) || group.includes(endPage) || (group[0] <= startPage && group[group.length - 1] >= endPage));
+
+
+  // // 페이지 이동
+  // const handlePageClick = (event, pageNuber) => {
+  //   event.preventDefault();
+  //   setCurrentPage(pageNuber);
+  //   navigate("/sponsor/management?page=" + pageNuber)
+  // };
+
+
+  // const pages = [];
+  // for (let i = 1; i <= totalPages; i++) {
+  //   pages.push(
+  //     <li key={i} className={currentPage === i ? "active" : ""}>
+  //       <a href="/" onClick={(e) => handlePageClick(e, i)}>{i}</a>
+  //     </li>
+  //   );
+  // }
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
+  const [itemsPerPage, setItemsPerPage] = useState(10); // 페이지당 게시글 수
+  const MAX_PAGE_ITEMS = 5; // 페이지네이션에서 최대로 보일 페이지 수
+  const [totalItems, setTotalItems] = useState(0); // 전체 게시글 수
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
+  const groupSize = Math.ceil(MAX_PAGE_ITEMS / 2);
+  const groupIndex = Math.floor((currentPage - 1) / MAX_PAGE_ITEMS);
+  const startPage = groupIndex * MAX_PAGE_ITEMS + 1;
+  const endPage = startPage + MAX_PAGE_ITEMS - 1;
+
+  const groups = Array.from({ length: Math.ceil(totalPages / MAX_PAGE_ITEMS) }, (_, index) => {
+    const start = index * MAX_PAGE_ITEMS;
+    return pageNumbers.slice(start, start + MAX_PAGE_ITEMS);
+  }).filter(group => group.includes(startPage) || group.includes(endPage) || (group[0] <= startPage && group[group.length - 1] >= endPage));
+  
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const page_num = searchParams.get('page');
+
+  const[pageNum, setPageNum] = useState({
+    page: page_num,
+  })
+  
+  const handlePageClick = (pageNumber) => {
+    setCurrentPage(pageNumber);
+    navigate("/sponsor/management?page="+pageNumber)
+  }
+  ////////////////////////// 페이징 ///////////////////////
+
+
+
+
+
+  // 경로 설정
+  const setPath = () => {
+    // console.log(search);
+    // let path;
+
+    // // 앞에서 조회한 적이 있을 때 기존에 쿼리스트링 삭제 후 다시 쿼리스트링 만들어야한다
+    // if (search.match('condition')) {
+    //   path = location.pathname+
+    //     search.replace(
+    //       `&${search.split('&')
+    //         .filter((item) => { 
+    //           return item.match('page') 
+    //         })
+    //       }&${search.split('&')
+    //         .filter((item) => { 
+    //           return item.match('content') 
+    //         })
+    //       }`,
+    //       `&condition=${tTitle}&content=${content}`
+    //     ).replace(
+    //       `&${search.split('&')
+    //         .filter((item) => { 
+    //           return item.match('page') 
+    //         })
+    //       }`
+    //       ,'&page=1&'
+    //     )
+    // } else {
+    //   path = location.pathname+search+`?condition=${tTitle}&content=${content}`
+    // }
+
+    // console.log(path)///qna/list?condition=제목&content=내용
+
+    // return path;
+  }
+
+
+
+
+
+
+
 
 
   useEffect(() => {
-    const payList = async() => {
-      // 콤보박스 내용 -> 원비, 후원 중 하나
-      // 사용자가 입력한 키워드
-      // http://localhost:3000/paymentdetail?pay_type=전체|결제|후원
-      // [0] : ?pay_type=전체|결제|후원
-      // [1] : 
-      const pay_type = search.split("&").filter((item) => {
-        return item.match("pay_type")
-      })[0]?.split("=")[1];
-      console.log("조회 타입 : " + pay_type);
+    // 쿼리스트링 분해
+    search.split('&').forEach((item, index) => {
+      // item = user_name=이름, user_id=아이디, ...
+      if (item.match("user_name")) {
+        setUserName(item.split("=")[1])
+      } else if (item.match("user_id")) {
+        setUserId(item.split("=")[1])
+      } else if (item.match("spon_pay")) {
+        setSponPay(item.split("=")[1])
+      } else if (item.match("spon_open")) {
+        setSponOpen(item.split("=")[1])
+      } else if (item.match("spon_huwon")) {
+        setSponHuwon(item.split("=")[1])
+      } else if (item.match("start_date")) {
+        setStartDate(item.split("=")[1])
+      } else if (item.match("end_date")) {
+        setEndDate(item.split("=")[1])
+      }
+    })
 
-      // 쿼리스트링 없을 경우 "전체" 출력
-      setPTitle(pay_type||"전체");
-      console.log("사용자ID ===> " + userId);
+    setPageNum({page: page_num})
+
+    // 후원 통계 출력
+    const payList = async() => {
+      const list = [];
 
       const sponlist = {
+        page: page_num,
         user_id: user_id, 
         user_name: user_name, 
         spon_number: spon_number, 
-        spon_date: spon_date, 
+        start_date: start_date, 
+        end_date: end_date, 
         spon_huwon: spon_huwon, 
         spon_money: spon_money,
         spon_pay: spon_pay,
@@ -104,12 +209,8 @@ const SponsorManagement = () => {
       const res = await sponStatisticDB(sponlist);
       console.log(res.data);
 
-      const list = [];
-
       const datas = res.data;
       datas.forEach((item, index) => {
-        console.log(item)
-
         const obj = {
           user_name: item.user_name, 
           spon_number: item.spon_number, 
@@ -120,67 +221,264 @@ const SponsorManagement = () => {
           spon_open: item.spon_open,
           spon_content: item.spon_content,
         }
-
+        
         list.push(obj);
       })
+      setTotalItems(datas[0].total_count); // 검색된 후원 건수
 
-      // 데이터 셋 변화에 따라 리렌더링 할 것과 기존에 DOM을 그냥 출력하는 것 - 비교 알고리즘
       setListBody(list);  
     }
 
     payList();
-  // }, [setListBody, setPTitle, page, search])
-  }, [setListBody])
+  }, [currentPage, page_num])
 
 
 
   return (
     <>
-      <Form>
-      <Row>
-        <Col>
-          <Form.Group controlId="memberName">
-            <Form.Label>Member Name</Form.Label>
-            <Form.Control type="text" placeholder="Enter member name" />
-          </Form.Group>
-        </Col>
+    <MainHeader />
+      <Adminbar />
+      <div className="container" style={{position: "relative"}}>
+        <div className="page-header">
+          <h2 style={{margin: "30px, 0px"}}>후원내역</h2>
+          <hr />
+            {/* 검색 조건 */}
+            <Form noValidate>
+              <Row className="mb-3">
+                {/* 회원 이름 */}
+                <Col>
+                  <Form.Group controlId="user_name">
+                    <Form.Label>회원 이름</Form.Label>
+                    <Form.Control 
+                      type="text" 
+                      placeholder="회원 이름"
+                      onChange={(e) => setUserName(e.target.value)} 
+                    />
+                  </Form.Group>
+                </Col>
 
-        <Col>
-          <Form.Label>Member ID</Form.Label>
-          <Form.Control type="text" placeholder="Enter member ID" />
-        </Col>
-        <Col>
-          <Form.Label>Payment Method</Form.Label>
-          <div style={{display: "flex"}}>
-            <Form.Check type="radio" id="r1" label="Option 1" style={{marginRight: "10px"}} />
-            <Form.Check type="radio" id="r2" label="Option 2" />
+                {/* 회원 ID */}
+                <Col>
+                  <Form.Group controlId="user_id">  
+                    <Form.Label>회원 ID</Form.Label>
+                    <Form.Control 
+                      type="text" 
+                      placeholder="회원 ID" 
+                      onChange={(e) => setUserId(e.target.value)}
+                    />
+                  </Form.Group>
+                </Col>
+
+                {/* 결제방법 */}
+                <Col>
+                  <Form.Group controlId="spon_pay">
+                    <Form.Label>결제방법</Form.Label>
+                    <div style={{display: "flex"}}>
+                      <Form.Check 
+                        type="radio" 
+                        name="payRadios" //같은 그룹으로 묶여 있눈 라디오 그룹은 모두 같은 name 속성 값
+                        id="payRadios1" 
+                        label="홈페이지" 
+                        value="홈페이지"
+                        onChange={(e) => setSponPay(e.target.value)}
+                        style={{marginRight: "10px"}} 
+                      />
+                      <Form.Check 
+                        type="radio" 
+                        name="payRadios"
+                        id="payRadios2"
+                        value="방문"
+                        label="방문" 
+                        onChange={(e) => setSponPay(e.target.value)}
+                      />
+                    </div>
+                  </Form.Group>
+                </Col>
+              </Row>
+
+              <Row>
+                {/* 익명여부 */}
+                <Col>
+                <Form.Group controlId="spon_open">
+                  <Form.Label>익명여부</Form.Label>
+                    <div style={{display: "flex"}}>
+                      <Form.Check 
+                        type="radio" 
+                        name="openRadios" //같은 그룹으로 묶여 있눈 라디오 그룹은 모두 같은 name 속성 값
+                        id="openRadios1" 
+                        label="공개" 
+                        value="공개"
+                        onChange={(e) => setSponOpen(e.target.value)}
+                        style={{marginRight: "10px"}} 
+                      />
+                      <Form.Check 
+                        type="radio" 
+                        name="openRadios"
+                        id="openRadios2"
+                        value="비공개"
+                        label="비공개"
+                        onChange={(e) => setSponOpen(e.target.value)}
+                      />
+                    </div>
+                  </Form.Group>
+                </Col>
+
+                {/* 후원 종류 */}
+                <Col>
+                  <Form.Group controlId="spon_huwon">
+                    <Form.Label>후원 종류</Form.Label>
+                    <div style={{display: "flex"}}>
+                      <Form.Check 
+                        type="radio" 
+                        name="huwonRadios" //같은 그룹으로 묶여 있눈 라디오 그룹은 모두 같은 name 속성 값
+                        id="huwonRadios1" 
+                        label="일반" 
+                        value="일반"
+                        onChange={(e) => setSponHuwon(e.target.value)}
+                        style={{marginRight: "10px"}} 
+                      />
+                      <Form.Check 
+                        type="radio" 
+                        name="huwonRadios"
+                        id="huwonRadios2"
+                        value="물품"
+                        label="물품" 
+                        onChange={(e) => setSponHuwon(e.target.value)}
+                      />
+                    </div>
+                  </Form.Group>
+                </Col>
+
+                {/* 후원 날짜 */}
+                <Col>
+                  <Form.Label>후원 날짜</Form.Label>
+                    <div style={{display: "flex",width: "200px", marginRight: "10px"}} >
+                      <Form.Group controlId="start_date">
+                          <Form.Control 
+                            type="date" 
+                            onChange={(e) => setStartDate(e.target.value)}
+                          />
+                      </Form.Group>
+                      <Form.Label style={{margin: "5px"}}>~</Form.Label>
+                      <Form.Group controlId="end_date">
+                          <Form.Control 
+                            type="date" 
+                            onChange={(e) => setEndDate(e.target.value)}
+                          />
+                      </Form.Group>
+                    </div>
+                </Col>
+              </Row>
+              <hr />
+              <Button 
+                style={{backgroundColor: "#2C786C", borderColor: "white"}} 
+                onClick={() => {
+                  //navigate(setPath());
+                }} 
+              >검색</Button>
+          </Form>
+          <br />
+          <br />
+
+
+
+          {/* 통계 출력 */}
+          <div className="row" style={{paddingBottom: "50px"}}>
+            <Table bordered hover>
+              {/* 컬럼명 */}
+              <thead style={{backgroundColor: "#F5F5F5"}}>
+                <tr style={{textAlign: "center"}}>
+                  {
+                    listHeaders.map((listHeader, index) => 
+                      <th key={index} style={{width: HeaderWidth[index], textAlign: "center"}}>{listHeader}</th>
+                    )
+                  }     
+                </tr>
+              </thead>
+              {/* DB반환값 출력 */}
+              <tbody>
+                {listItemsElements}         
+              </tbody>
+            </Table>
+            <hr style={{marginTop: "30px"}} />
           </div>
-        </Col>
-      </Row>
-      <Row>
-        <Col>
-          <Form.Label>Anonymous</Form.Label>
-          <div style={{display: "flex"}}>
-            <Form.Check type="radio" id="r3" label="Option 1" style={{marginRight: "10px"}}  />
-            <Form.Check type="radio" id="r4" label="Option 2" />
-          </div>
-        </Col>
-        <Col>
-          <Form.Label>Sponsorship Type</Form.Label>
-          <div style={{display: "flex"}}>
-            <Form.Check type="radio" id="r5" label="Option 1" style={{marginRight: "10px"}}  />
-            <Form.Check type="radio" id="r6" label="Option 2" />
-          </div>
-        </Col>
-        <Col>
-          <Form.Label>Sponsorship Date</Form.Label>
-          <div style={{display: "flex",width: "200px", marginRight: "10px"}} >
-            <Form.Control type="date" />
-            <Form.Control type="date" />
-          </div>
-        </Col>
-      </Row>
-    </Form>
+        </div>
+
+        {/* 페이징 처리
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: '50px' }}>
+          <div style={{ flexGrow: 1 }}></div>
+          <Pagination>
+            <Pagination.First onClick={() => handlePageClick(1)} disabled={currentPage === 1} />
+            <Pagination.Prev onClick={() => handlePageClick(currentPage - 1)} disabled={currentPage === 1} />
+              {
+                groups.map((group, index) => (
+                  <React.Fragment key={index}>
+                    {index > 0 && (
+                      <Pagination.Ellipsis
+                        disabled={currentPage < group[0]}
+                        onClick={() => handlePageClick(group[0] - 1)}
+                      />
+                    )}
+                    {group.map((pageNumber) => (
+                      <Pagination.Item
+                        key={pageNumber}
+                        active={pageNumber === currentPage}
+                        onClick={() => handlePageClick(pageNumber)}
+                      >
+                        {pageNumber}
+                      </Pagination.Item>
+                    ))}
+                    {index < groups.length - 1 && (
+                      <Pagination.Ellipsis
+                        disabled={currentPage >= group[group.length - 1]}
+                        onClick={() => handlePageClick(group[group.length - 1] + 1)}
+                      />
+                    )}
+                  </React.Fragment>
+                ))
+              }
+            <Pagination.Next onClick={() => handlePageClick(currentPage + 1)} disabled={currentPage === totalPages} />
+            <Pagination.Last onClick={() => handlePageClick(totalPages)} disabled={currentPage === totalPages} />
+          </Pagination>
+          <div style={{ flexGrow: 1 }}></div>
+        </div> */}
+
+        {/* 페이징 처리 */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: '50px' }}>
+            <Pagination>
+              <Pagination.First onClick={() => handlePageClick(1)} disabled={currentPage === 1} />
+              <Pagination.Prev onClick={() => handlePageClick(currentPage - 1)} disabled={currentPage === 1} />
+              {groups.map((group, index) => (
+                <React.Fragment key={index}>
+                  {index > 0 && (
+                    <Pagination.Ellipsis
+                      disabled={currentPage < group[0]}
+                      onClick={() => handlePageClick(group[0] - 1)}
+                    />
+                  )}
+                  {group.map((pageNumber) => (
+                    <Pagination.Item
+                      key={pageNumber}
+                      active={pageNumber === currentPage}
+                      onClick={() => handlePageClick(pageNumber)}
+                    >
+                      {pageNumber}
+                    </Pagination.Item>
+                  ))}
+                  {index < groups.length - 1 && (
+                    <Pagination.Ellipsis
+                      disabled={currentPage >= group[group.length - 1]}
+                      onClick={() => handlePageClick(group[group.length - 1] + 1)}
+                    />
+                  )}
+                </React.Fragment>
+              ))}
+              <Pagination.Next onClick={() => handlePageClick(currentPage + 1)} disabled={currentPage === totalPages} />
+              <Pagination.Last onClick={() => handlePageClick(totalPages)} disabled={currentPage === totalPages} />
+            </Pagination>
+        </div>
+      </div>
+      <Bottom />
     </>
   )
 }

@@ -217,7 +217,7 @@ const MyPageDetail = () => {
                     setUserGender(e.target.value);
                   }}
                   required
-                  //checked={ userInfo.user_gender == "남성" ? true : false }
+                  checked={ userInfo.user_gender == "남성" ? true : false }
                 />
                 <Form.Check
                   type="radio"
@@ -228,7 +228,7 @@ const MyPageDetail = () => {
                   onChange={(e) => {
                     setUserGender(e.target.value);
                   }}
-                  //checked={ user_gender == "여성" ? true : false }
+                  checked={ user_gender == "여성" ? true : false }
                 />
               </Col>
               </Form.Group>
