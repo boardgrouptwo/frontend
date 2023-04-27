@@ -69,7 +69,7 @@ const Introduction2 = () => {
       <Introductionbar />
     <SectionsContainer {...options}>
       <body style={{ overflow: 'hidden'}}>
-      <div  style={{height: "35rem",  padding:"0px", border: "2px solid black", marginTop:"1%"}}>
+      <div  style={{height: "35rem",  padding:"0px", textAlign: 'center'}}>
       <Section className="oneSecion">
    
       <img
@@ -79,7 +79,7 @@ const Introduction2 = () => {
         />
         <font style={{zIndex:'99', textAlign: "center", position: "absolute", top: "7%", left:"40%", fontSize:"30px", fontWeight: 'bold'}}> 요양원의 새로운 기준 </font>
         <font style={{zIndex:'99', textAlign: "center", position: "absolute", top: "8%", left:"40%", fontSize:"100px", fontWeight: 'bold', color: '#004445'}}> KH요양원 </font>
-        <div className='container' style={{ textAlign: 'center'}}>       
+     
             <img
               src='/images/intro/scroll.png'
               style={{align: "center", width: 'auto', opacity: 1, padding:"1%", cursor: "pointer", transition: "transform 0.3s ease" }}
@@ -87,19 +87,18 @@ const Introduction2 = () => {
               onMouseOut={(e) => {e.currentTarget.style.transform = "none";}}
               onClick={() => window.location.href = "http://localhost:3000/intro#sectionTwo"}
             />
-        </div>
+
         </Section>
         </div>
 
 
 
-
-        <div className='container' style={{paddingTop: "5%", height: "50rem", textAlign: 'center', marginTop:"10%", border: "2px solid blue", position:"absolute"}}>  
-        <Section className="twoSecion">
-        <img src='/images/intro/goldBorder.png'style={{width:"90%", height:"20%", position:"relative", zIndex:"0"}}/>
-        <div style={{margin:"0", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", position:"relative", zIndex:"1"}}>
-        <h1 style={{ color: '#595959', fontWeight: 'bold', fontSize: '2rem', marginTop: '2rem' }}>
-          어르신이 머물고 싶은 집
+        <div style={{paddingTop: "0%", height: "55rem", textAlign: 'center', marginTop:"7%",overflow: "hidden" }}>  
+  <Section className="twoSecion" >
+    <img src='/images/intro/goldBorder.png'style={{width:"1000px", height:"20%", position:"relative", zIndex:"0"}}/>
+    <div style={{margin:"-90px", display:"flex", flexDirection:"column", justifyContent:"center", alignItems:"center", position:"relative", zIndex:"1"}}>
+      <h1 style={{ color: '#595959', fontWeight: 'bold', fontSize: '2rem', marginTop: '2rem' }}>
+        어르신이 머물고 싶은 집
         </h1>
         <h1 style={{ color: '#004445', fontWeight: 'bold', fontSize: '3rem', marginTop: '0rem' }}>
           KH요양원
@@ -125,9 +124,8 @@ const Introduction2 = () => {
         <p style={{ fontSize: '1.2rem', color: '#595959', marginTop: '2rem' }}>
         감사합니다
         </p>
-        <br />
-        <br />
-        <br />
+        <hr />
+
         <img
               src='/images/intro/scroll.png'
               style={{ align: "center", width: 'auto', opacity: 1, padding:"1%", cursor: "pointer", transition: "transform 0.3s ease" }}
@@ -142,7 +140,7 @@ const Introduction2 = () => {
 
 
 
-                <div className='container' style={{paddingTop: "5%", height: "50rem", textAlign: 'center', marginTop:"100%", border: "2px solid red"}}>  
+                <div style={{paddingTop: "5%", height: "50rem", textAlign: 'center'}}>  
         <Section className="threeSecion">
 
         

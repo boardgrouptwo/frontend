@@ -6,7 +6,6 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 import { productReceiveListDB } from '../../../service/ShopDBLogic';
 import styled from 'styled-components';
-import ShopReceiveRow from './ShopReceiveRow';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
 import ShopReceiveRow2 from './ShopReceiveRow2';
@@ -250,6 +249,7 @@ const ShopReceiveCard = ({board}) => {
             <ShopReceiveRow2 key={index} board={board} />
           ))}
       </div>
+
     </>
     );
 };

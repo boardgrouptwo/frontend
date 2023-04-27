@@ -56,10 +56,10 @@ const MainHeader = () => {
               <img src="http://localhost:3000/images/logo.png" />
             </Link>
           </h1>
-          <div id="top_logo2" style={{marginTop: "27px", marginLeft: "10px"}}>
+          <div id="top_logo2" style={{marginTop: "33px", marginLeft: "10px"}}>
             <Link to="/shopmain?type=total">
               <img src="http://localhost:3000/images/logo_gift.png" 
-                style={{width: "160px", height: "55px"}}
+ 
               />
             </Link>
           </div>

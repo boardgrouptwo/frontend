@@ -16,19 +16,24 @@ const TypeForm = styled.div`
 `;
 
 const TypeDiv = styled.div`
-  display: flex; 
-  flex-direction: column; 
+  display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-
-
   cursor: pointer;
   border-radius: 55px;
-  &:hove
-    background-color: lightgray;
+
+  span {
+    color: white;
+    font-size:40px;
+  }
+  &:hover {
+    span {
+      color: #4a9e5c;
+      font-size:43px;
+    }
   }
 `;
-
 const Start = () => {
 
   const navigate = useNavigate();
@@ -43,22 +48,22 @@ const Start = () => {
       <div className="video-background">
   <div className="video-foreground">
     <video autoPlay loop muted playsInline>
-      <source src="images/main4.mp4" type="video/mp4" />
+      <source src="images/mainFlower.mp4" type="video/mp4" />
     </video>
   </div>
 </div>
-<div className ="start-comment"> 가족을 위한 프리미엄 요양원
+<div className ="start-comment"> 가족을 위한 프리미엄 KH요양원
 <div className="other-content">
 
 
             <TypeDiv onClick={()=>{navigate('/login')}} >
               <img src="images/FamilyIcon2.png" style={{width: '60%', height:'30%'}}></img>
-              <span style={{fontSize:'40px', color:"white"}}>KH가족전용</span>
+              <span className="span-button" >KH가족전용</span>
             </TypeDiv>
             <hr style={{width: '100px'}}/>
             <TypeDiv onClick={()=>{navigate('/home')}}  >
               <img src="images/HouseIcon2.png" style={{width: '60%', height:'30%'}}></img>
-              <span style={{fontSize:'40px', color:"white"}}>홈페이지</span>
+              <span className="span-button" >KH홈페이지</span>
             </TypeDiv>
 
 
