@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import ShopReceiveRow from './ShopReceiveRow';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Tooltip from 'react-bootstrap/Tooltip';
+import ShopReceiveRow2 from './ShopReceiveRow2';
 
 
 const Button = styled.button`
@@ -246,7 +247,7 @@ const ShopReceiveCard = ({board}) => {
     {/* 하단 목록 부분 */}
         <div className="prodiv">        
           {productList.map((board,index) => (
-            <ShopReceiveRow key={index} board={board} />
+            <ShopReceiveRow2 key={index} board={board} />
           ))}
       </div>
     </>
