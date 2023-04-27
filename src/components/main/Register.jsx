@@ -10,6 +10,7 @@ import KhPrivacy from '../khservice/KhPrivacy';
 const Register = () => {
   const navigate = useNavigate();
 
+
   // 초기값 설정
   const[userId, setUserId]= useState(''); // 아이디
   const[userPw, setUserPw]= useState(''); // 비밀번호
@@ -79,7 +80,7 @@ const Register = () => {
       if(check !== false){
           console.log("아이디 중복 검사 완료")
           if(userEnter === "입원"){
-            navigate('/elder')
+            navigate('/elder',{state : {userId}})
           }
           else if(userEnter === "비입원"){
             Swal.fire({
@@ -172,7 +173,7 @@ const Register = () => {
                   </div>
             </Form.Group>
 
-            <Form.Group as={Row} className="mb-3" controlId="userPw"> 
+            <Form.Group as={Row} className="mb-3" controlId="password"> 
                     <Form.Label column sm={2}>비밀번호</Form.Label>
                     <Col sm={8}>
                         <Form.Control 

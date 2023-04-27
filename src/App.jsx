@@ -38,8 +38,14 @@ import MyPage from './components/board/mypage/MyPage'
 import MyPageDetail from './components/board/mypage/MyPageDetail'
 import Elder from './components/main/Elder'
 import SponsorManagement from './components/Sponsor/SponsorManagement'
+<<<<<<< Updated upstream
 import WishlistPage from './components/cart/WishListPage'
 import MemoList from './components/memo/MemoList'
+=======
+import ElderUpdate from './components/board/mypage/ElderUpdate'
+import ElderInsert from './components/board/mypage/ElderInsert'
+
+>>>>>>> Stashed changes
 
 
 const App = () => {
@@ -83,6 +89,8 @@ const App = () => {
         <Route path="/join" exact={true} element={<Register />}/>
         {/* 어르신 정보 */}
         <Route path="/elder" exact={true} element={<Elder />}/>
+        <Route path="/elderupdate" exact={true} element={<ElderUpdate />}/>
+        <Route path="/elderinsert" exact={true} element={<ElderInsert />}/>
 
         {/* 로그인 */}
         <Route path="/login" exact={true} element={<Login/>}/>

@@ -1,16 +1,27 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Accordion, Button, Col, Fade, Form, Row } from 'react-bootstrap'
 import { useLocation, useNavigate } from 'react-router';
 import Swal from 'sweetalert2';
-import GoogleRecaptcha from '../google/GoogleRecaptcha';
-import MainHeader from '../include/MainHeader';
-import { elderInsertDB, elderJoinDB } from '../../service/ElderDBLogic';
-import KhPrivacy from '../khservice/KhPrivacy';
+import { useSelector } from 'react-redux';
+import { elderUpdateDB } from '../../../service/ElderDBLogic';
+import MainHeader from '../../include/MainHeader';
+import KhPrivacy from '../../khservice/KhPrivacy';
+import GoogleRecaptcha from '../../google/GoogleRecaptcha';
 
-const Elder = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { userId } = location.state;
+/* 존재하는 어르신 정보를 수정할 때 사용하는 페이지 */
+const ElderUpdate = () => {
+
+  const navigate = useNavigate()
+  
+  const userId = useSelector(state => state.userId)
+  
+  /* 로그인을 한 사람만 볼 수 있게 처리하는 문장 */
+  const isLogin = useSelector(state => state.isLogin)
+  useEffect(()=>{
+    if(isLogin === true){
+      navigate('/login')
+    }
+  },[])
   
   
   // 어르신 아이디 - user테이블의 user_id
@@ -19,12 +30,11 @@ const Elder = () => {
   const[elderName, setElderName]= useState(''); // 어르신 이름 
   const[elderAge, setElderAge]= useState(''); // 어르신 나이
   const[elderGender, setElderGender]= useState(''); // 어르신성별
-  const [elderStatus, setElderStatus] = useState("입원"); //어르신 입원 여부
+  const [elderStatus, setElderStatus] = useState(""); //어르신 입원 여부
   const [attDate, setAttDate] = useState(""); //입원일
   const [disDate, setDisDate] = useState(""); //퇴원일 
 
   const [showError, setShowError] = useState(false);//폼 검증 유효성 검사
-  const [showError2, setShowError2] = useState(false);//폼 검증 유효성 검사
   const [validated, setValidated] = useState(false); //폼 검증 유효성 검사
 
 
@@ -52,11 +62,11 @@ const Elder = () => {
         }
         console.log(elder);
 
-      const res = await elderJoinDB(elder);
+      const res = await elderUpdateDB(elder);
       
       Swal.fire({
         icon: "success",
-        title: "입원자 정보 입력 완료",
+        title: "입원자 정보 수정 완료",
         showCancelButton: false,
         confirmButtonText: "확인",
         customClass: {
@@ -76,13 +86,19 @@ const Elder = () => {
     window.location.href = window.location.href;
   }
 
+  /* 퇴원하기 버튼 */
+  const elderOut = () => {
+    console.log("퇴원하기 버튼 클릭")
+    navigate('/mypage')
+  }
+
 
   return (
     <>
       <MainHeader/>
         <div className='sponContainer' >
           <Form className='sponsor-form' noValidate validated={validated} onSubmit={handleSubmit} > 
-            <h3 className='sponsor-form-text'> <img src='/images/elder.gif' style={{width:"11%"}}/>입원자 정보 등록</h3>
+            <h3 className='sponsor-form-text'> <img src='/images/elder.gif' style={{width:"11%"}}/> 입원자 정보 수정 </h3>
             <br />
             <br />
 
@@ -156,7 +172,6 @@ const Elder = () => {
                       checked={elderStatus === '입원'} // 현재 선택된 값과 비교하여 체크 여부 결정
                       onChange={(e) => setElderStatus(e.target.value)} // 상태 업데이트 함수
                       required
-                      disabled={true}
                     />
                     <Form.Check
                       type="radio"
@@ -167,7 +182,6 @@ const Elder = () => {
                       checked={elderStatus === '퇴원'} // 현재 선택된 값과 비교하여 체크 여부 결정
                       onChange={(e) => setElderStatus(e.target.value)} // 상태 업데이트 함수
                       required
-                      disabled={true}
                     />
                   </Col>
                 </Form.Group>
@@ -188,35 +202,28 @@ const Elder = () => {
                 </Col>
               </Form.Group>
 
-              <br /> 
-              
-              <Form.Check
-                  required
-                  label="아래 내용을 확인하였으며 개인정보 처리 방침안내의 내용에 동의합니다. (체크필수)"
-                  feedback="동의 필수 항목입니다."
-                  feedbackType="invalid"
-              />
-
-              <Form.Group as={Row} className="mb-3" controlId="service_Check">
-                  <Form.Label column sm={10}>
-                    <Accordion>
-                      <Accordion.Item eventKey="0">
-                        <Accordion.Header>개인정보 처리방침 안내</Accordion.Header>
-                        <Accordion.Body> <KhPrivacy /></Accordion.Body>
-                      </Accordion.Item>
-                    </Accordion>
+              <Form.Group as={Row} className="mb-3" controlId="attDate">
+                <Form.Label column sm={2}>
+                퇴원일
                 </Form.Label>
+                <Col sm={8}>
+                  <Form.Control 
+                  type="date" 
+                  placeholder="퇴원일을 선택해주세요." 
+                  required
+                  value={disDate}
+                  onChange={(e) => setDisDate(e.target.value)}
+                  />
+                </Col>
               </Form.Group>
 
-              <br />
-            {/* 구글 캡차 서비스 */}
-            <GoogleRecaptcha />
               <br />
               <br />
 
               <Form.Group as={Row} className="mb-3" >
-                  <Col sm={{ span: 10, offset: 4 }}>
-                  <Button type="submit" variant="success" >제출하기</Button>{' '}
+                  <Col sm={{ span: 10, offset: 3 }}>
+                  <Button type="submit" variant="success" >수정하기</Button>{' '}
+                  <Button type="submit" variant="success" onClick={elderOut}>퇴원하기</Button>{' '}
                   <Button type="reset" variant="secondary"  onClick={resetClick} >초기화</Button>
                   </Col>
               </Form.Group>
@@ -226,4 +233,4 @@ const Elder = () => {
   )
 }
 
-export default Elder
+export default ElderUpdate

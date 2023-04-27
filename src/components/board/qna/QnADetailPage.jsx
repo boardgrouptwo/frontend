@@ -10,6 +10,7 @@ import { Button, Col, Form, ListGroup, Modal, Row } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import QuillEditor from './QuillEditor'
 import Swal from 'sweetalert2'
+import Moment from 'react-moment'
 
 const QnADetailPage = () => {
     const navigate = useNavigate()
@@ -166,6 +167,23 @@ const QnADetailPage = () => {
     }
 
 
+    /*  
+    //댓글을 달면 나오는 업로드 시간 - 시간되면 해보기
+    const displayCreatedAt = (createdAt) => {
+      let startTime = new Date(createdAt);
+      let nowTime = Date.now();
+      if (parseInt(startTime - nowTime) > -60000) {
+        return <Moment format="방금 전">{startTime}</Moment>;
+      }
+      if (parseInt(startTime - nowTime) < -86400000) {
+        return <Moment format="MMM D일">{startTime}</Moment>;
+      }
+      if (parseInt(startTime - nowTime) > -86400000) {
+        return <Moment fromNow>{startTime}</Moment>;
+      }
+    };
+    */
+
     
 
 
@@ -261,18 +279,18 @@ const QnADetailPage = () => {
           </div>
           <div style={{marginBottom:"300px"}}></div>
 
-              <hr/>
               {/* 댓글을 입력하면 입력한 댓글 값이 보이는 화면 */}
               {
               (rshow)?
               (
                 <div >
+                  <hr/>
                       <div style={{float:"left"}}>
                           <img src='/images/admin.gif' style={{width:"70px", borderRadius:"50px", marginTop:"10%", marginLeft:"2%", paddingLeft:"10%"}}/><p style={{display:"flex", marginTop:"2%", marginLeft:"26%"}}>관리자</p>
                       </div>
                       <div style={{border:"2px solid #024445", borderRadius:"50px", width:"90%", height:"90%", marginLeft:"8%", marginTop:"1%", marginBottom:"1%"}} >
-                          <h5 style={{ marginTop:"2%", marginLeft:"30px"}}>답변</h5>
-                          <p style={{ marginTop:"1%", marginLeft:"30px"}}>{board.reple_content}</p>
+                          <h5 style={{ marginTop:"2%", marginLeft:"30px", whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis" }}>답변</h5>
+                          <p style={{ marginTop:"1%", marginLeft:"30px", whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis"}}>{board.reple_content}</p>
                       </div>
               </div>
                 ): (<></>)

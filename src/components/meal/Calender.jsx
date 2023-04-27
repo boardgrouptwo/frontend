@@ -32,11 +32,18 @@ const Calender = () => {
 
     const onDateClick = async (day) => {
         const formattedDate = format(day, 'd');
+
+        /* formattedDate는 내가 클릭한 달력의 날짜 */
         console.log(formattedDate)
+
+        /* selectedDate는 오늘의 날짜 */
+        console.log(selectedDate)
+
+        console.log(currentMonth)
+        
         try {
             const response = await axios.get(process.env.REACT_APP_SPRING_IP + `meal/mealList?selectedDate=${formattedDate}`);
             console.log(response.data);
-            // TODO: 데이터 처리 로직 작성
             setMealData(response.data);
         } catch (error) {
             console.error(error);

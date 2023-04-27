@@ -1,6 +1,5 @@
 import axios from "axios";
 
-
 //어르신 회원가입
 export const elderJoinDB = (elder) => {
   return new Promise((resolve, reject) => {
@@ -17,44 +16,75 @@ export const elderJoinDB = (elder) => {
   });
 };
 
+<<<<<<< Updated upstream
 
 // 내원자 정보 출력
 export const elderSelectDB = (user, token) => {
   console.log("elderSelectDB 출력")
   console.log(user)
+=======
+// 어르신 정보 출력
+export const elderSelectDB = (elder) => {
+  console.log("elderSelectDB 출력");
+  console.log(elder);
+>>>>>>> Stashed changes
 
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "GET",
         url: process.env.REACT_APP_SPRING_IP + "elder/elderSelect",
+<<<<<<< Updated upstream
         params: user,
         headers: {
           Authorization: `Bearer ${token}`,
         }
+=======
+        params: elder,
+>>>>>>> Stashed changes
       });
 
-      resolve(response)
+      resolve(response);
     } catch (error) {
       reject(error);
     }
   });
 };
 
-// 내원자 정보 추가
-export const elderInsertDB = (user) => {
-  console.log("elderInsertDB 출력")
-  console.log(user)
+// 어르신 정보 작성
+export const elderInsertDB = (elder) => {
+  console.log("elderInsertDB 출력");
+  console.log(elder);
 
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "POST",
         url: process.env.REACT_APP_SPRING_IP + "elder/elderInsert",
-        data: user,
+        data: elder,
       });
 
-      resolve(response)
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+// 어르신 정보 수정
+export const elderUpdateDB = (elder) => {
+  console.log("elderUpdateDB 출력");
+  console.log(elder);
+
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "POST",
+        url: process.env.REACT_APP_SPRING_IP + "elder/elderUpdate",
+        data: elder,
+      });
+
+      resolve(response);
     } catch (error) {
       reject(error);
     }

@@ -47,7 +47,7 @@ const HomePage = () => {
               <ul>
                   <li><Link to="/notice?page=1">공지사항</Link></li>
                   <li><Link to="/shopmain?type=total">월간일정표</Link></li>
-                  <li><Link to="/qna">QNA</Link></li>
+                  <li><Link to="/qna?page=1">QNA</Link></li>
                   <li><Link to="/sponsor/from">후원하기</Link></li>
                   <li><Link to="/service/from">봉사신청</Link></li>
                   <li><Link onClick={handleOpenModal}>챗봇</Link></li>

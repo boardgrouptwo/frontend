@@ -6,7 +6,7 @@ const RenderDays = () => {
 
     for(let i =0; i <7 ; i++){
         days.push(
-              <div className='col' key= {i}>
+              <div className='col' key= {i} style={{whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis"}}>
                       {date[i]}
               </div>,
           )

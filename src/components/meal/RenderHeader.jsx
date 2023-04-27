@@ -10,7 +10,7 @@ const RenderHeader = ({currentMonth, prevMonth, nextMonth}) => {
                         <Icon icon="bi:arrow-left-circle-fill" style={{width:"60%", height:"90%"}}  onClick={prevMonth}/>
                       </div>
                           <img src='/images/meal2.gif' style={{width:"10%", paddingRight:"0", marginBottom:"3%"}} />
-                          <div className='col col-start'>
+                          <div className='col col-start' style={{whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis"}}>
                                     {format(currentMonth, 'yyyy')}년  {format(currentMonth, 'M')}월의 식단표
                           </div>
                           <img src='/images/meal.gif' style={{width:"10%", paddingLeft:"0", marginBottom:"1%"}} />
