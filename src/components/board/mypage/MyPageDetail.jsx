@@ -124,8 +124,7 @@ const MyPageDetail = () => {
       }
 
       setUserInfo(obj)
-      setUserGender(userInfo.user_gender);
-      console.log(user_gender)
+      setUserGender(obj.user_gender);
     }
 
     FindUserInfo();

@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import QuillEditor from './QuillEditor'
 import { useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
 
 const NoticeDetail = () => {
 
@@ -19,6 +20,7 @@ const NoticeDetail = () => {
   const [nextHovered, setNextHovered] = useState(false);
 
   const user = useSelector(state => state.user_type); 
+  const token = useSelector(state => state.token)
 
   //const {notice_no} = useParams()
   const location = useLocation();
@@ -101,8 +103,17 @@ const NoticeDetail = () => {
 
   //게시판 삭제
   const noticeDelete = async () => {
-    const res = await noticeDeleteDB(pboard);
+    const res = await noticeDeleteDB(pboard,token);
     if(res.data===1) {
+      Swal.fire({
+        icon: "success",
+        title: "게시물 삭제 성공",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        customClass: {
+          confirmButton: "my-confirm-button"
+        }
+      })
       navigate("/notice")
     }
   }
@@ -139,9 +150,16 @@ const NoticeDetail = () => {
       notice_title: title,
       notice_content: content
     }
-    const res = await noticeUpdateDB(board)
-
-    alert("수정이 완료되었습니다.")
+    const res = await noticeUpdateDB(board, token)
+    Swal.fire({
+      icon: "success",
+      title: "공지사항 수정 성공",
+      showCancelButton: false,
+      confirmButtonText: "확인",
+      customClass: {
+        confirmButton: "my-confirm-button"
+      }
+    })
     setRend(rend+1)
     handleClose();
   }

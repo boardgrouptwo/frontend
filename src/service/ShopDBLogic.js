@@ -29,13 +29,16 @@ export const productHitDB = (product) => {
   });
 };
 
-export const imageUploadDB = (product) => {
+export const imageUploadDB = (product, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "shop/imageUpload",
         data: product,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {
@@ -44,13 +47,16 @@ export const imageUploadDB = (product) => {
   });
 };
 
-export const ProductUploadDB = (product) => {
+export const ProductUploadDB = (product, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "shop/productUpload",
         data: product,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {
