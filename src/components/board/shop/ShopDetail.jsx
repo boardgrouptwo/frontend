@@ -138,6 +138,7 @@ const ShopDetail = () => {
       product_title: product.product_title
     }
     
+    navigate("/order", { state: obj })
   };
 
   //장바구니

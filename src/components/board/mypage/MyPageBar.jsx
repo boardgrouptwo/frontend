@@ -23,7 +23,7 @@ const MyPageBar = () => {
               <Link to="/home">장바구니</Link>
             </li>
             <li className={window.location.pathname.includes('/paymentdetail') ? 'on' : ''}>
-              <Link to="/paymentdetail?pay_type=전체">결제내역</Link>
+              <Link to="/paymentdetail?pay_type=전체&page=1">결제내역</Link>
             </li>         
           </ul>
         </div>

@@ -42,50 +42,12 @@ const SponsorManagement = () => {
     console.log("listItemsElements 호출");
 
     return (
-      // <SponsorStatistic key={index} listItem={listItem} pageNum={pageNumbers} />
       <SponsorStatistic key={index} listItem={listItem} />
     )
   })
 
 
   ////////////////////////// 페이징 ///////////////////////
-  // const [currentPage, setCurrentPage] = useState(1);        // 현재 페이지 번호
-  // const [itemsPerPage, setItemsPerPage] = useState(10);     // 10건씩 출력
-  // const [totalItems, setTotalItems] = useState(0);          // 검색된 후원 건수
-  // const MAX_PAGE_ITEMS = 5;                                 // 페이지네이션에서 최대로 보일 페이지 수
-  // const totalPages = Math.ceil(totalItems / itemsPerPage);  // 총 페이지 수
-  // const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
-
-
-  // const groupIndex = Math.floor((currentPage - 1) / MAX_PAGE_ITEMS);
-  // const startIndex = (currentPage - 1) * itemsPerPage;
-  // const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-  // const startPage = groupIndex * MAX_PAGE_ITEMS + 1;
-  // const endPage = startPage + MAX_PAGE_ITEMS - 1;
-
-  // const groups = Array.from({ length: Math.ceil(totalPages / MAX_PAGE_ITEMS) }, (_, index) => {
-  //   const start = index * MAX_PAGE_ITEMS;
-  //   return pageNumbers.slice(start, start + MAX_PAGE_ITEMS);
-  // })
-  // .filter(group => group.includes(startPage) || group.includes(endPage) || (group[0] <= startPage && group[group.length - 1] >= endPage));
-
-
-  // // 페이지 이동
-  // const handlePageClick = (event, pageNuber) => {
-  //   event.preventDefault();
-  //   setCurrentPage(pageNuber);
-  //   navigate("/sponsor/management?page=" + pageNuber)
-  // };
-
-
-  // const pages = [];
-  // for (let i = 1; i <= totalPages; i++) {
-  //   pages.push(
-  //     <li key={i} className={currentPage === i ? "active" : ""}>
-  //       <a href="/" onClick={(e) => handlePageClick(e, i)}>{i}</a>
-  //     </li>
-  //   );
-  // }
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
   const [itemsPerPage, setItemsPerPage] = useState(10); // 페이지당 게시글 수
   const MAX_PAGE_ITEMS = 5; // 페이지네이션에서 최대로 보일 페이지 수
@@ -206,7 +168,7 @@ const SponsorManagement = () => {
         spon_content: spon_content,
       }
 
-      const res = await sponStatisticDB(sponlist);
+      const res = await sponStatisticDB(sponlist, token);
       console.log(res.data);
 
       const datas = res.data;
@@ -404,12 +366,11 @@ const SponsorManagement = () => {
           </div>
         </div>
 
-        {/* 페이징 처리
+        {/* 페이징 처리 */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: '50px' }}>
-          <div style={{ flexGrow: 1 }}></div>
-          <Pagination>
-            <Pagination.First onClick={() => handlePageClick(1)} disabled={currentPage === 1} />
-            <Pagination.Prev onClick={() => handlePageClick(currentPage - 1)} disabled={currentPage === 1} />
+            <Pagination>
+              <Pagination.First onClick={() => handlePageClick(1)} disabled={currentPage === 1} />
+              <Pagination.Prev onClick={() => handlePageClick(currentPage - 1)} disabled={currentPage === 1} />
               {
                 groups.map((group, index) => (
                   <React.Fragment key={index}>
@@ -440,42 +401,6 @@ const SponsorManagement = () => {
             <Pagination.Next onClick={() => handlePageClick(currentPage + 1)} disabled={currentPage === totalPages} />
             <Pagination.Last onClick={() => handlePageClick(totalPages)} disabled={currentPage === totalPages} />
           </Pagination>
-          <div style={{ flexGrow: 1 }}></div>
-        </div> */}
-
-        {/* 페이징 처리 */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: '50px' }}>
-            <Pagination>
-              <Pagination.First onClick={() => handlePageClick(1)} disabled={currentPage === 1} />
-              <Pagination.Prev onClick={() => handlePageClick(currentPage - 1)} disabled={currentPage === 1} />
-              {groups.map((group, index) => (
-                <React.Fragment key={index}>
-                  {index > 0 && (
-                    <Pagination.Ellipsis
-                      disabled={currentPage < group[0]}
-                      onClick={() => handlePageClick(group[0] - 1)}
-                    />
-                  )}
-                  {group.map((pageNumber) => (
-                    <Pagination.Item
-                      key={pageNumber}
-                      active={pageNumber === currentPage}
-                      onClick={() => handlePageClick(pageNumber)}
-                    >
-                      {pageNumber}
-                    </Pagination.Item>
-                  ))}
-                  {index < groups.length - 1 && (
-                    <Pagination.Ellipsis
-                      disabled={currentPage >= group[group.length - 1]}
-                      onClick={() => handlePageClick(group[group.length - 1] + 1)}
-                    />
-                  )}
-                </React.Fragment>
-              ))}
-              <Pagination.Next onClick={() => handlePageClick(currentPage + 1)} disabled={currentPage === totalPages} />
-              <Pagination.Last onClick={() => handlePageClick(totalPages)} disabled={currentPage === totalPages} />
-            </Pagination>
         </div>
       </div>
       <Bottom />

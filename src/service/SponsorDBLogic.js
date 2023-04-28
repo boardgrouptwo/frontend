@@ -52,7 +52,7 @@ export const sponsorUserSumDB = (user, token)  =>{
 };
 
 
-export const sponStatisticDB = (sponlist)  =>{
+export const sponStatisticDB = (sponlist, token)  =>{
   console.log("sponStatisticDB 호출")
   console.log(sponlist)
 
@@ -62,6 +62,9 @@ export const sponStatisticDB = (sponlist)  =>{
         method: "get",
         url: process.env.REACT_APP_SPRING_IP + "spon/sponStatistic",
         params: sponlist,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
       resolve(response);
     } catch (error) {

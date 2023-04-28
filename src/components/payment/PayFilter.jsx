@@ -22,7 +22,7 @@ const PayFilter = ({types, type, id, title, handlePTitle}) => {
     console.log(key)
 
     let path='';
-    path = '?pay_type=' + newItem;
+    path = '?pay_type=' + newItem + "&page=1";
 
     return path;
   }

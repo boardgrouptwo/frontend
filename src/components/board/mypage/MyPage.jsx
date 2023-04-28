@@ -68,6 +68,7 @@ const MyPage = () => {
 
     const payInfo = {
       pay_type: "전체",
+      limit_cnt: "5",              // 5건 출력
       user_id: userId,             // 사용자 정보
     }
     console.log(payInfo);

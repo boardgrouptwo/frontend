@@ -59,7 +59,7 @@ const MyPageDetail = () => {
     }
     console.log(member);
 
-    const res = await userUpdateDB(member);
+    const res = await userUpdateDB(member, token);
     console.log(res.data)
 
     if (res.data != 1){

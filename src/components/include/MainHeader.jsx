@@ -106,7 +106,7 @@ const MainHeader = () => {
                 <ul style={style4}>
                   <li><Link to="/mypage">내정보</Link> </li>
                   <li><Link to="/home">장바구니</Link> </li>
-                  <li><Link to="/paymentdetail?pay_type=전체">결제내역</Link> </li>
+                  <li><Link to="/paymentdetail?pay_type=전체&page=1">결제내역</Link> </li>
                   <li><Link to="/visit/sign">면회 신청</Link> </li>
                 </ul>
               </li>

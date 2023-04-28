@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const paymentListDB = (board, token) => {
   console.log("paymentListDB 호출");
+  console.log(board)
 
   return new Promise((resolve, reject) => {
     try {
