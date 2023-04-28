@@ -46,6 +46,7 @@ import PaymentSuccess from './components/payment/PaymentSuccess'
 import WishListPage from './components/board/shop/WishListPage'
 import "react-datetime/css/react-datetime.css";
 import SchedulePage from'./components/schedule/SchedulePage'
+import KhServiceReview from './components/khservice/KhServiceReview'
 
 const App = () => {
 

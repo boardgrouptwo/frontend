@@ -1,8 +1,8 @@
 import { Button, Result } from 'antd';
 import MainHeader from '../include/MainHeader';
-import SponsorFrombar from '../Sponsor/SponsorFrombar';
 import Bottom from '../include/Bottom';
 import { useNavigate } from 'react-router-dom';
+import KhSponorServicebar from '../khservice/KhSponorServicebar';
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ const PaymentSuccess = () => {
   return (
     <>
       <MainHeader />
-      <SponsorFrombar />
+      <KhSponorServicebar />
       <br />
       <br />
       <div className='container' style={{ textAlign: 'center' }}>
