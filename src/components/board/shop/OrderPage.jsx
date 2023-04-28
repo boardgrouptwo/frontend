@@ -1,3 +1,4 @@
+/* global daum */
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import MainHeader from '../../include/MainHeader';
@@ -57,6 +58,45 @@ const OrderPage = () => {
   const[check, setCheck] = useState(false);
 
   console.log(orderInfo);
+
+
+  // 주소 검색 api
+  const[post, setPost] = useState({
+    zipcode: "",
+    addr: "",
+    addrDetail: ""
+  })
+
+  const openZipcode = () => {
+    new daum.Postcode({
+      oncomplete: function(data) {
+        // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+        // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+        // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+        let addr = ''; // 주소 변수
+        let extraAddr = ''; // 참고항목 변수
+
+        //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+        if (data.userSelectedType === 'R') { 
+          addr = data.roadAddress;//도로명
+        } else { 
+          addr = data.jibunAddress;//지번
+        }
+
+        console.log(data);
+        console.log(addr);
+
+        setPost({...post, zipcode:data.zonecode, addr:addr});
+
+        // 우편번호와 주소 정보를 해당 필드에 넣는다.
+        document.getElementById("zipcode").value = data.zonecode;
+        document.getElementById("addr").value = addr;
+        setUserAddr(addr);
+      }
+    }).open();
+  }
+
 
   
   const onClickPayment = () => {
@@ -182,7 +222,7 @@ const OrderPage = () => {
           <OrderDiv>
             <OrderRawDiv>
               {/* 이름 */}
-              <Form.Group as={Row} className="mb-3" controlId="userName">
+              <Form.Group as={Row} className="mb-3" controlId="Name">
                 <Form.Label column sm={2}>이름</Form.Label>
                 <Col sm={8} style={{ display: "flex", alignItems: "center" }}>
                   <Form.Control 
@@ -196,7 +236,7 @@ const OrderPage = () => {
                 </Col>
               </Form.Group>
               {/* 연락처 */}
-              <Form.Group as={Row} className="mb-3" controlId="userTel">
+              <Form.Group as={Row} className="mb-3" controlId="Tel">
                 <Form.Label column sm={2}>연락처</Form.Label>
                 <Col sm={8} style={{ display: "flex", alignItems: "center" }}>
                   <Form.Control 
@@ -210,20 +250,30 @@ const OrderPage = () => {
                 </Col>
               </Form.Group>
               {/* 주소 */}
-              <Form.Group as={Row} className="mb-3" controlId="userAddr">
+              <Form.Group as={Row} className="mb-3" controlId="Addr">
                 <Form.Label column sm={2}>주소</Form.Label>
-                <Col sm={8} style={{ display: "flex", alignItems: "center" }}>
-                  <Form.Control 
-                    type="text"
-                    onChange={(e) => setUserAddr(e.target.value)}
-                  />
-                  {/* <Form.Control type="invalid" style={{ display: showError ? "block" : "none" }}>
-                    주소를 입력해주세요.
-                  </Form.Control> */}
-                </Col>
+                  <Col sm={8} style={{ alignItems: "center" }}>
+                    <div style={{display: "flex"}}>
+                      <Form.Control 
+                        type="text" 
+                        id="zipcode"
+                        placeholder="우편번호를 입력해주세요." 
+                        onChange={(e)=>{console.log(e.target.value)}} 
+                        style={{width: "50%"}}
+                      />
+                      <Button type="button" onClick={()=>{openZipcode()}}>주소검색</Button>
+                    </div>
+                    <Form.Control  
+                      type="text" 
+                      id="addr" 
+                      defaultValue={post.addr} 
+                      readOnly 
+                      placeholder="주소검색을 해주세요."
+                    />
+                  </Col>
               </Form.Group>
               {/* 배송 요청사항 */}
-              <Form.Group as={Row} className="mb-3" controlId="requestText">
+              <Form.Group as={Row} className="mb-3" controlId="requestT">
                 <Form.Label column sm={2}>배송 요청사항</Form.Label>
                 <Col sm={8} style={{ display: "flex", alignItems: "center" }}>
                   <Form.Control 
@@ -273,7 +323,7 @@ const OrderPage = () => {
           <OrderDiv>
             <OrderRawDiv>
               <fieldset>
-                <Form.Group as={Row} className="mb-3" controlId="payType">
+                <Form.Group as={Row} className="mb-3" controlId="payTyp">
                   <Form.Label>결제 수단</Form.Label>
                   <Row>
                     <Col>
@@ -282,7 +332,8 @@ const OrderPage = () => {
                         name="paymentType"
                         label="카드"
                         id="paymentType1"
-                        value="card"
+                        // value="card"
+                        value="kakao"       // TODO: 추후 변경 필요!!
                         onChange={(e) => {
                           setPayType(e.target.value);
                         }}
@@ -301,63 +352,7 @@ const OrderPage = () => {
                         }}
                       />
                     </Col>
-                    {/* 
-                    <Col>
-                      <Form.Check
-                        type="radio"
-                        name="paymentType"
-                        label="가상계좌"
-                        id="paymentType3"
-                        value="virt"
-                        onChange={(e) => {
-                          setPayType(e.target.value);
-                        }}
-                      />
-                    </Col>
-                    */}
                   </Row>
-                  {/* 
-                  <Row>
-                    <Col>
-                      <Form.Check
-                        type="radio"
-                        name="paymentType"
-                        label="카드"
-                        id="paymentType1"
-                        value="card"
-                        onChange={(e) => {
-                          setPayType(e.target.value);
-                        }}
-                        required
-                      />
-                    </Col>
-                    <Col>
-                      <Form.Check
-                        type="radio"
-                        name="paymentType"
-                        label="카카오페이"
-                        id="paymentType2"
-                        value="kakao"
-                        onChange={(e) => {
-                          setPayType(e.target.value);
-                        }}
-                      />
-                    </Col>
-                    
-                    <Col>
-                      <Form.Check
-                        type="radio"
-                        name="paymentType"
-                        label="가상계좌"
-                        id="paymentType3"
-                        value="virt"
-                        onChange={(e) => {
-                          setPayType(e.target.value);
-                        }}
-                      />
-                    </Col>
-                  </Row>
-                  */}
                 </Form.Group>
               </fieldset>
             </OrderRawDiv>

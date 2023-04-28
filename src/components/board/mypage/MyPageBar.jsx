@@ -25,6 +25,9 @@ const MyPageBar = () => {
             <li className={window.location.pathname.includes('/paymentdetail') ? 'on' : ''}>
               <Link to="/paymentdetail?pay_type=전체&page=1">결제내역</Link>
             </li>         
+            <li className={window.location.pathname.includes('/visit/sign') ? 'on' : ''}>
+              <Link to="/visit/sign">면회 신청</Link>
+            </li>         
           </ul>
         </div>
       </div>

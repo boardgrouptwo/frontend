@@ -13,7 +13,8 @@ const Elder = () => {
 
   const location = useLocation();
 
-  const { userId } = location.state;
+  // const { userId } = location.state;
+  const userId = useSelector(state => state.userid);      // 사용자 아이디
   
   
   // 어르신 아이디 - user테이블의 user_id
