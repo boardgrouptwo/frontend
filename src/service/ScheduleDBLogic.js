@@ -1,13 +1,16 @@
 import axios from "axios";
-//스프링이랑 연결되는 클래스 -
 
-export const scheduleListDB = (schedule) => {
+
+export const scheduleListDB = (schedule, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "get",
-        url: process.env.REACT_APP_SPRING_IP + "notice/boardList",
+        url: process.env.REACT_APP_SPRING_IP + "calendar/scheduleList",
         params: schedule,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {
@@ -21,7 +24,7 @@ export const scheduleInsertDB = (schedule, token) => {
     try {
       const response = axios({
         method: "post",
-        url: process.env.REACT_APP_SPRING_IP + "notice/insert",
+        url: process.env.REACT_APP_SPRING_IP + "calendar/scheduleInsert",
         data: schedule,
         headers: {
           Authorization: `Bearer ${token}`,
@@ -33,13 +36,16 @@ export const scheduleInsertDB = (schedule, token) => {
     }
   });
 };
-export const scheduleUpdateDB = (schedule) => {
+export const scheduleUpdateDB = (schedule,token) => {
     return new Promise((resolve, reject) => {
       try {
         const response = axios({
           method: "post",
-          url: process.env.REACT_APP_SPRING_IP + "notice/update",
+          url: process.env.REACT_APP_SPRING_IP + "calendar/scheduleUpdate",
           data: schedule,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
         resolve(response);
       } catch (error) {
@@ -47,13 +53,16 @@ export const scheduleUpdateDB = (schedule) => {
       }
     });
   };
-  export const scheduleDeleteDB = (schedule) => {
+  export const scheduleDeleteDB = (schedule,token) => {
     return new Promise((resolve, reject) => {
       try {
         const response = axios({
           method: "get",
-          url: process.env.REACT_APP_SPRING_IP + "notice/delete",
+          url: process.env.REACT_APP_SPRING_IP + "calendar/scheduleDelete",
           params: schedule,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
         resolve(response);
       } catch (error) {
@@ -62,13 +71,16 @@ export const scheduleUpdateDB = (schedule) => {
     });
   };
   
-  export const scheduleSearchListDB = (schedule) => {
+  export const scheduleSearchListDB = (schedule,token) => {
     return new Promise((resolve, reject) => {
       try {
         const response = axios({
           method: "get",
-          url: process.env.REACT_APP_SPRING_IP + "notice/Search",
+          url: process.env.REACT_APP_SPRING_IP + "calendar/scheduleSearch",
           params: schedule,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         });
         resolve(response);
       } catch (error) {

@@ -91,7 +91,7 @@ const MainHeader = () => {
               <Link to="/notice?page=1">요양원소식</Link>
               <ul style={style3}>
                 <li><Link to="/notice?page=1">공지사항</Link> </li>
-                <li><Link to="/memo">월간일정표</Link> </li>
+                <li><Link to="/calendar">월간일정표</Link> </li>
                 <li><Link to="/meal">식단표</Link> </li>
                 <li><Link to="/qna?page=1">QNA</Link> </li>
               </ul>
@@ -105,7 +105,7 @@ const MainHeader = () => {
                 <Link to="/mypage">내정보</Link>
                 <ul style={style4}>
                   <li><Link to="/mypage">내정보</Link> </li>
-                  <li><Link to="/home">장바구니</Link> </li>
+                  <li><Link to="/cart">장바구니</Link> </li>
                   <li><Link to="/paymentdetail?pay_type=전체&page=1">결제내역</Link> </li>
                   <li><Link to="/visit/sign">면회 신청</Link> </li>
                 </ul>

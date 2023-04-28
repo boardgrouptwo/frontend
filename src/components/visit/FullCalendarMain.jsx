@@ -6,7 +6,6 @@ import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment/moment";
 import VisitManager from "./VisitManager";
 import MainHeader from "../include/MainHeader";
-import MainBottom from "../include/MainBottom";
 import VisitWindow from "./VisitWindow";
 
 const FullCalendarMain = () => {
@@ -76,7 +75,7 @@ const FullCalendarMain = () => {
     initialView="dayGridMonth"
     weekends={true}
     events={[events]}
-    
+    height={"500px"}
     locale="ko" //월,일 한글화
     dateClick={handleDateClick} // 날짜 클릭 이벤트 handleDateClick 함수를 dateClick prop으로 전달
    
