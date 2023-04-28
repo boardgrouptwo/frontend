@@ -4,9 +4,9 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const ElderInfoDiv = styled.div`
-  width: 40%;
+  width: 45%;
   height: 200px;
-  margin-left: 5%;
+  margin-right: 5%;
 `
 const CardLi = styled.li`
   display: flex;          // 이름 같은 것들 이미지 옆으로 보내기
@@ -25,7 +25,7 @@ const AvatarImg = styled.img`
   width: 8em;
   height: 8em;
   margin-right: 1em;        // 이미지와 글자 사이에 마진
-  margin-left: 3em;       // 이미지 앞쪽에 마진 주기
+  margin-left: 2em;       // 이미지 앞쪽에 마진 주기
   padding: 0.2em;             // 이미지 안쪽 여백
   border-radius: 50%;
   border: 1px solid #2C786C;
@@ -41,6 +41,11 @@ const CardP = styled.p`
   font-size: 1rem;
   margin-bottom: 1em;
 `
+const InfoP = styled.p`
+  margin-left: 10px;
+  color: #C88B00;
+`
+
 
 const ElderInfo = ({elderInfo, visitDate}) => {
   const userid = useSelector(state => state.userid);      // 사용자 아이디
@@ -57,23 +62,22 @@ const ElderInfo = ({elderInfo, visitDate}) => {
         {/* 카드 */}
         <div className="elderInfoCard" style={{marginLeft: "5%", height: "180px"}} >
           <CardLi class="card">
-            <div style={{width: '50%'}}>
+            <div style={{width: '40%'}}>
               <AvatarImg src="/images/free-icon-grandmother.png" alt="profile image" />
             </div>
             <div class="card-body" style={{width: '50%', paddingLeft: '3%'}}>
             {
-              elderInfo != null ?
+              elderInfo.elder_name != null ?
                 <div>
                   <NameH1>{elderInfo.elder_name}</NameH1>
-                  <CardP>내원자 정보</CardP>
+                  {/* <CardP>내원자 정보</CardP> */}
                   <div style={{display: "flex"}}>
-                    <CardP>면회신청 일정</CardP>
+                    <CardP style={{marginRight: "20px"}}>면회 일정 : </CardP>
                     {
-                      visitDate != null ? <p>{visitDate}</p>
-                      : <p>일정이 없습니다</p>
+                      visitDate.visit_date != null ? <InfoP>{visitDate.visit_date}</InfoP>
+                      : <div><InfoP>없음</InfoP><Link to="/visit/sign" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >면회 신청</Link></div>
                     }
                   </div>
-                  <Link to="/mypage/payment" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >내원비 결제</Link>
                 </div>
                 : <div>
                     <Link to="/elder" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >내원자 추가</Link>

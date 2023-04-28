@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router';
 import { noticeListDB } from '../../../service/NoticeDBLogic';
-import { productHitDB, productListDB } from '../../../service/ShopDBLogic';
+import { AddProductDB, productHitDB, productListDB } from '../../../service/ShopDBLogic';
 import MainHeader from '../../include/MainHeader'
 import styled from 'styled-components'
 import { Alert, Button, Modal } from 'react-bootstrap';
@@ -45,7 +45,8 @@ const IMG = styled.img`
 `;
 
 const ShopDetail = () => {
-
+  //사용자정보
+  const userid=useSelector(state=> state.userid)
   const isLogin = useSelector(state => state.isLogin)
 
   const navigate = useNavigate();
@@ -59,7 +60,7 @@ const ShopDetail = () => {
   let first_price = 0;
   const[price, setPrice] = useState(0)
   const[count, setCount] = useState(1)
-
+  const token=useSelector(state=>state.token)
   // 상품 번호
   const[pboard, setPBoard] = useState({
     product_no: product_no,
@@ -67,6 +68,7 @@ const ShopDetail = () => {
 
   // 상품 내용
   const[product, setProduct] = useState({
+    product_no: "",
     product_title: "",
     product_price: "",
     product_date: "",
@@ -86,6 +88,7 @@ const ShopDetail = () => {
       const result = JSON.stringify(res.data)
       const jsonDoc = JSON.parse(result)
       setProduct({
+        product_no: jsonDoc[0].product_no,
         product_title: jsonDoc[0].product_title,
         product_price: jsonDoc[0].product_price,
         product_date: jsonDoc[0].product_date,
@@ -93,6 +96,7 @@ const ShopDetail = () => {
         product_hit: jsonDoc[0].product_hit,
       })      
       setPrice(jsonDoc[0].product_price)
+      console.log(result)
     }
     productDetail()
     
@@ -137,7 +141,7 @@ const ShopDetail = () => {
       product_price: price,
       product_title: product.product_title
     }
-    
+    console.log(obj)
     navigate("/order", { state: obj })
   };
 
@@ -153,8 +157,28 @@ const ShopDetail = () => {
           confirmButton: "my-confirm-button"
         }
       })
-    }    
-  }
+    }else{//로그인이 되어있는 경우
+      const cartItem = {
+          user_id:userid,
+          product_no: product.product_no,
+          product_image: product.product_image,
+          product_price: product.product_price,
+          product_title: product.product_title,
+          product_hit: product.product_hit
+      };
+      AddProductDB(cartItem,token)
+        .then((response) => {
+          console.log('상품이 장바구니에 추가되었습니다.');
+          // 성공적으로 추가된 경우 처리
+        })
+        .catch((error) => {
+          console.log(error);
+          // 추가에 실패한 경우 처리
+        });
+      }
+    }
+    
+  
 
 
   //조회수에 따른 별이미지 추가

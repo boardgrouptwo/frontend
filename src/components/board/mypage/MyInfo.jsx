@@ -1,10 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const MyInfoDiv = styled.div`
-  width: 40%;
+  width: 45%;
   height: 200px;
-  margin-right: 10%;
+  margin-right: 5%;
 `
 const CardLi = styled.li`
   display: flex;          // 이름 같은 것들 이미지 옆으로 보내기
@@ -23,7 +24,7 @@ const AvatarImg = styled.img`
   width: 8em;
   height: 8em;
   margin-right: 1em;        // 이미지와 글자 사이에 마진
-  margin-left: 3em;       // 이미지 앞쪽에 마진 주기
+  margin-left: 2em;       // 이미지 앞쪽에 마진 주기
   padding: 0.2em;             // 이미지 안쪽 여백
   border-radius: 50%;
   border: 1px solid #2C786C;
@@ -60,26 +61,29 @@ const MyInfo = ({userInfo, sponSum, servDate}) => {
         {/* 카드 */}
         <div className="myInfoCard" style={{marginLeft: "5%", height: "180px"}} >
           <CardLi class="card" >
-            <div style={{width: '50%'}}>
+            <div style={{width: '40%'}}>
               <AvatarImg src={userInfo.user_profile_url} alt="profile image" />
             </div>
             <div class="card-body" style={{width: '50%', paddingLeft: '3%'}}>
               <NameH1>{userInfo.user_name}</NameH1>
-              <div style={{display: "flex"}}>
-                <CardP>자원봉사 일정</CardP>
+              <div style={{display: "flex", height: "30px"}}>
+                <CardP>자원봉사 일정 : </CardP>
                 <InfoP>
                   {
-                    servDate != null ? {servDate}
-                    : "없음"
+                    servDate.service_date != null ? 
+                      servDate.service_check == 1 ? 
+                        <InfoP>{servDate.service_date}</InfoP>
+                      : <InfoP style={{color: "red"}}>대기 중</InfoP>
+                    : <InfoP>없음</InfoP>
                   }
                 </InfoP>
                 
               </div>
-              <div style={{display: "flex"}}>
-                <CardP>총 후원금액</CardP>
+              <div style={{display: "flex", height: "30px"}}>
+                <CardP>총 후원금액 : </CardP>
                 <InfoP>{sponSum} 원</InfoP>    
               </div>
-              <a href="/mypage/detail" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}}>회원정보 수정/탈퇴</a>
+              <Link to="/mypage/detail" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}}>회원정보 수정/탈퇴</Link>
             </div>
           </CardLi>
         </div>

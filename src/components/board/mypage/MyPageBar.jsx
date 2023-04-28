@@ -18,12 +18,15 @@ const MyPageBar = () => {
               {/* <Link to="/mypage">내정보</Link> */}
               <Link to="/mypage">내정보</Link>
             </li>
-            <li className={window.location.pathname.includes('/home') ? 'on' : ''}>
+            <li className={window.location.pathname.includes('/cart') ? 'on' : ''}>
               {/* <Link to="/basket">장바구니</Link> */}
-              <Link to="/home">장바구니</Link>
+              <Link to="/cart">장바구니</Link>
             </li>
             <li className={window.location.pathname.includes('/paymentdetail') ? 'on' : ''}>
               <Link to="/paymentdetail?pay_type=전체&page=1">결제내역</Link>
+            </li>         
+            <li className={window.location.pathname.includes('/visit/sign') ? 'on' : ''}>
+              <Link to="/visit/sign">면회 신청</Link>
             </li>         
           </ul>
         </div>

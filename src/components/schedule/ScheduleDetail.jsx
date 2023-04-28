@@ -3,8 +3,7 @@ import moment from 'moment'
 import Datetime from 'react-datetime';
 import { Button, Card, Form, ListGroup, ListGroupItem, Modal } from 'react-bootstrap'
 import { Link, useNavigate, useParams } from 'react-router-dom'
-
-const MemoDetail = () => {
+const ScheduleDetail = () => {
     //사용자가 선택한 row m_no
     const {m_no}=useParams()
     //한건을 담아서 
@@ -24,6 +23,33 @@ const MemoDetail = () => {
     const [m_content,setM_content]=useState('')
     const [m_start,setM_start]=useState('')
     const [m_end,setM_end]=useState('')
+    
+  const token =useSelector(state => state.token);
+  const[title,setTitle] = useState("") 
+  const[content,setContent] = useState("")
+  const handleTitle = useCallback((e) => {
+    setTitle(e)
+  },[])
+  const handleContent = useCallback((e) => { //QuillEditor에서 담김 - 태그포함된 정보
+    setContent(e)
+  },[])
+  const quillRef = useRef()
+    const scheduleInsertDB=async()=>{
+      const board={
+        cal_title:title,
+        cal_content:content
+      }
+      console.log(token);
+      const res = await scheduleInsertDB(board,token);
+      console.log(res)
+  
+    }
+
+
+
+
+
+
     useEffect(()=>{
         const startCountRef=ref(database,'memo/'+m_no)
         onValue(startCountRef,(snapshot)=>{
@@ -209,4 +235,4 @@ const MemoDetail = () => {
   )
 }
 
-export default MemoDetail
+export default ScheduleDetail

@@ -12,6 +12,8 @@ import GoogleRecaptcha from '../../google/GoogleRecaptcha';
 const ElderUpdate = () => {
 
   const navigate = useNavigate()
+
+  const token = useSelector(state => state.token)
   
   const userId = useSelector(state => state.userId)
   
@@ -62,7 +64,7 @@ const ElderUpdate = () => {
         }
         console.log(elder);
 
-      const res = await elderUpdateDB(elder);
+      const res = await elderUpdateDB(elder,token);
       
       Swal.fire({
         icon: "success",
@@ -89,7 +91,7 @@ const ElderUpdate = () => {
   /* 퇴원하기 버튼 */
   const elderOut = () => {
     console.log("퇴원하기 버튼 클릭")
-    navigate('/mypage')
+    navigate('/home')
   }
 
 

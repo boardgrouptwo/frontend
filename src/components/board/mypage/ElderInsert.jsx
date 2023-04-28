@@ -11,6 +11,7 @@ import { elderInsertDB } from '../../../service/ElderDBLogic';
 /* 회원가입 할 때는 어르신이 없었는데 회원가입 후 어르신 정보를 입력하려고 할 때 쓰는 페이지 */
 const ElderInsert = () => {
   const navigate = useNavigate()
+  const token = useSelector(state => state.token)
   
   const userId = useSelector(state => state.userId)
   
@@ -61,7 +62,7 @@ const ElderInsert = () => {
         }
         console.log(elder);
 
-      const res = await elderInsertDB(elder);
+      const res = await elderInsertDB(elder,token);
       
       Swal.fire({
         icon: "success",
