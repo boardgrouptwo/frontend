@@ -137,7 +137,7 @@ const ShopDetail = () => {
       product_price: price,
       product_title: product.product_title
     }
-    
+    console.log(obj)
     navigate("/order", { state: obj })
   };
 

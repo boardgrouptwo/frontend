@@ -43,6 +43,7 @@ import MemoList from './components/memo/MemoList'
 import ElderUpdate from './components/board/mypage/ElderUpdate'
 import ElderInsert from './components/board/mypage/ElderInsert'
 import OrderPage from './components/board/shop/OrderPage'
+import PaymentSuccess from './components/payment/PaymentSuccess'
 
 
 const App = () => {
@@ -108,6 +109,7 @@ const App = () => {
         <Route path="/shopdetail" element={<ShopDetail/>}/>
         <Route path="/cart" exact={true}element={<WishlistPage/>}/>
         <Route path="/order" exact={true} element={<OrderPage />}/> {/* 결제 페이지 */}
+        <Route path="/payment/success" exact={true} element={<PaymentSuccess />}/> {/* 결제 페이지 */}
         
         {/* 식단표 */}
         <Route path="/meal" exact={true} element={<Meal/>}/>
