@@ -27,11 +27,11 @@ const MyPage = () => {
   // 총 후원금액
   const [ sponSum, setSponSum ] = useState();
   // 자원봉사 일정
-  const [ servDate, setServDate ] = useState();
+  const [ servDate, setServDate ] = useState({});
   // 내원자 정보
-  const [ elderInfo, setElderInfo ] = useState();
+  const [ elderInfo, setElderInfo ] = useState({});
   // 면회일정
-  const [ visitDate, setVisitDate ] = useState();
+  const [ visitDate, setVisitDate ] = useState({});
 
 
   // 회원 정보 호출
@@ -43,8 +43,7 @@ const MyPage = () => {
     }
 
     const res = await userInfoDB(user, token);
-    console.log(res.data);
-
+    
     const obj = {
       user_id: res.data.user_id,
       user_name: res.data.user_name,
@@ -57,6 +56,7 @@ const MyPage = () => {
       user_profile_url: res.data.user_profile_url,
       user_memo: res.data.user_memo,
     }
+    console.log("회원정보 ==> " + obj);
 
     setUserInfo(obj)
   } // end of 회원 정보 호출
@@ -71,7 +71,7 @@ const MyPage = () => {
       limit_cnt: "5",              // 5건 출력
       user_id: userId,             // 사용자 정보
     }
-    console.log(payInfo);
+    console.log("결제내역 ==> " + payInfo);
 
     const res = await paymentListPreviewDB(payInfo, token);
     console.log(res.data);
@@ -109,7 +109,7 @@ const MyPage = () => {
     }
 
     const res = await sponsorUserSumDB(user, token);
-    console.log(res.data)
+    console.log("총 후원금액 ==> " + res.data)
 
     setSponSum(res.data);
   } // end of 사용자 총 후원금액
@@ -124,26 +124,29 @@ const MyPage = () => {
     };
     
     const res = await serviceDateDB(user, token);
-    console.log(res.data);
+    console.log("자원봉사 ==> " + res.data);
     
-    // TODO: 일정이 있는지 코드 작성 필요!!!
+    const obj = {
+      service_date: res.data.service_date,
+      service_check: res.data.service_check,
+    }
 
-
-    setServDate(res.data)
+    setServDate(obj)
   } // end of 자원봉사 일정
   
   
+
+
   // 내원자 정보
   const userElderInfo = async () => {
     console.log("userElderInfo 호출");
     
     const user = {
-      user_id: userId,
+      elder_id: userId,
     };
     
     const res = await elderSelectDB(user, token);
-    console.log(res.data);
-
+    
     const obj = {
       elder_id: res.data.elder_id,
       elder_name: res.data.elder_name,
@@ -153,9 +156,10 @@ const MyPage = () => {
       attendance_date: res.data.attendance_date,
       discharge_date: res.data.discharge_date,
     }
+    console.log("내원자 ==> " + obj);
     
-    setElderInfo(res.data)
-  } // end of 자원봉사 일정
+    setElderInfo(obj)
+  } // end of 내원자 일정
   
   
   // 면회일정
@@ -163,15 +167,19 @@ const MyPage = () => {
     console.log("userVisitDate 호출");
 
     const user = {
-      user_id: userId,
+      elder_id: userId,
     };
 
     const res = await visitDateDB(user, token);
-    console.log(res.data);
+    
+    const obj = {
+      elder_id: res.data.elder_id,
+      visit_date: res.data.visit_date,
+    }
+    console.log("면회일정 ==> " + obj);
 
-    // TODO: 일정이 있는지 코드 작성 필요!!!
-    setVisitDate(res.data)
-  } // end of 자원봉사 일정
+    setVisitDate(obj)
+  } // end of 면회 일정
 
 
 
@@ -189,12 +197,15 @@ const MyPage = () => {
     sponsorUserSum();
 
     // 자원봉사 일정
+    serviceDate();
 
     // 내원자 정보
+    userElderInfo();
     
     // 면회일정
+    userVisitDate();
 
-  }, [setPayListInfo, setSponSum])
+  }, [setPayListInfo, setSponSum, setServDate, setElderInfo, setVisitDate])
 
 
 

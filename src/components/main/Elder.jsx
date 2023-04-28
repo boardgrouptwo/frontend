@@ -6,11 +6,15 @@ import GoogleRecaptcha from '../google/GoogleRecaptcha';
 import MainHeader from '../include/MainHeader';
 import { elderInsertDB, elderJoinDB } from '../../service/ElderDBLogic';
 import KhPrivacy from '../khservice/KhPrivacy';
+import { useSelector } from 'react-redux';
 
 const Elder = () => {
   const navigate = useNavigate();
+
   const location = useLocation();
-  const { userId } = location.state;
+
+  // const { userId } = location.state;
+  const userId = useSelector(state => state.userid);      // 사용자 아이디
   
   
   // 어르신 아이디 - user테이블의 user_id
@@ -21,7 +25,7 @@ const Elder = () => {
   const[elderGender, setElderGender]= useState(''); // 어르신성별
   const [elderStatus, setElderStatus] = useState("입원"); //어르신 입원 여부
   const [attDate, setAttDate] = useState(""); //입원일
-  const [disDate, setDisDate] = useState(""); //퇴원일 
+
 
   const [showError, setShowError] = useState(false);//폼 검증 유효성 검사
   const [showError2, setShowError2] = useState(false);//폼 검증 유효성 검사
@@ -48,12 +52,11 @@ const Elder = () => {
           elder_gender: elderGender,
           elder_status: elderStatus, 
           att_date : attDate,
-          dis_date: disDate
         }
         console.log(elder);
 
       const res = await elderJoinDB(elder);
-      
+      console.log(res.data);
       Swal.fire({
         icon: "success",
         title: "입원자 정보 입력 완료",
@@ -65,7 +68,7 @@ const Elder = () => {
       })
       
       /* 어르신 입원정보 입력 완료시 내 정보로 이동 */
-      navigate('/mypage')
+      navigate('/login')
 
   };  // end of handleSubmit
 
