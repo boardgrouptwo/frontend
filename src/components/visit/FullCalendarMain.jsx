@@ -1,22 +1,21 @@
 import React, { useEffect, useState } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import { Modal } from "react-bootstrap";
-import "../css/FullCalendarMain.css";
+import "../css/fullCalendarMain.css";
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment/moment";
 import VisitManager from "./VisitManager";
 import MainHeader from "../include/MainHeader";
 import MainBottom from "../include/MainBottom";
-import VisitModal from "./VisitModal";
+import VisitWindow from "./VisitWindow";
 
 const FullCalendarMain = () => {
   const [timeSlots, setTimeSlots] = useState([]);
   const [events, setEvents] = useState([]);
-  const [modalOpen, setModalOpen] = useState(false); // 모달 창 상태
+  const [windowOpen, setWindowOpen] = useState(false); // 모달 창 상태
   const [selectedDate, setSelectedDate] = useState(""); // 선택한 날짜
   const [selectedTime, setSelectedTime] = useState("");
-  const [showmodal,setShowModal]=useState(true)
+  const [showwindow,setShowWindow]=useState(true)
 
   //지나간날짜 클릭 방지
   const yesterday = moment().subtract(1, "day");
@@ -32,13 +31,13 @@ const FullCalendarMain = () => {
     const selectedDate = new Date(arg.dateStr);
     setSelectedDate(selectedDate);
     console.log("selectedDate"+arg.date)
-    setModalOpen(true);
-    setShowModal(true);
+    setWindowOpen(true);
+    setShowWindow(true);
   };
 
 
-  const handleCloseModal = () => {
-    setModalOpen(false); // 모달 창 닫기
+  const handleCloseWindow = () => {
+    setWindowOpen(false); // 모달 창 닫기
     setSelectedDate(null); // 선택한 날짜 초기화
   };
   
@@ -83,12 +82,12 @@ const FullCalendarMain = () => {
    
     
     />
-  <VisitModal modalOpen={modalOpen}
-        onClose={handleCloseModal}
+  <VisitWindow windowOpen={windowOpen}
+        onClose={handleCloseWindow}
         date={selectedDate}
         onTimeClick={handleTimeClick}
       >
-      </VisitModal>
+      </VisitWindow>
      
     </>
   );

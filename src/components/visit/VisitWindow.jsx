@@ -1,15 +1,15 @@
 import React, {  useEffect, useState } from 'react';
-import '../css/visitmodal.css';
+import '../css/visitwindow.css';
 import { visitInsertDB } from '../../service/visitInsertDB';
 
 
-const VisitModal = ({ modalOpen, onClose, date }) => {
+const VisitWindow = ({ windowOpen, onClose, date }) => {
   document.body.style.overflow = "hidden";//스크롤 방지
   const [time,setTime]=useState('')
   const [volume,setVolume]=useState('')
   const [protector,setProtector]=useState('')
   const [reservationInfo,setReservationInfo]=useState([]);//예약시간담을 변수
-  const [showModal, setShowModal] = useState(false);
+  const [showWindow, setShowWindow] = useState(false);
   const [selectedTime, setSelectedTime] = useState('');
   const [timeSlot,setTimeSlot]=useState('')
     // 로그인 한 사용자의 정보를 가져와서 변수에 할당
@@ -42,14 +42,14 @@ const VisitModal = ({ modalOpen, onClose, date }) => {
     console.log(selectedTime);
   }, [selectedTime]);
 
-  const handleModalClick = (event) => {
+  const handleWindowClick = (event) => {
     event.preventDefault();//버블링막기
-      if (event.target.classList.contains('modal')) {
+      if (event.target.classList.contains('event')) {
         onClose();
       }  
   };
   const handleOutsideClick = () => {
-  setShowModal(false);
+  setShowWindow(false);
   };
  
      //연결부위
@@ -74,22 +74,22 @@ const VisitModal = ({ modalOpen, onClose, date }) => {
   
   return (
     
-    <div className="modal-container" style={{ display: modalOpen ? 'flex' : 'none' }}>
-      <div className="modal-overlay" >
-        <div className="modal-header">
-          <h2 className='title'>원하시는 시간대를 고르세요.</h2>
+    <div className="window-container" style={{ display: windowOpen ? 'flex' : 'none' }}>
+      <div className="window-overlay" >
+        <div className="window-header">
+          <h2 className='window-title'>원하시는 시간대를 고르세요.</h2>
           
       <button className='close-btn' onClick={onClose}>
         <i className="fas fa-times"></i></button>
         </div>
-        <div className="modal-content">
+        <div className="window-content">
           <div className='selected-day-div'>
           <h2 className='selected-day'>{date && date.toLocaleDateString()}</h2>
           </div>
           <div className='selevted-time=-div'>
           <h3 className='selected-time'>선택한 시간:{selectedTime}</h3>
           </div>
-          <ul className='modal-timetable'>
+          <ul className='window-timetable'>
           {timeSlots.map((timeSlot,index) => (
           <li 
             key={timeSlot.title} 
@@ -101,7 +101,7 @@ const VisitModal = ({ modalOpen, onClose, date }) => {
       </ul>  
         </div>
         </div>
-        <div className="modal-footer">
+        <div className="window-footer">
         
           <button className='btn-submit'onClick={() => visitInsert()}>면회신청</button>
         </div>
@@ -110,4 +110,4 @@ const VisitModal = ({ modalOpen, onClose, date }) => {
   );
 };
 
-export default VisitModal;
+export default VisitWindow;
