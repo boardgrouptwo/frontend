@@ -87,7 +87,6 @@ const Introduction2 = () => {
               onMouseOut={(e) => {e.currentTarget.style.transform = "none";}}
               onClick={() => window.location.href = "http://localhost:3000/intro#sectionTwo"}
             />
-
         </Section>
         </div>
 

@@ -249,7 +249,6 @@ const ShopReceiveCard = ({board}) => {
             <ShopReceiveRow2 key={index} board={board} />
           ))}
       </div>
-
     </>
     );
 };
