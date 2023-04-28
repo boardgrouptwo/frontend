@@ -30,7 +30,9 @@ const Calender = () => {
         setCurrentMonth(addMonths(currentMonth, 1))
     }
 
+    //달력 한 칸을 클릭하는 이벤트
     const onDateClick = async (day) => {
+        console.log("식단표 클릭")
         const formattedDate = format(day, 'd');
 
         /* formattedDate는 내가 클릭한 달력의 날짜 */
@@ -48,7 +50,7 @@ const Calender = () => {
         } catch (error) {
             console.error(error);
         }
-        navigate(`/meal/page/${formattedDate}`)
+        navigate(`/meal/page?${formattedDate}`)
     };
 
     return (

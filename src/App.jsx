@@ -114,7 +114,7 @@ const App = () => {
         
         {/* 식단표 */}
         <Route path="/meal" exact={true} element={<Meal/>}/>
-        <Route path="/meal/page/:selectedDate" exact={true} element={<MealDetail/>}/>
+        <Route path="/meal/page?" exact={true} element={<MealDetail/>}/>
         {/*후원하기 */}
         <Route path="/sponsor/from" exact={true} element={<SponsorFrom />}/> {/* 후원폼 */}
         <Route path="/sponsor/list" exact={true} element={<SponsorListPage />}/> {/* 후원리스트 */}
