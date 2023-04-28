@@ -123,6 +123,7 @@ const App = () => {
         {/* 자원봉사 */}
         <Route path="/service/from" exact={true} element={<KhServiceForm />}/> {/* 자원봉사폼 */}
         <Route path="/service/success" exact={true} element={<KhServiceSuccess />}/> {/* 자원봉사신청성공 */}
+        <Route path="/service/review" exact={true} element={<KhServiceReview />}/> {/* 자원봉사리뷰 */}
         <Route path="/service/management" exact={true} element={<AdminService />}/>  {/* 자원봉사 - 관리자 */}
 
         {/* QnA */}

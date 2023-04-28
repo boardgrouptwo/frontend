@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import MainHeader from '../include/MainHeader'
 import Bottom from '../include/Bottom'
 import GoogleRecaptcha from '../google/GoogleRecaptcha'
-import SponsorFrombar from './SponsorFrombar'
+import KhSponorServicebar from '../khservice/KhSponorServicebar';
 import InputGroup from 'react-bootstrap/InputGroup'
 import "../css/spon.css"
 import { useNavigate } from 'react-router-dom';
@@ -136,7 +136,7 @@ const SponsorFrom = () => {
   return (
     <>
       <MainHeader />
-      <SponsorFrombar />
+      <KhSponorServicebar />
       <br />
       <br />
       

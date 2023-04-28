@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import MainHeader from '../include/MainHeader'
-import SponsorListbar from './SponsorListbar';
+import KhSponorServicebar from '../khservice/KhSponorServicebar';
 import Bottom from '../include/Bottom';
 import { sponsorListDB } from '../../service/SponsorDBLogic';
 import { Table } from 'react-bootstrap';
@@ -64,7 +64,7 @@ const SponsorListPage = () => {
   return (
     <>
       <MainHeader />
-      <SponsorListbar/>
+      <KhSponorServicebar />
       <div className='container' style={{position: "relative" }}>
         <SponsorTotal totalList={totalList}/>
         <img src='/images/line1.png' style={{width:"60%", marginLeft:"20%"}}/>

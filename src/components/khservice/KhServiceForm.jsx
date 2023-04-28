@@ -8,7 +8,7 @@ import GoogleRecaptcha from '../google/GoogleRecaptcha'
 import InputGroup from 'react-bootstrap/InputGroup'
 import "../css/spon.css"
 import { useNavigate } from 'react-router-dom';
-import KhServiceFrombar from './KhServiceFrombar';
+import KhSponorServicebar from './KhSponorServicebar';
 import { useSelector } from 'react-redux'
 import { serviceInsertDB } from '../../service/KhServiceDBLogic';
 import Bottom from '../include/Bottom';
@@ -94,7 +94,7 @@ const KhServiceForm = () => {
   return (
     <>
       <MainHeader />
-      <KhServiceFrombar />
+      <KhSponorServicebar />
       <br />
       <br />
       
