@@ -81,3 +81,40 @@ export const serviceDateDB = (user, token) => {
     }
   });
 };
+
+
+export const reviewInsertDB = (member) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "service/reviewInsert",
+        data: member,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const imageUploadDB = (file) => {
+  console.log(file);
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_CHAT221228_IP + "service/imageUpload",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        processData: false,
+        contentType: false,
+        data: file,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

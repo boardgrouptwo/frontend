@@ -2,7 +2,6 @@ import React from 'react'
 import MainHeader from '../include/MainHeader'
 import KhSponorServicebar from './KhSponorServicebar'
 import KhServiceCard from './KhServiceCard'
-import { noticeSearchListDB } from '../../service/NoticeDBLogic'
 import { Button } from 'react-bootstrap'
 import { useState } from 'react'
 import { useCallback } from 'react'
@@ -64,7 +63,7 @@ const KhServiceReview = () => {
             <Button style={{marginRight : "20px"}}variant='primary' id="btn_search" onClick={noticeSearch}>검색</Button>
             
 
-                <Button variant="success" onClick={()=>{navigate(`/notice/write`)}}>
+                <Button variant="success" onClick={()=>{navigate(`/service/review/write`)}}>
                   글쓰기              
                 </Button> 
      
