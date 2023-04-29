@@ -33,24 +33,20 @@ const Calender = () => {
     //달력 한 칸을 클릭하는 이벤트
     const onDateClick = async (day) => {
         console.log("식단표 클릭")
-        const formattedDate = format(day, 'd');
+        const formattedDate = format(day, 'yyyy-MM-dd');
 
         /* formattedDate는 내가 클릭한 달력의 날짜 */
         console.log(formattedDate)
 
-        /* selectedDate는 오늘의 날짜 */
-        console.log(selectedDate)
 
-        console.log(currentMonth)
+        /*
+        setSelectedDate(day); // 클릭한 날짜를 선택된 날짜로 설정
+        console.log(day.getFullYear()); // 년도 가져오기
+        console.log(day.getMonth()); // 월 가져오기 (0부터 시작)
+        console.log(day.getDate()); // 일 가져오기
+        */
         
-        try {
-            const response = await axios.get(process.env.REACT_APP_SPRING_IP + `meal/mealList?selectedDate=${formattedDate}`);
-            console.log(response.data);
-            setMealData(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-        navigate(`/meal/page?${formattedDate}`)
+        navigate(`/meal/page?${formattedDate}`, { state: { date: formattedDate } })
     };
 
     return (
@@ -62,7 +58,6 @@ const Calender = () => {
                     <RenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
                 </div>
             </DivContainer>
-            {/* <MealDetail mealData={mealData} /> */}
     </>
     )
 }
