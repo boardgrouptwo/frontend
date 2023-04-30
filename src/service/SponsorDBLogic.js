@@ -74,3 +74,26 @@ export const sponStatisticDB = (sponlist, token)  =>{
 };
 
 
+// 조회한 후원 통계 호출
+export const sponSearchDB = (sponlist, token)  =>{
+  console.log("sponSearchDB 호출")
+  console.log(sponlist)
+
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "spon/sponSearch",
+        params: sponlist,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+
