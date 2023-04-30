@@ -62,7 +62,6 @@ const MealDetail = () => {
       }));
       setMeal(meals);
       console.log(meals);
-      meals.map(meal => console.log(meal.meal_no,meal.meal_type,meal.meal_name));
     }
 
 
@@ -73,6 +72,8 @@ const MealDetail = () => {
 
   }, [formattedDate]);
 
+
+  /* 식단표가 없을 경우에 나오는 화면에서 사용하는 버튼 */
   const goBack = () =>{
     console.log("되돌아가기 버튼 클릭")
     navigate('/meal')
@@ -89,41 +90,47 @@ const MealDetail = () => {
           
           {/* 내가 선택한 날짜만 보이게 */}
           {meal.filter((meal) => meal.meal_date === formattedDate).map((meals) => (
-              <div key = {meal.meal_no} style={{ width: "90%", display: "flex", justifyContent: "center", height:"50rem", marginLeft:"5%" }}>
+
+              <div key = {meals.meal_no} style={{ width: "90%", display: "flex", justifyContent: "center", height:"50rem", marginLeft:"5%" }}>
 
                 {/* 점심카드 앞, 뒷면을 모두 감싸는 div태그 */}
-                <div style={{perspective: "4000px"}}>
+                <div  key={`lunch-card-${meals.meal_no}`} style={{perspective: "4000px"}}>
                         {/* 점심 카드 앞면 */}
-                        <div style={{ margin: "1%", height: "42rem", width: "40rem", display: "flex", justifyContent: "center", backfaceVisibility: "hidden", transition:"1s", position: "absolute", transform: hover? "rotateY(180deg)" : "rotateY(0deg)" }} 
+                        <div key={`lunch-front-${meals.meal_no}`} style={{ margin: "1%", height: "42rem", width: "40rem", display: "flex", justifyContent: "center", backfaceVisibility: "hidden", transition:"1s", position: "absolute", transform: hover? "rotateY(180deg)" : "rotateY(0deg)" }} 
                           >
-                            <Card hoverable style={{ width: "90%", border:"2px solid darkgray" }}
-                                cover={<div style={{  height: "25rem", width: "100%", backgroundColor: "#539165", color:"white", textShadow: "1px 1px 1px rgba(0, 0, 0, 0.5)", padding:"20px", borderRadius:"10px" }}  onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                            {meal.filter((meal) => meal.meal_type === '점심').filter((meal) => meal.meal_date === formattedDate).map((meals) => (
+                            <Card  key={`lunch-card-front-${meals.meal_no}`} hoverable style={{ width: "90%", border:"2px solid darkgray" }}
+                              cover={<div key={`lunch-card-cover${meals.meal_no}`} style={{  height: "42rem", width: "100%", backgroundColor: "#539165", color:"white", textShadow: "1px 1px 1px rgba(0, 0, 0, 0.5)", padding:"20px", borderRadius:"10px" }}  onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                                     
                                     <h1 style={{fontWeight:"600"}}>{meal.filter((meal) => meal.meal_type === '점심').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p  key={`lunch-card-meal-type-${meals.meal_no}`}>
                                         {meal.meal_type}
                                       </p>))}
                                     </h1>
 
                                     <br />
 
-                                    <p style={{fontSize:"1.6rem",fontWeight:"600", paddingTop:"10px"}}>
+                                    <div style={{fontSize:"1.7rem",fontWeight:"600", paddingTop:"10px"}}>
                                       {meal.filter((meal) => meal.meal_type === '점심').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p  key={`lunch-card-meal-name-${meals.meal_no}`}>
                                         {meal.meal_name}
                                       </p>
-                                    ))}</p>
+                                    ))}</div>
 
-                                    <p style={{fontSize:"1.3rem",fontWeight:"500", paddingTop:"10px"}}>원산지 
+                                    <br />
+                                    <br />
+                                    <br />
+
+                                    <div style={{fontSize:"1.3rem",fontWeight:"550", paddingTop:"10px"}}>원산지 
                                       {meal.filter((meal) => meal.meal_type === '점심').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p  key={`lunch-card-meal-origin-${meals.meal_no}`}>
                                         {meal.meal_origin}
                                       </p>
-                                    ))}</p>
+                                    ))}</div>
 
                                   </div>}>
 
-                                    <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginTop:"5%"}}>
+{/*                                     <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginTop:"5%"}}>
                                         <Space wrap>
                                             <Progress
                                               type="circle"
@@ -158,39 +165,41 @@ const MealDetail = () => {
                                               size={150}
                                             />
                                         </Space>
-                                    </div>
+                                    </div> */}
+
                             </Card>
+                            ))}
                         </div>
 
                         {/* 점심 카드 뒷면 */}
-                        <div style={{ margin: "1%", height: "42rem", width: "40rem", display: "flex", justifyContent: "center", backfaceVisibility: "hidden", transition:"1s", transform: hover? "rotateY(0deg)" : "rotateY(-180deg)" }}
+                        <div  key={`lunch-back-${meals.meal_no}`} style={{ margin: "1%", height: "42rem", width: "40rem", display: "flex", justifyContent: "center", backfaceVisibility: "hidden", transition:"1s", transform: hover? "rotateY(0deg)" : "rotateY(-180deg)" }}
                             >
-                            <Card hoverable style={{ width: "90%", border:"2px solid darkgray" }}
-                                cover={<div style={{ height: "42rem", width: "100%", backgroundColor:"#243763", color:"white", textShadow: "2px 2px 2px rgba(0, 0, 0, 0.5)", padding:"20px", borderRadius:"10px" }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                            <Card key={`lunch-card-back-${meals.meal_no}`} hoverable style={{ width: "90%", border:"2px solid darkgray" }}
+                                cover={<div  key={`lunch-card-back-cover-${meals.meal_no}`} style={{ height: "42rem", width: "100%", backgroundColor:"#243763", color:"white", textShadow: "2px 2px 2px rgba(0, 0, 0, 0.5)", padding:"20px", borderRadius:"10px" }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                                     
                                     <h1 style={{fontWeight:"600"}}>{meal.filter((meal) => meal.meal_type === '점심').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p key={`lunch-card-back-meal-type-${meals.meal_no}`}>
                                         {meal.meal_type}
                                       </p>))}
                                     </h1>
 
                                     <br />
 
-                                    <p style={{fontSize:"1.6rem",fontWeight:"600", paddingTop:"10px"}}>
+                                    <div style={{fontSize:"1.6rem",fontWeight:"600", paddingTop:"10px"}}>
                                       {meal.filter((meal) => meal.meal_type === '점심').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p key={`lunch-card-meal-nut-${meals.meal_no}`}>
                                         영양 정보 : {meal.meal_nut}
                                       </p>
-                                    ))}</p>
+                                    ))}</div>
 
                                     <br />
 
-                                    <p style={{fontSize:"1.6rem",fontWeight:"600", paddingTop:"10px"}}>
+                                    <div style={{fontSize:"1.6rem",fontWeight:"600", paddingTop:"10px"}}>
                                       {meal.filter((meal) => meal.meal_type === '점심').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p key={`lunch-card-meal-cal-${meals.meal_no}`}>
                                         칼로리 : {meal.meal_cal}Kcal
                                       </p>
-                                    ))}</p>
+                                    ))}</div>
 
                                   </div>}>
                             </Card>
@@ -199,37 +208,43 @@ const MealDetail = () => {
 
 
                 {/* 저녁 카드 앞, 뒷면을 모두 감싸는 div태그 */}
-                <div style={{perspective: "4000px"}}>
+                <div  key={`dinner-card-${meals.meal_no}`} style={{perspective: "4000px"}}>
                         {/* 저녁 카드 앞면 */}
-                        <div style={{ margin: "1%", height: "42rem", width: "40rem", display: "flex", justifyContent: "center", backfaceVisibility: "hidden", transition:"1s", position: "absolute", transform: hover? "rotateY(180deg)" : "rotateY(0deg)" }} >
-                            <Card hoverable style={{ width: "90%", border:"2px solid darkgray" }}
-                                cover={<div style={{ height: "25rem", width: "100%", backgroundColor: "#D06224", color:"white", textShadow: "1px 1px 1px rgba(0, 0, 0, 0.5)", padding:"20px", borderRadius:"10px" }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                        <div key={`dinner-front-${meals.meal_no}`} style={{ margin: "1%", height: "42rem", width: "40rem", display: "flex", justifyContent: "center", backfaceVisibility: "hidden", transition:"1s", position: "absolute", transform: hover? "rotateY(180deg)" : "rotateY(0deg)" }} >
+                            
+                        {meal.filter((meal) => meal.meal_type === '저녁').filter((meal) => meal.meal_date === formattedDate).map((meals) => (
+                            <Card key={`dinner-card-front-${meals.meal_no}`} hoverable style={{ width: "90%", border:"2px solid darkgray" }}
+                              cover={<div key={`dinner-card-front-cover-${meals.meal_no}`} style={{ height: "42rem", width: "100%", backgroundColor: "#D06224", color:"white", textShadow: "1px 1px 1px rgba(0, 0, 0, 0.5)", padding:"20px", borderRadius:"10px" }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                                     
                                     <h1 style={{fontWeight:"600"}}>{meal.filter((meal) => meal.meal_type === '저녁').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p key={`dinner-card-meal-type-${meals.meal_no}`}>
                                         {meal.meal_type}
                                       </p>))}
                                     </h1>
 
                                     <br />
 
-                                    <p style={{fontSize:"1.6rem",fontWeight:"600", paddingTop:"10px"}}>
+                                    <div style={{fontSize:"1.7rem",fontWeight:"600", paddingTop:"10px"}}>
                                       {meal.filter((meal) => meal.meal_type === '저녁').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p key={`dinner-card-meal-name-${meals.meal_no}`}>
                                         {meal.meal_name}
                                       </p>
-                                    ))}</p>
+                                    ))}</div>
 
-                                    <p style={{fontSize:"1.3rem",fontWeight:"500", paddingTop:"10px"}}>원산지 
+                                    <br />
+                                    <br />
+                                    <br />
+  
+                                    <div style={{fontSize:"1.3rem",fontWeight:"550", paddingTop:"10px"}}>원산지 
                                       {meal.filter((meal) => meal.meal_type === '저녁').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p key={`dinner-card-meal-origin-${meals.meal_no}`}>
                                         {meal.meal_origin}
                                       </p>
-                                    ))}</p>
+                                    ))}</div>
 
                                   </div>}>
 
-                                  <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginTop:"5%"}}>
+{/*                                   <div style={{display: "flex", justifyContent: "center", alignItems:"center", marginTop:"5%"}}>
                                         <Space wrap>
                                               <Progress
                                                 type="circle"
@@ -264,38 +279,40 @@ const MealDetail = () => {
                                                 size={150}
                                               />
                                         </Space>
-                                    </div>
+                                    </div> */}
+
                             </Card>
+                            ))}
                         </div>
 
                         {/* 저녁 카드 뒷면 */}
-                        <div style={{  margin: "1%", height: "42rem", width: "40rem", display: "flex", justifyContent: "center", backfaceVisibility: "hidden", transition:"1s", transform: hover? "rotateY(0deg)" : "rotateY(-180deg)" }}>
-                            <Card hoverable style={{ width: "90%", border:"2px solid darkgray" }}
-                                cover={<div style={{ height: "42rem", width: "100%", backgroundColor:"#E48900", color:"white", textShadow: "2px 2px 2px rgba(0, 0, 0, 0.5)" , padding:"20px", borderRadius:"10px" }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
+                        <div key={`dinner-back-${meals.meal_no}`} style={{  margin: "1%", height: "42rem", width: "40rem", display: "flex", justifyContent: "center", backfaceVisibility: "hidden", transition:"1s", transform: hover? "rotateY(0deg)" : "rotateY(-180deg)" }}>
+                            <Card key={`dinner-card-back-${meals.meal_no}`} hoverable style={{ width: "90%", border:"2px solid darkgray" }}
+                                cover={<div key={`dinner-card-back-cover-${meals.meal_no}`} style={{ height: "42rem", width: "100%", backgroundColor:"#E48900", color:"white", textShadow: "2px 2px 2px rgba(0, 0, 0, 0.5)" , padding:"20px", borderRadius:"10px" }} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)}>
                                 
                                 <h1 style={{fontWeight:"600"}}>{meal.filter((meal) => meal.meal_type === '저녁').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p key={`dinner-card-back-meal-type-${meals.meal_no}`}>
                                         {meal.meal_type}
                                       </p>))}
                                     </h1>
 
                                     <br />
 
-                                    <p style={{fontSize:"1.6rem",fontWeight:"600", paddingTop:"10px"}}>
+                                    <div style={{fontSize:"1.6rem",fontWeight:"600", paddingTop:"10px"}}>
                                       {meal.filter((meal) => meal.meal_type === '저녁').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p key={`dinner-card-meal-nut-${meals.meal_no}`}>
                                         영양 정보 : {meal.meal_nut}
                                       </p>
-                                    ))}</p>
+                                    ))}</div>
 
                                     <br />
 
-                                    <p style={{fontSize:"1.6rem",fontWeight:"600", paddingTop:"10px"}}>
+                                    <div style={{fontSize:"1.6rem",fontWeight:"600", paddingTop:"10px"}}>
                                       {meal.filter((meal) => meal.meal_type === '저녁').filter((meal) => meal.meal_date === formattedDate).map((meal) => (
-                                      <p>
+                                      <p key={`dinner-card-meal-cal-${meals.meal_no}`}>
                                         칼로리 : {meal.meal_cal}Kcal
                                       </p>
-                                    ))}</p>
+                                    ))}</div>
 
                                   </div>}>
                             </Card>
@@ -303,10 +320,14 @@ const MealDetail = () => {
                 </div>
 
           </div>
+          
             ))}
 
     </>
   );
+
+
+
 };
 
 export default MealDetail;
