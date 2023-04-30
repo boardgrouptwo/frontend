@@ -73,14 +73,14 @@ const MyInfo = ({userInfo, sponSum, servDate}) => {
                     servDate.service_date != null ? 
                       servDate.service_check == 1 ? 
                         <InfoP>{servDate.service_date}</InfoP>
-                      : <InfoP style={{color: "red"}}>대기 중</InfoP>
-                    : <InfoP>없음</InfoP>
+                      : <InfoP style={{color: "green"}}>{servDate.service_date} (대기 중..)</InfoP>
+                    : <InfoP>없습니다</InfoP>
                   }
                 </InfoP>
                 
               </div>
               <div style={{display: "flex", height: "30px"}}>
-                <CardP>총 후원금액 : </CardP>
+                <CardP style={{marginRight: "25px"}}>총 후원금액 :</CardP>
                 <InfoP>{sponSum} 원</InfoP>    
               </div>
               <Link to="/mypage/detail" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}}>회원정보 수정/탈퇴</Link>

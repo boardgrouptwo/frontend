@@ -75,7 +75,7 @@ const ElderInfo = ({elderInfo, visitDate}) => {
                     <CardP style={{marginRight: "20px"}}>면회 일정 : </CardP>
                     {
                       visitDate.visit_date != null ? <InfoP>{visitDate.visit_date}</InfoP>
-                      : <div><InfoP>없음</InfoP><Link to="/visit/sign" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >면회 신청</Link></div>
+                      : <div><InfoP>없습니다</InfoP><Link to="/visit/sign" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >면회 신청</Link></div>
                     }
                   </div>
                 </div>
