@@ -8,6 +8,7 @@ import MainHeader from '../include/MainHeader'
 import Bottom from '../include/Bottom'
 import QuillEditor from './QuillEditor'
 import { useEffect } from 'react'
+import Swal from 'sweetalert2'
 
 const KhServiceReviewWrite = () => {
 
@@ -36,21 +37,6 @@ const KhServiceReviewWrite = () => {
   
   const quillRef = useRef()
 
-
-  const boardInsert = async () =>{
-    const board = {
-      user_id: user,
-      review_title: title,
-      review_content: content,
-      review_image: imageName,
-    }
-    console.log(token);
-    console.log(board);
-    const res = await reviewInsertDB(board,token);
-    console.log(res)
-    navigate("/service/review")
-  }
-
   const handleFileChange = (event) => {
     //setSelectedFile(event.target.files[0]);
     handleImageUpload(event.target.files[0]);
@@ -61,15 +47,42 @@ const KhServiceReviewWrite = () => {
     const formData = new FormData();
     formData.append("file", file)
     console.log(formData)
-/*     imageUploadDB(formData)
-      .then((res) => {
-        setImageName(res.data)
-        setImageUrl("http://localhost:3000/images/service/"+res.data)
-                
-      }) */
+    imageUploadDB(formData, token)
+    .then((res) => {
+      setImageName(res.data)
+      setImageUrl("http://localhost:3000/images/service/"+res.data)
+              
+    })
       .catch((error) => {
         console.log(error);
       })
+  }
+
+  const boardInsert = async () =>{
+    const board = {
+      user_id: user,
+      review_title: title,
+      review_content: content,
+      review_image: imageName,
+    }
+    if(title==="") {
+      alert("제목을 입력하세요")
+    } else if(content===""||content===" "){
+      alert("내용을 입력하세요")
+    } else {
+      console.log(board)
+      const res = await reviewInsertDB(board,token);
+      Swal.fire({
+        icon: "success",
+        title: "게시물이 등록되었습니다",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        customClass: {
+          confirmButton: "my-confirm-button"
+        }
+      }) 
+      navigate("/service/review")
+    }
   }
 
   return (
@@ -86,8 +99,9 @@ const KhServiceReviewWrite = () => {
           <h3>제목</h3> 
           <BButton onClick={()=>{boardInsert()}}>글쓰기</BButton>
         </div>
-        <input id="dataset-title" type="text" maxLength="50" placeholder="제목을 입력하세요."
-          style={{width:"100%",height:'40px' , border:'1px solid lightGray', marginBottom:'5px'}} onChange={(e)=>{handleTitle(e.target.value)}}/>
+        <input id="dataset-title" type="text" maxLength="50" placeholder="제목을 입력하세요." required
+          style={{width:"100%",height:'40px' , border:'1px solid lightGray', marginBottom:'5px'}} 
+          onChange={(e)=>{handleTitle(e.target.value)}}/>
 
         <h3>상세내용</h3>
         <input type="file" onChange={handleFileChange} />

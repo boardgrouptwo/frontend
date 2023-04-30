@@ -98,19 +98,31 @@ export const reviewInsertDB = (member) => {
   });
 };
 
-export const imageUploadDB = (file) => {
-  console.log(file);
+export const imageUploadDB = (product, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
-        url: process.env.REACT_APP_CHAT221228_IP + "service/imageUpload",
+        url: process.env.REACT_APP_SPRING_IP + "service/imageUpload",
+        data: product,
         headers: {
-          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
-        processData: false,
-        contentType: false,
-        data: file,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const reviewListDB = (board) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "service/reviewList",
+        params: board,
       });
       resolve(response);
     } catch (error) {

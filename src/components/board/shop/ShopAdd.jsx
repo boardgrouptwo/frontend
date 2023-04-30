@@ -78,7 +78,6 @@ const ShopAdd = () => {
       product_price: price, //금액
       product_image: imageName, //이미지 이름
       product_detail: detail, //상품 상세 설명
-      product_type: u_select // 상품 타입      
     }
   
     if(title==="") {

@@ -6,19 +6,53 @@ import { Button } from 'react-bootstrap'
 import { useState } from 'react'
 import { useCallback } from 'react'
 import { useNavigate } from 'react-router'
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { reviewListDB } from '../../service/KhServiceDBLogic'
+import Bottom from '../include/Bottom'
 
 const KhServiceReview = () => {
     const navigate = useNavigate();
+    const isLogin = useSelector(state => state.isLogin);  //로그인정보 가져오기
 
+    // 카드 목록
+    const [reviewList, setReviewList] = useState([])
     
-  // 검색어
-  const [search, setSearch] = useState("")
-  const handleSearch = useCallback((e) => {
-    setSearch(e)
-  },[])
+
+    const handleWrite = () => {
+    if (isLogin === false) { // 로그인한 사용자만 글쓰기 가능
+      navigate(`/service/review/write`);
+    } else {
+      navigate("/loginError");
+    }
+    };
+
+  /****** 카드에 데이터 넣기 ******/
+    useEffect(()=>{
+      const boardList = async() =>{
+        const res = await reviewListDB()
+        console.log(res.data)  
+        const list = []
+        res.data.forEach((item) => {
+          const obj = {
+            user_id: item.user_id,
+            review_title: item.review_title,
+            review_content: item.review_content,
+            review_date: item.review_date,     
+            review_image: item.review_image,          
+          } 
+          list.push(obj)       
+        })
+        setReviewList(list)
+      }
+      boardList();
+      console.log(reviewList)
+    },[])
+    
+
 
       //검색 로직
-  const noticeSearch = () => {    
+  const reviewSearch = () => {    
 /*     if(search === "") {
       alert("검색어를 입력하세요")      
     } else {
@@ -52,28 +86,21 @@ const KhServiceReview = () => {
       <KhSponorServicebar />
       <div className='container' style={{position: "relative" }}>
         <div className="page-header" >
-        </div>     
-        <h2 style={{marginTop: "30px"}}> 봉사활동 리뷰 게시판 </h2> 
-        <div className="row">
-          <div className="col-5" >
-            <input type="text" id="keyword" className="form-control" placeholder="검색어를 입력하세요" 
-                  aria-label="검색어를 입력하세요" aria-describedby="btn_search" onChange={(e)=>{handleSearch(e.target.value)}}/>
-          </div>                    
-          <div className="col-3">
-            <Button style={{marginRight : "20px"}}variant='primary' id="btn_search" onClick={noticeSearch}>검색</Button>
-            
+        </div>
+        <div style={{display: "flex", alignItems: "center"}}>
+  <h2 style={{marginTop: "30px", marginRight: "10px"}}>봉사활동 리뷰 게시판</h2>
+  <Button variant="success" onClick={handleWrite} style={{marginTop:"25px", marginLeft:"10px"}}>
+    글쓰기              
+  </Button> 
+</div>
 
-                <Button variant="success" onClick={()=>{navigate(`/service/review/write`)}}>
-                  글쓰기              
-                </Button> 
-     
-
-          </div>
-        </div> 
         <br />
-        <KhServiceCard />
+        {reviewList.map((board,index) => (
+        <KhServiceCard key={index} board={board}/>
+        ))}
 
         </div>
+        <Bottom />
     </>
   )
 }

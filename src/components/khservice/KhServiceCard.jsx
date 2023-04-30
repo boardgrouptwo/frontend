@@ -2,7 +2,6 @@ import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import styled from 'styled-components';
-import { productReceiveListDB } from '../../service/ShopDBLogic';
 import { useNavigate } from 'react-router';
 
 
@@ -23,70 +22,56 @@ const KhServiceCard = ({board}) => {
   const [productList, setProductList] = useState([])
 
   const navigate = useNavigate();
-  const defaultimage = "http://localhost:3000/images/shop/test.jpg"
+  const defaultimage = "http://localhost:3000/images/service/garden.jpg"
 
-  const [hovered, setHovered] = useState(false);
-
-  const handleDetail = () => {
-    console.log("상세보기")
-    console.log(board.product_no)
-    navigate("/")
+  const [showFooter, setShowFooter] = useState(false);
+  const toggle = () => {
+    setShowFooter(!showFooter);
   }
-
-
-
-  /****** 하단 카드에 productList 데이터 넣기 ******/
-  useEffect(() => {
-    const boardList = async() => {
-
-      const res = await productReceiveListDB("total")
-      console.log(res.data)
-      const list = []
-      res.data.forEach((item) => {
-        const obj = {
-          product_no: item.product_no,
-          product_title: item.product_title,
-          product_price: item.product_price,
-          product_image: item.product_image,     
-          product_hit: item.product_hit,
-          product_detail: item.product_detail,
-        } 
-        list.push(obj)       
-      })
-      setProductList(list)
-    }
-    boardList();
-    console.log(productList)
-  })
 
 
 
   return (
     <>
 
-<div className="receive-card-container" onClick={handleDetail} style={{height:"630px"}}>
+<div className="receive-card-container" style={{width:"300px", height:"550px", float:"left", marginRight: "20px"}}>
 
 <div className="receive-card-header" style={{backgroundColor:"#4a9e5c"}}>
 
-  <div className="receive-card-title" style={{height:"40px", marginLeft:"5px", color:"white"}}> 봄 맞이 요양원 대청소</div>
+  <div className="receive-card-title" style={{height:"40px", marginLeft:"5px", color:"white"}}> {board.review_title} </div>
   <div className="receive-card-rank" style={{color:"white", textAlign:"right", marginRight:"10px"}}>
-  <span className="rank-text" >작성자 : tomato</span>
+  <span className="rank-text" >작성자 : {board.user_id}</span>
 
   </div>
 </div>
 <div className="receive-card-footer" style={{display:"block", padding: "0"}}>
 <div>
+
+{
+        (board.review_image !== "defaultimage") ? (
           <img 
-            style={{ width: "430px", height: "400px", borderRadius:"0%", objectFit: "cover"}}
-            src={`http://localhost:3000/images/shop/KakaoTalk_20230323_092346383.jpg`}
-            alt="설명"
-            onClick={handleDetail}
+            style={{ width: "300px", height: "300px", borderRadius:"0%", objectFit: "cover"}}
+            src={`http://localhost:3000/images/service/${board.review_image}`}
+            alt={board.review_title}
           />
+        ) : (
+          <img 
+            style={{ width: "300px", height: "300px", borderRadius:"0%", objectFit: "cover"}}
+            src={defaultimage}
+            alt={board.review_title} 
+          />                
+        )
+      }
+
 </div>
 
-  <div className="rank-text" style={{textAlign:"right", margin:"10px"}}> 등록일자 : 2023-04-29 </div>
+  <div className="rank-text" style={{textAlign:"right", margin:"10px"}}> 
+  등록일자 : {new Date(board.review_date).toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })}
+  </div>
 
-  <div className="receive-card-detail" style={{margin:"10px"}}>다른곳에서 쉽게 할 수 없는 체험을 할 수 있어서 너무 좋은 경험이였습니다. </div>
+  <div className="receive-card-detail" style={{margin:"10px"}}>  
+    <div dangerouslySetInnerHTML={{__html:board.review_content}}></div>
+  </div>
 
 
 </div>
