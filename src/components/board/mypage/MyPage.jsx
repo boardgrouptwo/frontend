@@ -173,8 +173,8 @@ const MyPage = () => {
     const res = await visitDateDB(user, token);
     
     const obj = {
-      elder_id: res.data.elder_id,
-      visit_date: res.data.visit_date,
+      elder_id: res.data.elder_id,              // ID
+      visit_date: res.data.visit_date,          // 면회 날짜
     }
     console.log("면회일정 ==> " + obj);
 
