@@ -140,3 +140,21 @@ export const reviewListDB = (board) => {
     }
   });
 };
+
+export const reviewDeleteDB = (board, token) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "service/reviewDelete",
+        params: board,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
