@@ -1,12 +1,15 @@
 import axios from "axios";
 
-export const sponsorInsertDB = (board) => {
+export const sponsorInsertDB = (board, token) => {
     return new Promise((resolve, reject) => {
       try {
         const response = axios({
           method: "post",
           url: process.env.REACT_APP_SPRING_IP + "spon/insert",
           data: board,
+          headers: {
+            Authorization: `Bearer ${token}`,
+        }
         });
         resolve(response);
       } catch (error) {

@@ -22,6 +22,7 @@ import PaymentModal from '../payment/PaymentModal';
 const SponsorFrom = () => {
     const isLogin = useSelector(state => state.isLogin);  //로그인정보 가져오기
     const navigate = useNavigate();
+    const token =useSelector(state => state.token);   
     // 초기값 설정
     const user = useSelector(state => state.nickname); //user 닉네임 가져오기
     const[sponsorId, setSponsorId]= useState(''); // 아이디
@@ -157,7 +158,7 @@ const requestPay = () => {
       // 카카오페이 결제 이외 로직
       else {
         // 수정완료 ///////////////////////
-        const res = await sponsorInsertDB(member)
+        const res = await sponsorInsertDB(member, token)
         console.log(res + "," + res.data)
   
         if (!res.data){

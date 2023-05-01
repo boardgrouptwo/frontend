@@ -1,12 +1,15 @@
 import axios from "axios";
 
-export const serviceInsertDB = (member) => {
+export const serviceInsertDB = (member, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "service/insert",
         data: member,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {
@@ -15,13 +18,16 @@ export const serviceInsertDB = (member) => {
   });
 };
 
-export const serviceUpdateDB = (service) => {
+export const serviceUpdateDB = (service, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "service/update",
         data: service,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {
@@ -30,13 +36,16 @@ export const serviceUpdateDB = (service) => {
   });
 };
 
-export const AdminServiceListDB = (member) => {
+export const AdminServiceListDB = (member, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "get",
         url: process.env.REACT_APP_SPRING_IP + "service/managerList",
         params: member,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {
@@ -45,13 +54,16 @@ export const AdminServiceListDB = (member) => {
   });
 };
 
-export const serviceDeleteDB = (member) => {
+export const serviceDeleteDB = (member, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "service/delete",
         data: member,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {
@@ -60,11 +72,10 @@ export const serviceDeleteDB = (member) => {
   });
 };
 
-
 export const serviceDateDB = (user, token) => {
-  console.log("serviceDateDB 호출")
-  console.log(user)
-  
+  console.log("serviceDateDB 호출");
+  console.log(user);
+
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
@@ -73,7 +84,7 @@ export const serviceDateDB = (user, token) => {
         params: user,
         headers: {
           Authorization: `Bearer ${token}`,
-        }
+        },
       });
       resolve(response);
     } catch (error) {
@@ -81,7 +92,6 @@ export const serviceDateDB = (user, token) => {
     }
   });
 };
-
 
 export const reviewInsertDB = (member) => {
   return new Promise((resolve, reject) => {

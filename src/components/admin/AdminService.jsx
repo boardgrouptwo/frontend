@@ -6,8 +6,9 @@ import MainHeader from '../include/MainHeader';
 import Adminbar from './Adminbar';
 import Bottom from '../include/Bottom';
 import { AdminServiceListDB, serviceDeleteDB, serviceUpdateDB } from '../../service/KhServiceDBLogic';
-import axios from 'axios';
 import * as XLSX from 'xlsx'
+import { useSelector } from 'react-redux';
+
 
 /******** 엑셀 내보내기start *********/
 const exportToExcel = (data) => { // 함수를 정의합니다. data 파라미터는 엑셀로 내보낼 데이터입니다.
@@ -42,7 +43,9 @@ const exportToExcel = (data) => { // 함수를 정의합니다. data 파라미�
 };
 /******** 엑셀 내보내기end *********/
 
-const AdminService = () => {  
+const AdminService = () => {
+  const userId = useSelector(state => state.userid);      // 사용자 아이디
+  const token = useSelector(state => state.token); 
 
   /*  Ant Design에서 제공하는 컴포넌트, 두 개의 목록(리스트) 간의 데이터 이동을 간편하게 제공해주는 컴포넌트  */
   const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
@@ -164,7 +167,7 @@ useEffect(() =>{
     }else{
       list1.push(obj)
     }
-  })    
+  })
   setUnCheckServiceList(list0)
   setCheckServiceList(list1)   
 }
@@ -249,7 +252,7 @@ const rightTableColumns = [
       const data = {
           service_no : selectedData.map((item)=>item.service_no)
       };
-      await serviceUpdateDB(data);
+      await serviceUpdateDB(data, token);
       setRender(render+1); 
   };
   
@@ -277,7 +280,7 @@ const serviceDelete = async () => {
   const data = {
     service_no : checkService[0].map((item)=>item.service_no)
   };
-  await serviceDeleteDB(data);
+  await serviceDeleteDB(data, token);
   setRender(render+1); 
 };
 
