@@ -23,7 +23,6 @@ import { async } from 'q';
 
 const SponsorFrom = () => {
     const isLogin = useSelector(state => state.isLogin);  //로그인정보 가져오기
-    const token = useSelector(state => state.token); 
 
     const navigate = useNavigate();
     const token =useSelector(state => state.token);   
