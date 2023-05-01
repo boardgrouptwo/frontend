@@ -17,10 +17,14 @@ import { useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import KhPrivacy from '../khservice/KhPrivacy';
 import PaymentModal from '../payment/PaymentModal';
+import { paymentImp } from '../../service/PaymentDBLogic';
+import { async } from 'q';
 
 
 const SponsorFrom = () => {
     const isLogin = useSelector(state => state.isLogin);  //로그인정보 가져오기
+    const token = useSelector(state => state.token); 
+
     const navigate = useNavigate();
     const token =useSelector(state => state.token);   
     // 초기값 설정
@@ -63,38 +67,45 @@ const SponsorFrom = () => {
   //가맹점 식별코드
   IMP.init("imp17705726"); 
 
-const requestPay = () => {
-  console.log("호출")
-  let msg;
+  const requestPay = () => {
+    console.log("requestPay 호출")
+    let msg;
 
-  IMP.request_pay({ // param
-    //pg: "kakaopay.TC0ONETIME",    // 상점 ID
-    pg: "html5_inicis",
-    pay_method: "card",
-    merchant_uid: "ORD20180131-0000011",
-    name: "노르웨이 회전 의자",//결제창에서 보여질 이름
-    amount: 64900,//실제 결제되는 가격
-    buyer_email: "gildong@gmail.com",
-    buyer_name: "홍길동",
-    buyer_tel: "010-4242-4242",
-    buyer_addr: "서울특별시 강남구 신사동",
-    buyer_postcode: "01181"
-  }, rsp => { // callback
-    console.log(rsp)
-    if (rsp.success) {
-      msg = '결제가 완료되었습니다.';
-      msg += '고유ID : ' + rsp.imp_uid;
-      msg += '상점 거래ID : ' + rsp.merchant_uid;
-      msg += '결제 금액 : ' + rsp.paid_amount;
-      msg += '카드 승인번호 : ' + rsp.apply_num;
-    } else {
-      msg = '결제에 실패하였습니다.';
-      msg += '에러내용 : ' + rsp.error_msg;
+    const orderSheet = {
+      pay_type: "후원",
+      pg: "kakaopay.TC0ONETIME",    // 상점 ID
+      //pg: "html5_inicis",
+      pay_method: "card",
+      merchant_uid: "ORD20180131-0000011",
+      name: "후원",//결제창에서 보여질 이름
+      amount: sponsorMoney,//실제 결제되는 가격
+      buyer_email: "kh@kh.com",
+      buyer_name: user,
     }
-    
-    alert(msg);
-  });
-}
+    console.log("주문서 : " + orderSheet);
+
+    const test  = async () => {
+      const res = await paymentImp(orderSheet, token);
+      console.log(res.data);
+  
+      // IMP.request_pay({orderSheet}, rsp => { // callback
+      //   console.log(rsp)
+      //   if (rsp.success) {
+      //     msg = '결제가 완료되었습니다.';
+      //     msg += '고유ID : ' + rsp.imp_uid;
+      //     msg += '상점 거래ID : ' + rsp.merchant_uid;
+      //     msg += '결제 금액 : ' + rsp.paid_amount;
+      //     msg += '카드 승인번호 : ' + rsp.apply_num;
+      //   } else {
+      //     msg = '결제에 실패하였습니다.';
+      //     msg += '에러내용 : ' + rsp.error_msg;
+      //   }
+        
+      //   alert(msg);
+      // });
+    }
+    test();
+  }
 
 
 ///////////////////////////////////////// 아임포트
@@ -142,7 +153,7 @@ const requestPay = () => {
 
         //<PaymentModal payForm={payForm} open={modalOpen} close={closeModal} header="결제 방식 선택" />
 
-        const respose = await kakaoPayReady(payForm);
+        const respose = await kakaoPayReady(payForm, token);
         console.log(respose.data)
 
         // 카카오페이 결제 성공 시 DB에 저장
@@ -408,7 +419,6 @@ const requestPay = () => {
 
         
     </div>
-    <Bottom />
     </>
   )
 }

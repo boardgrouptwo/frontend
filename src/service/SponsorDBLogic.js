@@ -9,7 +9,7 @@ export const sponsorInsertDB = (board, token) => {
           data: board,
           headers: {
             Authorization: `Bearer ${token}`,
-        }
+          }
         });
         resolve(response);
       } catch (error) {
