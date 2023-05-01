@@ -107,21 +107,38 @@ const SponsorManagement = () => {
     console.log(res.data);
 
     const datas = res.data;
-    datas.forEach((item, index) => {
+    
+    if (datas != null && datas.length > 0) {
+      datas.forEach((item, index) => {
+        const obj = {
+          user_name: item.user_name, 
+          spon_number: item.spon_number, 
+          spon_date: item.spon_date, 
+          spon_huwon: item.spon_huwon, 
+          spon_money: item.spon_money,
+          spon_pay: item.spon_pay,
+          spon_open: item.spon_open,
+          spon_content: item.spon_content,
+        }
+        
+        list.push(obj);
+      })
+      setTotalItems(datas[0].total_count); // 검색된 후원 건수
+    } else {
       const obj = {
-        user_name: item.user_name, 
-        spon_number: item.spon_number, 
-        spon_date: item.spon_date, 
-        spon_huwon: item.spon_huwon, 
-        spon_money: item.spon_money,
-        spon_pay: item.spon_pay,
-        spon_open: item.spon_open,
-        spon_content: item.spon_content,
+        user_name: "", 
+        spon_number: "", 
+        spon_date: "", 
+        spon_huwon: "", 
+        spon_money: "",
+        spon_pay: "",
+        spon_open: "",
+        spon_content: "",
       }
       
       list.push(obj);
-    })
-    setTotalItems(datas[0].total_count); // 검색된 후원 건수
+      setTotalItems(1); // 검색된 후원 건수
+    }
 
     setListBody(list);  
   }

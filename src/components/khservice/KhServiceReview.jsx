@@ -35,6 +35,7 @@ const KhServiceReview = () => {
         const list = []
         res.data.forEach((item) => {
           const obj = {
+            review_no: item.review_no,
             user_id: item.user_id,
             review_title: item.review_title,
             review_content: item.review_content,
@@ -51,58 +52,51 @@ const KhServiceReview = () => {
     
 
 
-      //검색 로직
-  const reviewSearch = () => {    
-/*     if(search === "") {
-      alert("검색어를 입력하세요")      
-    } else {
-      const sear = {
-        search
-      }
-      const noticeSearchList = async() => {
-        const res = await noticeSearchListDB(sear)
-        const list = []
-        res.data.forEach((item) => {
-          const obj = {
-            notice_no: item.notice_no,
-            notice_title: item.notice_title,
-            notice_content: item.notice_content,
-            notice_date: item.notice_date,
-            notice_hit: item.notice_hit
-          }
-          list.push(obj)
-        })
-        setNoticeList(list)         
-      }
-      console.log(noticeList)
-      noticeSearchList()
-    } */
-  }
-
-
   return (
     <>
       <MainHeader />
       <KhSponorServicebar />
-      <div className='container' style={{position: "relative" }}>
-        <div className="page-header" >
-        </div>
+      <div className='container' style={{position: "relative"}}>
+        <div className="page-header" ></div>
         <div style={{display: "flex", alignItems: "center"}}>
-  <h2 style={{marginTop: "30px", marginRight: "10px"}}>봉사활동 리뷰 게시판</h2>
-  <Button variant="success" onClick={handleWrite} style={{marginTop:"25px", marginLeft:"10px"}}>
-    글쓰기              
-  </Button> 
-</div>
+          <h2 style={{marginTop: "30px", marginRight: "10px"}}>봉사활동 리뷰 게시판</h2>
+  {/* <Button variant="success" onClick={handleWrite} style={{marginTop:"25px", marginLeft:"10px"}}> 글쓰기 </Button>  */}
+        </div>
 
-        <br />
+<br />
+
+    {/* 후기 추가 카드 */}
+        <div className="receive-card-container" style={{width:"300px", height:"550px", float:"left", marginRight: "20px"}} onClick={handleWrite}>
+          <div className="receive-card-header" style={{backgroundColor:"#4a9e5c"}}>
+            <div className="receive-card-title" style={{height:"62px", marginLeft:"5px", color:"white"}}> 새로운 후기를 기다립니다 </div>
+            <div className="receive-card-rank" style={{color:"white", textAlign:"right", marginRight:"10px"}}>
+              <span className="rank-text" ></span>
+            </div>
+          </div>
+        <div className="receive-card-footer" style={{display:"block", padding: "0"}}>
+        <div>
+          <img 
+              style={{ width: "300px", height: "300px", borderRadius:"0%", objectFit: "cover", transform: "scale(0.5)", transition: "transform .2s"}}
+              src={`http://localhost:3000/images/service/addButton.png`}
+              alt="추가하기"
+              onMouseOver={(e) => e.currentTarget.style.transform = "scale(0.6)"}
+              onMouseOut={(e) => e.currentTarget.style.transform = "scale(0.5)"}
+          />
+        </div>
+          <div className="rank-text" style={{textAlign:"center", margin:"10px"}}> (회원전용 서비스) </div>
+          <div className="receive-card-detail" style={{textAlign:"center", margin:"10px"}}>  
+            <div> 당신의 후기를 남겨보세요</div>
+          </div>
+        </div>
+      </div>
+{/* 후기 카드 */}
         {reviewList.map((board,index) => (
         <KhServiceCard key={index} board={board}/>
         ))}
-
-        </div>
-        <Bottom />
+      </div>
+    <Bottom />
     </>
-  )
+)
 }
 
 export default KhServiceReview

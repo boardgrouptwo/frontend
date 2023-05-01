@@ -82,6 +82,7 @@ const MainHeader = () => {
                 <li><Link to="/sponsor/from">후원하기</Link> </li>
                 <li><Link to="/service/from">자원봉사신청</Link> </li>
                 <li><Link to="/sponsor/list">후원현황</Link> </li>
+                <li><Link to="/service/review">자원봉사리뷰</Link> </li>
               </ul>
             </li>
 

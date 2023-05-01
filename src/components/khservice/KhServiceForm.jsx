@@ -34,7 +34,7 @@ const KhServiceForm = () => {
     const [showError3, setShowError3] = useState(false);//폼 검증 유효성 검사
     const [validated, setValidated] = useState(false); //폼 검증 유효성 검사
 
-
+    const token =useSelector(state => state.token); 
     const navigate = useNavigate();
     useEffect(()=> {
       //로그인 한 사용자는 home으로 이동
@@ -66,7 +66,7 @@ const KhServiceForm = () => {
     console.log(member);
 
     // 수정완료 ///////////////////////
-    const res = await serviceInsertDB(member)
+    const res = await serviceInsertDB(member, token)
     console.log(res + "," + res.data)
 
     if (!res.data){

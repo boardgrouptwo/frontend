@@ -52,7 +52,9 @@ const OrderPage = () => {
   
   const [showError, setShowError] = useState(false);//폼 검증 유효성 검사
   const [showError2, setShowError2] = useState(false);//폼 검증 유효성 검사
+  const [showError3, setShowError3] = useState(false);//폼 검증 유효성 검사
   const [validated, setValidated] = useState(false); //폼 검증 유효성 검사
+  const [validated2, setValidated2] = useState(false); //폼 검증 유효성 검사
 
   // 회원가입을 하기 위해서는 아이디 중복검사를 해야함
   const[check, setCheck] = useState(false);
@@ -98,10 +100,6 @@ const OrderPage = () => {
   }
 
 
-  
-  const onClickPayment = () => {
-    
-  }
   // 뒤로 가기
   const orderBack = () => {
     window.history.back();
@@ -114,23 +112,47 @@ const OrderPage = () => {
   const handleSubmit = async(event) => {
     const form = event.currentTarget;
     
-    // //유효 확인 실패 했을 경우
-    // if (form.checkValidity() === false) { 
-    //   event.preventDefault();  //이벤트 중단
-    //   event.stopPropagation(); //이벤트 중단
-    // }
-    // setValidated(true);  // validated 변수를 true로 설정
+    //유효 확인 실패 했을 경우
+    if (form.checkValidity() === false) { 
+      event.preventDefault();  //이벤트 중단
+      event.stopPropagation(); //이벤트 중단
 
-    // // 동의를 안했으면 제출할 수 없음
-    // if(check === false){
-    //   Swal.fire({
-    //     icon: "warning",
-    //     title: "구매동의 해주세요",
-    //     showCancelButton: false,
-    //     confirmButtonText: "확인",
-    //   })
-    // }
-    // event.preventDefault();
+      Swal.fire({
+        icon: "warning",
+        title: "필수 항목 입력해주세요",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+      })
+
+      setValidated(true);  // validated 변수를 true로 설정
+      return;
+    } 
+    
+    // 결제 동의를 안했으면 제출할 수 없음
+    if (checkbox2 === false || checkbox3 === false || checkbox4 === false){
+      Swal.fire({
+        icon: "warning",
+        title: "결제동의 해주세요",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+      })
+      
+      return;
+    }
+    event.preventDefault();
+    
+    // 결제수단 안했으면 제출할 수 없음
+    if (validated2 === false) {
+      Swal.fire({
+        icon: "warning",
+        title: "결제수단 선택해주세요",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+      })
+      event.preventDefault();
+
+      return;
+    }
     
     const order = {
       user_id: userInfo.user_id,
@@ -222,35 +244,42 @@ const OrderPage = () => {
           <OrderDiv>
             <OrderRawDiv>
               {/* 이름 */}
-              <Form.Group as={Row} className="mb-3" controlId="Name">
+              {/* controlId로 label과 input 요소를 연결, Form.Control.Feedback을 사용하여 폼 유효성 검사 메시지를 표시 */}
+              <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>이름</Form.Label>
                 <Col sm={8} style={{ display: "flex", alignItems: "center" }}>
                   <Form.Control 
                     type="text"
+                    id="Name"
                     defaultValue={userInfo.user_name}
                     onChange={(e) => {userInfo.user_name = e.target.value}}
                   />
-                  {/* <Form.Control.Feedback type="invalid" style={{ display: userInfo.user_name ? "none" : "block" }}>
+                  <div />
+                  <Form.Control.Feedback type="invalid" style={{ display: showError ? "block" : "none" }}>
                     이름을 입력해주세요.
-                  </Form.Control.Feedback> */}
+                  </Form.Control.Feedback>
                 </Col>
               </Form.Group>
               {/* 연락처 */}
-              <Form.Group as={Row} className="mb-3" controlId="Tel">
+              <Form.Group as={Row} className="mb-3">
                 <Form.Label column sm={2}>연락처</Form.Label>
                 <Col sm={8} style={{ display: "flex", alignItems: "center" }}>
                   <Form.Control 
-                    type="text"
+                    type="tel"
+                    id="Tel"
+                    placeholder="- 를 제외하고 작성해주세요" 
+                    pattern="[0-9]*"
+                    required
                     defaultValue={userInfo.user_tel}
                     onChange={(e) => {userInfo.user_tel = e.target.value}}
                   />
-                  {/* <Form.Control.Feedback type="invalid" style={{ display: showError ? "block" : "none" }}>
+                  <Form.Control.Feedback type="invalid" style={{ display: showError2 ? "block" : "none" }}>
                     연락처를 입력해주세요.
-                  </Form.Control> */}
+                  </Form.Control.Feedback>
                 </Col>
               </Form.Group>
               {/* 주소 */}
-              <Form.Group as={Row} className="mb-3" controlId="Addr">
+              <Form.Group as={Row} className="mb-3" >
                 <Form.Label column sm={2}>주소</Form.Label>
                   <Col sm={8} style={{ alignItems: "center" }}>
                     <div style={{display: "flex"}}>
@@ -260,7 +289,11 @@ const OrderPage = () => {
                         placeholder="우편번호를 입력해주세요." 
                         onChange={(e)=>{console.log(e.target.value)}} 
                         style={{width: "50%"}}
+                        required
                       />
+                      <Form.Control.Feedback type="invalid" style={{ display: showError3 ? "block" : "none" }}>
+                        우편번호 검색하세요.
+                      </Form.Control.Feedback>
                       <Button type="button" onClick={()=>{openZipcode()}}>주소검색</Button>
                     </div>
                     <Form.Control  
@@ -273,11 +306,12 @@ const OrderPage = () => {
                   </Col>
               </Form.Group>
               {/* 배송 요청사항 */}
-              <Form.Group as={Row} className="mb-3" controlId="requestT">
+              <Form.Group as={Row} className="mb-3" >
                 <Form.Label column sm={2}>배송 요청사항</Form.Label>
                 <Col sm={8} style={{ display: "flex", alignItems: "center" }}>
                   <Form.Control 
                     as="select"
+                    id="requestT"
                     onChange={(e) => setRequestText(e.target.value)}
                   >
                     <option>배송 시 요청사항을 선택해주세요</option>
@@ -322,8 +356,8 @@ const OrderPage = () => {
           <RawTitleH5 className='sponsor-form-text'> 결제정보 </RawTitleH5>
           <OrderDiv>
             <OrderRawDiv>
-              <fieldset>
-                <Form.Group as={Row} className="mb-3" controlId="payTyp">
+              {/* <fieldset> */}
+                <Form.Group as={Row} className="mb-3" >
                   <Form.Label>결제 수단</Form.Label>
                   <Row>
                     <Col>
@@ -336,6 +370,7 @@ const OrderPage = () => {
                         value="kakao"       // TODO: 추후 변경 필요!!
                         onChange={(e) => {
                           setPayType(e.target.value);
+                          setValidated2(true);
                         }}
                         required
                       />
@@ -349,12 +384,13 @@ const OrderPage = () => {
                         value="kakao"
                         onChange={(e) => {
                           setPayType(e.target.value);
+                          setValidated2(true);
                         }}
                       />
                     </Col>
                   </Row>
                 </Form.Group>
-              </fieldset>
+              {/* </fieldset> */}
             </OrderRawDiv>
             <hr />
             <OrderRawDiv>
@@ -372,17 +408,18 @@ const OrderPage = () => {
           <RawTitleH5>결제 동의</RawTitleH5>
           <OrderDiv style={{padding: "5% 30%"}}>
               <OrderRawDiv style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Form.Group as={Row} className="mb-3" controlId="service_Check">
+                <Form.Group as={Row} className="mb-3" >
                   <Form.Check
                     type="checkbox"
                     label="전체 동의하기"
-                    checked={checkbox1}
+                    checked={checkbox2 == true && checkbox3 == true && checkbox4 == true}
                     onChange={(e) => {
                       setCheckbox1(e.target.checked);
                       setCheckbox2(e.target.checked);
                       setCheckbox3(e.target.checked);
                       setCheckbox4(e.target.checked);
                     }}
+                    required
                   />
                   <Form.Check
                     type="checkbox"
@@ -391,6 +428,7 @@ const OrderPage = () => {
                     onChange={(e) => setCheckbox2(e.target.checked)}
                     feedback="필수 동의 항목입니다."
                     feedbackType="invalid"
+                    required
                   />
                   <Form.Check
                     type="checkbox"
@@ -399,6 +437,7 @@ const OrderPage = () => {
                     onChange={(e) => setCheckbox3(e.target.checked)}
                     feedback="필수 동의 항목입니다."
                     feedbackType="invalid"
+                    required
                   />
                   <Form.Check
                     type="checkbox"
@@ -407,6 +446,7 @@ const OrderPage = () => {
                     onChange={(e) => setCheckbox4(e.target.checked)}
                     feedback="필수 동의 항목입니다."
                     feedbackType="invalid"
+                    required
                   />
                   {/* <Form.Check
                     required
@@ -426,7 +466,8 @@ const OrderPage = () => {
 
           {/* 결제 버튼 */}
           <Col sm={{ span: 10, offset: 4 }}>
-            <Button onClick={handleSubmit} >결제</Button>{' '}
+            {/* <Button onClick={handleSubmit} >결제</Button>{' '} */}
+            <Button type="submit" variant="success"  >결제</Button>{' '}
             <Button variant="secondary" onClick={orderBack}>돌아가기</Button>{' '}
             <Button type="reset" variant="secondary"  onClick={resetClick} >초기화</Button>
           </Col>
