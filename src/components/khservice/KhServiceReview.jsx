@@ -56,7 +56,7 @@ const KhServiceReview = () => {
     <>
       <MainHeader />
       <KhSponorServicebar />
-      <div className='container' style={{position: "relative" }}>
+      <div className='container' style={{position: "relative"}}>
         <div className="page-header" ></div>
         <div style={{display: "flex", alignItems: "center"}}>
           <h2 style={{marginTop: "30px", marginRight: "10px"}}>봉사활동 리뷰 게시판</h2>

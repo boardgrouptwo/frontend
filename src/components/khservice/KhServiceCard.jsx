@@ -54,7 +54,7 @@ const KhServiceCard = ({board}) => {
   return (
     <>
 
-      <div className="receive-card-container" style={{width:"300px", height:"550px", float:"left", marginRight: "20px"}}>
+      <div className="receive-card-container" style={{width:"300px", height:"550px", float:"left", marginRight: "20px", cursor: "context-menu"}}>
         <div className="receive-card-header" style={{backgroundColor:"#4a9e5c"}}>
           <div className="receive-card-title" style={{height:"40px", marginLeft:"5px", color:"white"}}> {board.review_title} </div>
           <div className="receive-card-rank" style={{color:"white", textAlign:"right", marginRight:"10px"}}>

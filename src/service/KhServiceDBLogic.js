@@ -93,13 +93,16 @@ export const serviceDateDB = (user, token) => {
   });
 };
 
-export const reviewInsertDB = (member) => {
+export const reviewInsertDB = (member, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "service/reviewInsert",
         data: member,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {
