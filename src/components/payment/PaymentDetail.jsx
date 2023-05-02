@@ -91,11 +91,6 @@ const PaymentDetail = () => {
 
   useEffect(() => {
     const payList = async() => {
-      // 콤보박스 내용 -> 원비, 후원 중 하나
-      // 사용자가 입력한 키워드
-      // http://localhost:3000/paymentdetail?pay_type=전체|결제|후원
-      // [0] : ?pay_type=전체|결제|후원
-      // [1] : 
       const pay_type = search.split("&").filter((item) => {
         return item.match("pay_type")
       })[0]?.split("=")[1];

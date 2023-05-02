@@ -180,7 +180,15 @@ const OrderPage = () => {
         console.log("카카오결제 성공하였습니다")
 
         // 카카오페이 결제 팝업 출력
-        window.open(res.data,'카카오페이','width=430,height=500,top=50%,left=50%,location=no,status=no,scrollbars=yes');
+        const screenWidth = window.screen.width;
+        const screenHeight = window.screen.height;
+        const popupWidth = 430;
+        const popupHeight = 500;
+        
+        const left = (screenWidth - popupWidth) / 2;
+        const top = (screenHeight - popupHeight) / 2;
+        
+        window.open(res.data, 'Kakao Pay', `width=${popupWidth},height=${popupHeight},top=${top},left=${left},location=no,status=no,scrollbars=yes`);
       }
     }
   } // end of handleSubmit
@@ -448,25 +456,12 @@ const OrderPage = () => {
                     feedbackType="invalid"
                     required
                   />
-                  {/* <Form.Check
-                    required
-                    label="아래 내용을 확인하였으며 개인정보 처리 방침안내의 내용에 동의합니다. (체크필수)"
-                    feedback="필수 동의 항목입니다."
-                    feedbackType="invalid"
-                  />
-                  <Accordion>
-                    <Accordion.Item eventKey="0">
-                      <Accordion.Header>개인정보 처리방침 안내</Accordion.Header>
-                      <Accordion.Body> <KhPrivacy /></Accordion.Body>
-                    </Accordion.Item>
-                  </Accordion> */}
                 </Form.Group>
               </OrderRawDiv>
           </OrderDiv>
 
           {/* 결제 버튼 */}
           <Col sm={{ span: 10, offset: 4 }}>
-            {/* <Button onClick={handleSubmit} >결제</Button>{' '} */}
             <Button type="submit" variant="success"  >결제</Button>{' '}
             <Button variant="secondary" onClick={orderBack}>돌아가기</Button>{' '}
             <Button type="reset" variant="secondary"  onClick={resetClick} >초기화</Button>

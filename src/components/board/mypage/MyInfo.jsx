@@ -81,7 +81,7 @@ const MyInfo = ({userInfo, sponSum, servDate}) => {
               </div>
               <div style={{display: "flex", height: "30px"}}>
                 <CardP style={{marginRight: "25px"}}>총 후원금액 :</CardP>
-                <InfoP>{sponSum} 원</InfoP>    
+                <InfoP>{sponSum}</InfoP>    
               </div>
               <Link to="/mypage/detail" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}}>회원정보 수정/탈퇴</Link>
             </div>
