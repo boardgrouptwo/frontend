@@ -40,6 +40,7 @@ const Elder = () => {
 
         //화면에 입력된 값을 DB로 보내는
         const elder= {
+          elder_id: userId,
           elder_name: elderName,
           elder_age: elderAge,
           elder_gender: elderGender,
