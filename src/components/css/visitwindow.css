@@ -1,177 +1,129 @@
 .window-container {
   position: fixed;
+  display: flex;
   z-index: 101;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* 모달창의 너비와 높이 */
   width: 660px;
   height: 700px;
-  /* 모달창의 배경색 */
-  background-color: goldenrod;
   border-radius: 10px;
   /* 모달창 내부의 내용이 길어질 경우 스크롤이 생성 */
   overflow-y: auto;
-  display: flex;
+  border: 3px solid #ccc; /* 전체 테두리 추가 */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15); 
   }
   .window-overlay{
+    text-align: center;
     background-color: #8FB399;
-    z-index: 100;
-    align-items: center;
     width: 660px;
     height: auto;
   }
   
   .window-header {
-    font-size: 24px;
-    text-align: center;
     display: flex;
     justify-content: space-between;
-    background-color:blanchedalmond;
+    align-items: center;
+    background-color: blanchedalmond;
     height: 120px;
   }
-  
- 
   .window-title{
     font-size: 24px;
-    text-align: center;
-    margin: auto;
+  margin: 0 auto;
   }
-  .selected-day-div{
-    text-align: center;
-    margin: auto;
-  }
-  .selected-day{
-    font-size: 24px;
-    text-align: center;
-    margin: auto;
-  }
-  .selected-time-div{
-    text-align: center;
-    margin: auto;
-  }
-  .selected-time{
-    margin: auto;
-    text-align: center;
-    color: #F7FFF2;
-  }
-  .close-btn {
-    order: 1;
-    top:0;
-  margin-right: 10px;
-  }
+  .close-btn{
 
-  .window-content {
-    margin-bottom: 1rem;
-    width: 660px;
-    height: 70px;
-    font-size: 24px;
-    text-align: center;
-    display: flex;
-    justify-content: space-between;
+      position: absolute;
+      top: 10px;
+      right: 10px;
   }
-  
-  .window-timetable {
+  .window-subtitle{
+
+  }
+  .window-content{
     list-style: none;
-   margin-top: 10px;
+}
+  .ul.window-timetalbe{
+    list-style: none;
+    padding-left: 0;
   }
-  
-  .window-time-slot {
-    cursor: pointer;
-    margin: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 3px;
-    background-color: #eee;
-  }
-  
-  .window-time-slot:hover {
-    background-color: #ddd;
-  }
-  
-  .window-footer {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    z-index: 150;
-    
-  }
-  
-  .btn-submit {
-    background-color: #008CBA;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-  
-  .btn-visit:hover {
-    background-color: #006F8B;
-  }
-  .window-timetable {
-    gap: 50px;
-  }
-
-  .window-time-slot0 {
-    color: #F7FFF2;
-  }
-  
-  .window-time-slot1 {
-  
-  }
-  
-  .window-time-slot2 {
-   
-  }
-  
-  .window-time-slot3 {
-  
-  }
-  
-  .window-time-slot4 {
-  
-  }
-  
-  .window-time-slot5 {
-  
-  }
-  
-  .window-time-slot6 {
-  
-  }
-    
-  .window-time-slot7 {
+  .time-slot0,
+  .time-slot1,
+  .time-slot2,
+  .time-slot3,
+  .time-slot4,
+  .time-slot5,
+  .time-slot6,
+  .time-slot7
+  {
+    list-style: none;
+    font-size: 24px;
+    border: 1px solid #ddd;
+    border-top: none;
+    background-color: #f7f7f7;
+    margin-left: 0;
  
   }
-    .window-timetable .window-time-slot0:hover {
-     background-color: #ddd;
-     cursor: pointer;
-   }
-    .window-timetable .window-time-slot1:hover {
-     background-color: #ddd;
-     cursor: pointer;
-   }
-    .window-timetable .window-time-slot2:hover {
-     background-color: #ddd;
-     cursor: pointer;
-   }
-    .window-timetable .window-time-slot3:hover {
-     background-color: #ddd;
-     cursor: pointer;
-   }
-    .window-timetable .window-time-slot4:hover {
-     background-color: #ddd;
-     cursor: pointer;
-   }
-    .window-timetable .window-time-slot5:hover {
-     background-color: #ddd;
-     cursor: pointer;
-   }
-    .window-timetable .window-time-slot6:hover {
-     background-color: #ddd;
-     cursor: pointer;
-   }
-    .window-timetable .window-time-slot7:hover {
-     background-color: #ddd;
-     cursor: pointer;
-   }
+  
+  .time-slot0 {
+    border-top: 1px solid #ddd;
+  }
+  .time-slot0.active {
+    background-color: #ccc;
+    color: #fff;
+    list-style: none;
+    font-size: 24px;
+  }
+  .time-slot0 :hover{
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .window-timetable li.time-slot0:hover,
+.window-timetable li.time-slot1:hover,
+.window-timetable li.time-slot2:hover,
+.window-timetable li.time-slot3:hover,
+.window-timetable li.time-slot4:hover,
+.window-timetable li.time-slot5:hover,
+.window-timetable li.time-slot6:hover,
+.window-timetable li.time-slot7:hover {
+  background-color: orange;
+  cursor: pointer;
+}
+  .dd-peoples{
+    list-style: none;
+    
+    width:100px;
+  }
+  .dd-peoples:hover{
+    background-color: darkkhaki;
+    cursor: pointer;
+  }
+  .dd-people{
+    list-style: none;
+    background-color: white;
+    padding-left: 0;
+    max-height: 60px;
+    overflow-y: auto;
+  }
+.dd-people:hover{
+  background-color: darkkhaki;
+  cursor: pointer;
+}
+.btn-submit {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #8FB399;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  background-color: #6e9075;
+}

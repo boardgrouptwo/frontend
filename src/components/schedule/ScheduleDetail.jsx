@@ -1,146 +1,237 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import moment from 'moment'
 import Datetime from 'react-datetime';
 import { Button, Card, Form, ListGroup, ListGroupItem, Modal } from 'react-bootstrap'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { scheduleDeleteDB, scheduleInsertDB, scheduleListDB, scheduleUpdateDB } from '../../service/ScheduleDBLogic';
+import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
+import QuillEditor from './QuillEditor'
+import MainHeader from '../include/MainHeader';
+import { FormDiv,ContainerDiv,HeaderDiv } from '../css/FormStyle';
+import Noticebar from '../board/notice/Noticebar';
 const ScheduleDetail = () => {
+  //수정페이지
     //사용자가 선택한 row m_no
-    const {m_no}=useParams()
+    const {cal_no}=useParams()
     //한건을 담아서 
     //안에있는 타입이 오브젝트라서 한건만 가져올거니까 객체리터럴로 
-    const{memo,setMemo}=useState({})
+    const user = useSelector(state => state.user_type); 
     //오늘 이전 날짜 비활성화
     const yesterday=moment().subtract(1,'day')
     const valid=(current)=>{
         return current.isAfter(yesterday)
     }
-    const navigate=useNavigate();
-    const [show,setShow]=useState(false)
-    const handleClose=()=>setShow(false)//모달창 닫기
-    const handleShow=()=>setShow(true)//모달창 열기
-    const [m_title,setM_title]=useState(0)
-    const [m_writer,setM_writer]=useState(0)
-    const [m_content,setM_content]=useState('')
-    const [m_start,setM_start]=useState('')
-    const [m_end,setM_end]=useState('')
+   
+    const [cal_title,setCal_title]=useState(0)
+    const [cal_writer,setCal_writer]=useState(0)
+    const [cal_content,setCal_content]=useState('')
+    const [cal_start,setCal_start]=useState('')
+    const [cal_end,setCal_end]=useState('')
     
+
+    const [scheduleList,setScheduleList]=useState([])
+    const [schedule,setSchedule]=useState([])
   const token =useSelector(state => state.token);
-  const[title,setTitle] = useState("") 
-  const[content,setContent] = useState("")
-  const handleTitle = useCallback((e) => {
-    setTitle(e)
-  },[])
-  const handleContent = useCallback((e) => { //QuillEditor에서 담김 - 태그포함된 정보
-    setContent(e)
-  },[])
-  const quillRef = useRef()
-    const scheduleInsertDB=async()=>{
-      const board={
-        cal_title:title,
-        cal_content:content
-      }
-      console.log(token);
-      const res = await scheduleInsertDB(board,token);
-      console.log(res)
+    const navigate=useNavigate()
+  const userid = useSelector(state => state.userid);
+  console.log(userid)
+  const [dbid, setDbid] = useState()
+  const location = useLocation();
   
-    }
+  const searchParams = new URLSearchParams(location.search);
+  const page_num = searchParams.get('page');
+  const cal_num = searchParams.get('cal_no');
 
+  //스케줄 번호
+  const[pboard, setPBoard] = useState({
+      cal_no : cal_num,
+  })
 
+  //스케줄 내용
+  const[board, setBoard] = useState({
+    cal_no: 0,
+    user_id: "",
+    cal_title:"",
+    cal_content:"",
+    cal_start:"",
+    cal_end:"",
+  })
 
+//수정화면 모달 마운트 여부 결정 - false(안보임), true(보임)
+const[show, setShow] = useState(false)
+const[rshow, setRshow] = useState(false)
+const handleShow = () => {
+    setShow(true)
+    setTitle(board.cal_title)
+    setContent(board.cal_content)
+}
+const handleClose = () => setShow(false)
 
+//수정 후 useEffect가 되도록 설정
+const [rend, setRend] = useState(0)
 
-
-    useEffect(()=>{
-        const startCountRef=ref(database,'memo/'+m_no)
-        onValue(startCountRef,(snapshot)=>{
-            const data = snapshot.val()
-            setMemo(data)
-            return ()=>off(startCountRef)
-            })
-        },[m_no])
-    const memoUpdate=(event)=>{
-        event.preventDefault(event)
-        const pmemo={ //파이어베이스에 전달할 파라미터
-            m_no:m_no,//memo/detail/:m_no 로 넘기는 값일아 memo에서 꺼내지않아도괜찮
-            m_title:memo.m_title,
-            m_content:memo.m_content,
-            m_start:m_start?memo.m_start:m_start,
-            m_start:m_end?memo.m_end:m_end,
+useEffect(()=>{
+    const scheduleDetail = async() => {
+        const res = await scheduleListDB(pboard)
+        const result = JSON.stringify(res.data)
+        const jsonDoc = JSON.parse(result)
+        setBoard({
+            cal_no:jsonDoc[0].cal_no,
+            cal_title:jsonDoc[0].cal_title,
+            cal_content:jsonDoc[0].cal_content,
+            cal_start:jsonDoc[0].cal_start,
+            cal_end:jsonDoc[0].cal_end,
+        })
+        if(jsonDoc[0].cal_result == 1){
+          setRshow(true)
         }
-        console.log(pmemo)
-        set(ref(database,'memo/'+m_no),pmemo)
-        handleClose()
+        if(jsonDoc[0].user_id != null){
+          setDbid(jsonDoc[0].user_id)
+          console.log("Dbid : ", jsonDoc[0].user_id)
+        }
+      }
+      
+
+  const fetchData = async () => {      
+      await scheduleDetail()
     }
-    const memoDelete=(event)=>{
-        //키값넘기기 m_no
-        event.preventDefault()
-        remove(ref(database,'memo/'+m_no))
+    fetchData()
+
+},[rshow,pboard, rend])
+
+
+//삭제
+const scheduleDelete = async() => {
+    const res = await scheduleDeleteDB(pboard);
+
+    if(res.data === 1) {
+      Swal.fire({
+        icon: "success",
+        title: "게시물 삭제 성공",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        customClass: {
+          confirmButton: "my-confirm-button"
+        }
+      })
         navigate("/memo")
     }
-    const handleStart=(date)=>{
-        console.log(date)
-        const m_start = moment(date._d).format("YYYY-MM-DD, a h:mm")
-        console.log(m_start)
-        setM_start(m_start)
+}
+//schedule 수정
+const[title, setTitle] = useState(board.cal_title)
+const[content, setContent] = useState(board.cal_content)
+const handleTitle = useCallback((e)=>{
+    setTitle(e)
+},[])
+const handleContent = useCallback((e)=>{
+    setContent(e)
+},[])
+const quillRef = useRef()
+
+const scheduleUpdate = async () => {
+    const board = {
+        cal_num,
+        cal_title:cal_title,
+        cal_content:cal_content,
+    }
+    const res = await scheduleUpdateDB(board)
+    Swal.fire({
+      icon: "success",
+      title: "수정이 완료되었습니다.",
+      showCancelButton: false,
+      confirmButtonText: "확인",
+      customClass: {
+        confirmButton: "my-confirm-button"
       }
-      const memoSearch=()=>{
+    })      
+
+    setRend(rend+1)
+    handleClose();
+    navigate(`/schedule/detail?page=${page_num}&cal_no=${cal_num}`)
+}
+
   
-      }
-      const getMemoList=()=>{
-  
-      }
-      const handleEnd=(date)=>{
-        console.log(date)
-        const m_start = moment(date._d).format("YYYY-MM-DD, a h:mm")
-        console.log(m_end)
-        setM_end(m_end)
-  
-      }
-      //화면에 입력받은 정보 담기
-      const handleChangeForm=(event)=>{
-        if(event.currentTarget==null){
-          return
-        }
-        //console.log("폼내용 변경 발생 name:",event.target.name)
-        //console.log("폼내용 변경 발생 name:",event.target.value)
-        console.log(memo)
-        setMemo({
-          ...memo,
-          m_no:Date.now(),// 십진수로 가져간다
-          [event.target.name]:event.target.value
-        })
-        console.log(memo)
-      }
+  const handleChangeForm=()=>{
+
+  }
+  const handleStart = (date) => {
+    const cal_start = moment(date).format("YYYY-MM-DD");
+    console.log(cal_start);
+    setCal_start(cal_start);
+  };
+const handleEnd = (date) => {
+  const cal_end = moment(date).format("YYYY-MM-DD");
+  console.log(cal_end);
+  setCal_end(cal_end);
+};
+
   return (
     <>
-            <div className="container">
-        <div className="page-header">
-          <h2>
-            일정관리 <small>일정보기</small>
-          </h2>
-          <hr />
-        </div>
-        <Card style={{ width: "58rem" }}>
-          <Card.Header>{memo.m_title}</Card.Header>
-          <ListGroup className="list-group-flush">
-            <ListGroupItem>{memo.m_writer}</ListGroupItem>
-            <ListGroupItem>{`${memo.m_start} ~ ${memo.m_end}`}</ListGroupItem>
-            <ListGroupItem>{memo.m_content}</ListGroupItem>
-          </ListGroup>
-          <div className="detail-link">
-            <Button variant="primary" onClick={handleShow}>
-              수정
-            </Button>
-            &nbsp;
-            <Button variant="primary" onClick={memoDelete}>
-              삭제
-            </Button>
-            <Link to="/memo" className="nav-link">
-              일정목록
-            </Link>
+        <MainHeader/>
+        <Noticebar/>
+        <div style={{paddingBottom: "80px"}}>
+        <ContainerDiv>
+          <HeaderDiv>
+            <h3 style={{marginLeft:"10px"}}>월간일정 상세보기</h3>
+          </HeaderDiv>
+          <FormDiv>
+          <div>
+            <div style={{display: 'flex', flexDirection: 'column', width: '100%'}}>
+              <div style={{display: 'flex', justifyContent:"space-between"}}>
+                <div style={{overflow: "auto"}}>
+                  <span style={{marginBottom:'15px', fontSize: "30px", display:"block"}}>
+                    {board.cal_title}
+                  </span>
+                </div>
+                {
+                  <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    {
+                      (user === "admin") ? (
+                      <Button style={{margin:'0px 10px 0px 10px'}} onClick={handleShow}>
+                        수정
+                      </Button>
+                      ) : (<div></div>)
+                    }
+                    {
+                      (user === "admin") ? (
+                      <Button style={{margin:'0px 10px 0px 10px'}} onClick={scheduleDelete}>
+                        삭제
+                      </Button>
+                      ) : (<div></div>)
+                    }
+                    <Button style={{margin:'0px 10px 0px 10px'}} onClick={()=>{navigate(`/memo?page=${page_num}`)}}>
+                      목록
+                    </Button>
+
+                  </div>
+                }
+              </div>
+              <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '14px'}}>
+                <div style={{display: 'flex', flexDirection: 'column'}}>
+                </div>
+                <div style={{display: 'flex', flexDirection: 'column', marginRight:'10px'}}>
+                  <div style={{display: 'flex'}}>
+                    <div style={{display: 'flex', justifyContent: 'flex-end', width:'30px'}}>{board.BM_HIT}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr style={{height: '2px'}}/>
+            <div>
+              {/* {board.notice_content} */}
+              <section style={{minHeight: '200px'}}>
+                <div dangerouslySetInnerHTML={{__html:board.cal_content}}></div>
+              </section>              
+            </div>
           </div>
-        </Card>
-        <hr />
+          <div style={{marginBottom:"300px"}}></div>
+          
+          <hr style={{height:"2px"}}/>
+
+          </FormDiv>
+        </ContainerDiv>
+      </div>
         {/* ========================== [[  일정등록 Modal ]] ========================== */}
         <Modal show={show} onHide={handleClose} animation={true}>
           <Modal.Header closeButton>
@@ -156,27 +247,15 @@ const ScheduleDetail = () => {
                   <Form.Control
                     className="form-control form-control-sm"
                     type="text"
-                    name="m_title"
-                    value={memo.m_title}
+                    name="cal_title"
+                    value={scheduleList.cal_title}
                     onChange={handleChangeForm}
                     placeholder="Enter 일정명"
                   />
                 </div>
               </Form.Group>
               <Form.Group className="mb-3 row" controlId="boardWriter">
-                <Form.Label className="col-sm-2 col-form-label">
-                  등록자
-                </Form.Label>
-                <div className="col-sm-10">
-                  <Form.Control
-                    type="text"
-                    name="m_writer"
-                    value={memo.m_writer}
-                    onChange={handleChangeForm}
-                    className="form-control form-control-sm"
-                    placeholder="Enter 작성자"
-                  />
-                </div>
+               
               </Form.Group>
               <Form.Group className="mb-3 row" controlId="edit-start">
                 <Form.Label className="col-sm-2 col-form-label">
@@ -184,11 +263,14 @@ const ScheduleDetail = () => {
                 </Form.Label>
                 <div className="col-sm-10">
                   <Datetime
+                   input={false}
+                   timeFormat={false}
                     dateFormat="YYYY-MM-DD"
                     isValidDate={valid}
-                    name="m_start"
-                    value={memo.m_start}
+                    name="cal_start"
+                    value={scheduleList.cal_start}
                     onChange={handleStart}
+                    
                   />
                 </div>
               </Form.Group>
@@ -196,11 +278,14 @@ const ScheduleDetail = () => {
                 <Form.Label className="col-sm-2 col-form-label">끝</Form.Label>
                 <div className="col-sm-10">
                   <Datetime
+                input={false}
+                timeFormat={false}
                     dateFormat="YYYY-MM-DD"
                     isValidDate={valid}
-                    name="m_end"
-                    value={memo.m_end}
+                    name="cal_end"
+                    value={scheduleList.cal_end}
                     onChange={handleEnd}
+                   
                   />
                 </div>
               </Form.Group>
@@ -211,8 +296,8 @@ const ScheduleDetail = () => {
                 <div className="col-sm-10">
                   <textarea
                     className="form-control"
-                    name="m_content"
-                    value={memo.m_content}
+                    name="cal_content"
+                    value={scheduleList.cal_content}
                     onChange={handleChangeForm}
                     rows="3"
                   ></textarea>
@@ -224,13 +309,15 @@ const ScheduleDetail = () => {
             <Button variant="secondary" onClick={handleClose}>
               닫기
             </Button>
-            <Button variant="primary" onClick={memoUpdate}>
-              저장
+            <Button variant="primary" onClick={()=>{scheduleUpdate()}}>
+              수정
             </Button>
           </Modal.Footer>
         </Modal>
-        {/* ========================== [[ 글등록 Modal ]] ========================== */}
-      </div>
+        {/* ========================== [[ 수정 Modal ]] ========================== */}
+    
+      
+        
     </>
   )
 }

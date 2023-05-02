@@ -4,7 +4,6 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import "../css/FullCalendarMain.css";
 import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment/moment";
-import VisitManager from "./VisitManager";
 import MainHeader from "../include/MainHeader";
 import VisitWindow from "./VisitWindow";
 
@@ -14,26 +13,39 @@ const FullCalendarMain = () => {
   const [windowOpen, setWindowOpen] = useState(false); // 모달 창 상태
   const [selectedDate, setSelectedDate] = useState(""); // 선택한 날짜
   const [selectedTime, setSelectedTime] = useState("");
-  const [showwindow,setShowWindow]=useState(true)
 
   //지나간날짜 클릭 방지
   const yesterday = moment().subtract(1, "day");
   const valid = (currentDate) => {
     return currentDate.isAfter(yesterday);
   };
+
+  
   const handleDateClick = (arg) => {
     const clickedDate = moment(arg.date);
     if (!valid(clickedDate)) {
       return;
     }
-    
+    console.log(clickedDate)
     const selectedDate = new Date(arg.dateStr);
+    console.log()
     setSelectedDate(selectedDate);
     console.log("selectedDate"+arg.date)
     setWindowOpen(true);
-    setShowWindow(true);
   };
 
+ //오늘 이전 날짜 투명도 조절
+ const dayCellContent = (arg) => {
+  let cellStyle = {};
+  if (arg.date < yesterday) {
+    cellStyle.opacity = 0.2; // 투명도
+  }
+  return (
+    <div className="fc-daygrid-day" style={cellStyle}>
+      {arg.dayNumberText}
+    </div>
+  );
+};
 
   const handleCloseWindow = () => {
     setWindowOpen(false); // 모달 창 닫기
@@ -51,20 +63,6 @@ const FullCalendarMain = () => {
     console.log("start date: ", start);
     console.log("end date: ", end);
   };
-  
-  
-
-  const dayCellContent = (arg) => {
-    let cellStyle = {};
-    if (arg.date < yesterday) {
-      cellStyle.opacity = 0.2; // 날짜가 지나간 경우 투명도를 줄이기
-    }
-    return (
-      <div className="fc-daygrid-day" style={cellStyle}>
-        {arg.dayNumberText}
-      </div>
-    );
-  };
 
   return (
     <>
@@ -72,6 +70,7 @@ const FullCalendarMain = () => {
     
     <FullCalendar
     plugins={[dayGridPlugin, interactionPlugin]} 
+    dayCellContent={dayCellContent}
     initialView="dayGridMonth"
     weekends={true}
     events={[events]}

@@ -25,6 +25,9 @@ const Adminbar = () => {
             </li>        
             <li className={window.location.pathname.includes('/shopadd') ? 'on' : ''}>
               <Link to="/shopadd">상품등록</Link>
+              </li>   
+            <li className={window.location.pathname.includes('/memo') ? 'on' : ''}>
+              <Link to="/memo">일정관리</Link>
             </li>        
           </ul>
         </div>

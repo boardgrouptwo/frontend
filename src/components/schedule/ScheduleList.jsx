@@ -4,10 +4,21 @@ import { Button, Form, Modal, Table } from "react-bootstrap";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import Datetime from "react-datetime";
 import ScheduleRow from "./ScheduleRow";
-import { scheduleListDB, scheduleSearchListDB } from "../../service/ScheduleDBLogic";
+import { scheduleInsertDB, scheduleListDB, scheduleSearchListDB } from "../../service/ScheduleDBLogic";
+import { useSelector } from "react-redux";
+import Adminbar from "../admin/Adminbar";
+import MainHeader from "../include/MainHeader";
 
 const ScheduleList = () => {
+  const admin=useSelector(state=>state.user_type)
 
+//월간일정 관리자관리
+const token = useSelector(state => state.token); 
+const user = useSelector(state => state.user_type); 
+const [cal_title,setCal_title]=useState("")
+const [cal_content,setCal_content]=useState('')
+const [cal_start,setCal_start]=useState(0)
+const [cal_end,setCal_end]=useState(0)
   //오늘 이전 날짜 비활성화
   const yesterday = moment().subtract(1, "day");
   const valid = (current) => {
@@ -15,20 +26,12 @@ const ScheduleList = () => {
   };
 
   const navigate = useNavigate();
-
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false); //모달창 닫기
   const handleShow = () => setShow(true); //모달창 열기
-
-  const [m_start, setM_start] = useState(0);
-  const [m_end, setM_end] = useState(0);
-
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const page_num = searchParams.get("page");
-
-  //게시글 목록
-  const [scheduleList, setScheduleList] = useState([]);
 
   //페이징 처리
   const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
@@ -81,9 +84,10 @@ const ScheduleList = () => {
       res.data.forEach((item) => {
         const obj = {
           cal_no: item.cal_no,
-          cal_title: item.notice_title,
-          cal_content: item.notice_content,
-          cal_date: item.notice_date,
+          cal_title: item.cal_title,
+          cal_content: item.cal_content,
+          cal_start: item.cal_start,
+          cal_end: item.cal_end,
         };
         list.push(obj);
       });
@@ -93,21 +97,6 @@ const ScheduleList = () => {
     };
     boardList();
   }, [page_num, currentPage]);
-  const [schedule, setSchedule] = useState({});
-  const handleStart = (date) => {
-    console.log(date);
-    const cal_start = moment(date._d).format("YYYY-MM-DD, a h:mm");
-    console.log(m_start);
-    setM_start(m_start);
-  };
-
-  const getScheduleList = () => {};
-  const handleEnd = (date) => {
-    console.log(date);
-    const cal_start = moment(date._d).format("YYYY-MM-DD, a h:mm");
-    console.log(m_end);
-    setM_end(m_end);
-  };
 
   //검색 로직
   const noticeSearch = () => {
@@ -137,50 +126,91 @@ const ScheduleList = () => {
     }
   };
   //화면에 입력받은 정보 담기
+  const [formState, setFormState] = useState({
+    cal_content: '',
+  });
+
+  // textarea을 cal_content에 추가하기
   const handleChangeForm = (event) => {
-    if (event.currentTarget == null) {
-      return;
-    }
-    //console.log("폼내용 변경 발생 name:",event.target.name)
-    //console.log("폼내용 변경 발생 name:",event.target.value)
-    console.log(schedule);
-    setSchedule({
-      ...schedule,
-      cal_no: Date.now(), // 십진수로 가져간다
-      [event.target.name]: event.target.value,
-    });
-    console.log(schedule);
+    const { name, value } = event.target;
+  setFormState((prev) => ({ ...prev, [name]: value }));
+  
+  if (name === "cal_title") {
+    setCal_title(value);
+  } else if (name === "cal_content") {
+    setCal_content(value);
+  }
   };
   //바뀐정보 실제로 추가되는 부분
-  const scheduleAdd = (event) => {
-    //버블링막자
-    event.preventDefault();
-    console.log(schedule);
-    const pmemo = {
-      cal_no: schedule.cal_no,
-      cal_title: schedule.cal_title,
-      cal_writer: schedule.cal_writer,
-      cal_content: schedule.cal_content,
-      cal_start: schedule.cal_start, //빈문자열이나 null값이 들어가지 않도록 조심
-      cal_end: schedule.cal_end,
-    };
-    console.log(pmemo);
-    /*   set(ref(database,'memo/'+memo.m_no),pmemo); */
-    handleClose();
-  };
+  
   //메모정보 가져오기
   const [schedules, setSchedules] = useState({});
-  /* useEffect(()=>{
-    const startCountRef=ref(database,'memo')
-    onValue(startCountRef,(snapshot)=>{
-      const data = snapshot.val()
-      setMemos(data)
-      return ()=>off(startCountRef)
-    })
-  },[]) */
+  const [scheduleList, setScheduleList] =  useState([])
 
+  const handleFetchScheduleList = async () => {
+    // FormData.js:88 Uncaught (in promise) TypeError: target must be an objectat toFormData (toFormData.js:88:1)에러 잡기
+    
+    try {
+      const res = await scheduleListDB({ user }, token);
+      console.log(res.data);
+      const list = [];
+      res.data.forEach((item) => {
+        const obj = {
+          cal_no: item.product_no,
+          cal_title: item.product_title,
+          cal_content:item.product_content,
+          cal_start: item.cal_start,
+          cal_end: item.cal_end,
+        };
+        list.push(obj);
+      });
+      console.log(cal_title);
+      console.log(cal_content)
+      console.log(scheduleList)
+      setScheduleList(list);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+   
+//날짜 이벤트
+    const handleStart = (date) => {
+      const cal_start = moment(date).format("YYYY-MM-DD");
+      console.log(cal_start);
+      setCal_start(cal_start);
+    };
+  const handleEnd = (date) => {
+    const cal_end = moment(date).format("YYYY-MM-DD");
+    console.log(cal_end);
+    setCal_end(cal_end);
+  };
+  
+  const scheduleInsert=async(event)=>{
+   //event.preventDefault();
+    const schedule={
+      cal_title:cal_title,
+      cal_content:cal_content,
+      cal_start:cal_start,
+      cal_end:cal_end
+    }
+    console.log(token);
+    console.log(cal_start)
+    console.log(cal_end)
+    console.log(cal_content)
+    console.log(cal_title)
+    const res = await scheduleInsertDB(schedule,token);
+    console.log(res)
+    handleClose(false);
+    if (res.status === 200) {
+      alert('신청이 완료되었습니다.');
+    }
+  }
+  
   return (
     <>
+    <MainHeader/>
+    <Adminbar/>
+    
       <div className="container">
         <div className="page-header">
           <h2>
@@ -193,9 +223,8 @@ const ScheduleList = () => {
           <div className="col-3">
             <select id="gubun" className="form-select" aria-label="분류선택">
               <option defaultValue>분류선택</option>
-              <option value="m_title">일정명</option>
-              <option value="m_writer">작성자</option>
-              <option value="m_content">내용</option>
+              <option value="cal_title">일정명</option>
+              <option value="cal_content">내용</option>
             </select>
           </div>
           <div className="col-6">
@@ -221,20 +250,21 @@ const ScheduleList = () => {
               <tr>
                 <th>#</th>
                 <th>일정명</th>
-                <th>작성자</th>
-                <th>일정시간</th>
+                <th>일정내용</th>
+                <th>일정날짜</th>
               </tr>
             </thead>
             <tbody>
-              {schedules && //데이터가 한건도 없는 경우를 고려
-                Object.keys(schedules).map((key) => (
-                  <ScheduleRow key={key} schedule={schedules[key]} />
+              {scheduleList && //데이터가 한건도 없는 경우를 고려
+                scheduleList.map((schedules)=> (
+                  <ScheduleRow key={schedules.cal_no} schedule={schedules} />
                 ))}
+                
             </tbody>
           </Table>
           <hr />
           <div className="booklist-footer">
-            <Button variant="warning" onClick={getScheduleList}>
+            <Button variant="warning" onClick={() => handleFetchScheduleList()}>
               전체조회
             </Button>
             &nbsp;
@@ -259,33 +289,22 @@ const ScheduleList = () => {
                 <Form.Control
                   className="form-control form-control-sm"
                   type="text"
-                  name="m_title"
+                  name="cal_title"
                   onChange={handleChangeForm}
                   placeholder="Enter 일정명"
                 />
               </div>
             </Form.Group>
-            <Form.Group className="mb-3 row" controlId="boardWriter">
-              <Form.Label className="col-sm-2 col-form-label">
-                등록자
-              </Form.Label>
-              <div className="col-sm-10">
-                <Form.Control
-                  type="text"
-                  name="m_writer"
-                  onChange={handleChangeForm}
-                  className="form-control form-control-sm"
-                  placeholder="Enter 작성자"
-                />
-              </div>
-            </Form.Group>
+           
             <Form.Group className="mb-3 row" controlId="edit-start">
               <Form.Label className="col-sm-2 col-form-label">시작</Form.Label>
               <div className="col-sm-10">
                 <Datetime
+                 input={false}
+                 timeFormat=""
                   dateFormat="YYYY-MM-DD"
                   isValidDate={valid}
-                  name="m_start"
+                  name="cal_start"
                   onChange={handleStart}
                 />
               </div>
@@ -294,9 +313,11 @@ const ScheduleList = () => {
               <Form.Label className="col-sm-2 col-form-label">끝</Form.Label>
               <div className="col-sm-10">
                 <Datetime
+                 input={false}
+                 timeFormat=""
                   dateFormat="YYYY-MM-DD"
                   isValidDate={valid}
-                  name="m_end"
+                  name="cal_end"
                   onChange={handleEnd}
                 />
               </div>
@@ -306,7 +327,7 @@ const ScheduleList = () => {
               <div className="col-sm-10">
                 <textarea
                   className="form-control"
-                  name="m_content"
+                  name="cal_content"
                   onChange={handleChangeForm}
                   rows="3"
                 ></textarea>
@@ -318,7 +339,7 @@ const ScheduleList = () => {
           <Button variant="secondary" onClick={handleClose}>
             닫기
           </Button>
-          <Button variant="primary" onClick={scheduleAdd}>
+          <Button variant="primary" onClick={scheduleInsert}>
             저장
           </Button>
         </Modal.Footer>
