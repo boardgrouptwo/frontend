@@ -167,17 +167,17 @@ const MyPage = () => {
     console.log("userVisitDate 호출");
 
     const user = {
-      elder_id: userId,
+      user_id: userId,
     };
 
     const res = await visitDateDB(user, token);
     
     const obj = {
-      elder_id: res.data.elder_id,              // ID
-      visit_date: res.data.visit_date,          // 면회 날짜
+      elder_id: res.data[0].user_id,              // ID
+      visit_date: res.data[0].visit_date,          // 면회 날짜
     }
     console.log("면회일정 ==> " + obj);
-
+    
     setVisitDate(obj)
   } // end of 면회 일정
 

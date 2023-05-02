@@ -43,7 +43,7 @@ import ElderUpdate from './components/board/mypage/ElderUpdate'
 import ElderInsert from './components/board/mypage/ElderInsert'
 import OrderPage from './components/board/shop/OrderPage'
 import PaymentSuccess from './components/payment/PaymentSuccess'
-import WishListPage from './components/board/shop/WishListPage'
+import WishListPage from './components/board/shop/WishlistPage'
 import "react-datetime/css/react-datetime.css";
 import SchedulePage from'./components/schedule/SchedulePage'
 
