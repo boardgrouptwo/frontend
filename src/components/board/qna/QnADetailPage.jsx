@@ -17,7 +17,6 @@ const QnADetailPage = () => {
 
     const user = useSelector(state => state.user_type);
     const userid = useSelector(state => state.userid);
-    console.log(userid)
     const [dbid, setDbid] = useState()
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -58,10 +57,8 @@ const QnADetailPage = () => {
 
   useEffect(()=>{
       const qnaDetail = async() => {
-        console.log(pboard);
           const res = await qnaListDB(pboard)
           const result = JSON.stringify(res.data)
-          console.log(res.data)
           const jsonDoc = JSON.parse(result)
           setBoard({
               qna_no:jsonDoc[0].qna_no,
@@ -77,7 +74,6 @@ const QnADetailPage = () => {
           }
           if(jsonDoc[0].user_id != null){
             setDbid(jsonDoc[0].user_id)
-            console.log("Dbid : ", jsonDoc[0].user_id)
           }
         }
         
@@ -122,8 +118,6 @@ const QnADetailPage = () => {
           qna_content: content,
       }
       const res = await qnaUpdateDB(board)
-      console.log(res)
-      console.log(res.data)
 
       Swal.fire({
         icon: "success",
@@ -152,7 +146,6 @@ const QnADetailPage = () => {
     
     /* 댓글 모달 열기 */
     const repleOpen = () => {
-      console.log("댓글 달기 클릭")
       setReple(true);
     }
 
@@ -190,7 +183,6 @@ const QnADetailPage = () => {
     /* 댓글 작성 완료 후 제출 */
     const handleSubmit = async (event) => {
       event.preventDefault();
-      console.log(`내용 : ${repleContent}`)
       
       if(repleContent == ""){
         alert("댓글을 다시 작성하세요.")
@@ -202,9 +194,8 @@ const QnADetailPage = () => {
       qna_result:'1',
       reple_content : repleContent,
   }
-  console.log(obj)
       const res = await qnaRepleDB(obj)
-      console.log(res)
+
       setRshow(true)
 
       repleClose();

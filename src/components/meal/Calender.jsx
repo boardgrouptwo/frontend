@@ -32,19 +32,9 @@ const Calender = () => {
 
     //달력 한 칸을 클릭하는 이벤트
     const onDateClick = async (day) => {
-        console.log("식단표 클릭")
         const formattedDate = format(day, 'yyyy-MM-dd');
 
         /* formattedDate는 내가 클릭한 달력의 날짜 */
-        console.log(formattedDate)
-
-
-        /*
-        setSelectedDate(day); // 클릭한 날짜를 선택된 날짜로 설정
-        console.log(day.getFullYear()); // 년도 가져오기
-        console.log(day.getMonth()); // 월 가져오기 (0부터 시작)
-        console.log(day.getDate()); // 일 가져오기
-        */
         
         navigate(`/meal/page?${formattedDate}`, { state: { date: formattedDate } })
     };

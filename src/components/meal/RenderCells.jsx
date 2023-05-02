@@ -25,8 +25,8 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick }) => {
                                                         ? 'not-valid': 'valid'}`}
                                   key={`${day.getFullYear()}-${day.getMonth()}-${day.getDate()}`} onClick = {() => onDateClick(cloneDay)} style={{whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis"}}>
                           <p id={formattedDate} className={format(currentMonth, 'M') !== format(day, 'M')? 'text not-valid': ''} style={{paddingTop:"5px"}}>{formattedDate}</p>
-                          <div style={{ marginTop:"17%", whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis", width:"100%", textAlign:"center", display: format(currentMonth, "M") !== format(day, "M") ? "none" : ""}}>
-                            <ul style={{listStyle:"none", paddingLeft:"10px", color:"gray", fontSize:"1rem"}} >
+                          <div style={{ marginTop:"11%", whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis", width:"100%", textAlign:"center", display: format(currentMonth, "M") !== format(day, "M") ? "none" : ""}}>
+                            <ul style={{listStyle:"none", paddingRight:"15%", color:"gray", fontSize:"1rem"}} >
                               <li ><Link to=''>점심</Link></li>
                               <li ><Link to=''>저녁</Link></li>
                             </ul>

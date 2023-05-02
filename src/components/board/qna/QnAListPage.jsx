@@ -76,7 +76,6 @@ const QnAListPage = () => {
                 qna_result: item.qna_result        
           }
           list.push(obj)
-          console.log(obj)
         })    
         setTotal(res.data[0].total_count)
         //setTotal(100)
@@ -111,7 +110,6 @@ const QnAListPage = () => {
         })
         setQnaList(list)         
       }
-      console.log(qnaList)
       qnaSearchList()
     }
 

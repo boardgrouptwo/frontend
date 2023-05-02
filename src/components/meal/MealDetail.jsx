@@ -27,7 +27,6 @@ const MealDetail = () => {
 
   /* Calender.jsx에서 props로 받아온 캘린더에서 선택한 날짜 */
   const formattedDate = location.state?.date;
-  console.log(formattedDate)
 
 
   const[meal, setMeal] = useState([{
@@ -47,7 +46,6 @@ const MealDetail = () => {
       const res = await axios.get(process.env.REACT_APP_SPRING_IP + `meal/mealList?selectedDate=${formattedDate}`);
       
       const result = JSON.stringify(res.data)
-      console.log(res.data)
       
       const jsonDoc = JSON.parse(result)
   
@@ -62,7 +60,6 @@ const MealDetail = () => {
         meal_date: item.meal_date,
       }));
       setMeal(meals);
-      console.log(meals);
 
       
     }
@@ -78,7 +75,6 @@ const MealDetail = () => {
 
   /* 식단표가 없을 경우에 나오는 화면에서 사용하는 버튼 */
   const goBack = () =>{
-    console.log("되돌아가기 버튼 클릭")
     navigate('/meal')
   }
 

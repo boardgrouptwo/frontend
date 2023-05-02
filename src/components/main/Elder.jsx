@@ -53,10 +53,8 @@ const Elder = () => {
           elder_status: elderStatus, 
           att_date : attDate,
         }
-        console.log(elder);
 
       const res = await elderJoinDB(elder);
-      console.log(res.data);
       Swal.fire({
         icon: "success",
         title: "입원자 정보 입력 완료",
