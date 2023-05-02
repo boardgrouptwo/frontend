@@ -76,7 +76,7 @@ const Register = () => {
       /* 제출하기를 클릭했을 때 입원이면 elder정보 입력하는 폼으로 넘어가고 아니면 회원 가입 완료되게끔 처리 */
       if(check !== false){
           if(userEnter === "입원"){
-            navigate('/elder',{state : {userId}})
+            navigate('/elder', { state: { userId } })
           }
           else if(userEnter === "비입원"){
             Swal.fire({

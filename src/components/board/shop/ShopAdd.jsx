@@ -43,9 +43,10 @@ const ShopAdd = () => {
   };
 
   const handleImageUpload = (file) => {
+    console.log(file)
     const formData = new FormData();
     formData.append("file", file)
-    imageUploadDB(formData, token)
+    imageUploadDB(formData)
       .then((res) => {
         setImageName(res.data)
         setImageUrl("http://localhost:3000/images/shop/"+res.data)
@@ -76,7 +77,8 @@ const ShopAdd = () => {
     if(title==="") {
       alert("상품명을 입력하세요")
     } else {
-      await ProductUploadDB(product, token);
+      console.log(product)
+      const res = await ProductUploadDB(product);
       Swal.fire({
         icon: "success",
         title: "상품 등록되었습니다",
