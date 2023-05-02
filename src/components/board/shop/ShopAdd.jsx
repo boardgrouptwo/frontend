@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { Button, Col, Dropdown, DropdownButton, Figure, Form, InputGroup, Row } from 'react-bootstrap'
+import { Button, Col, Form, InputGroup, Row } from 'react-bootstrap'
 import MainHeader from '../../include/MainHeader'
-import { ProductUploadDB, imageUploadDB, shopAddDB } from '../../../service/ShopDBLogic'
+import { ProductUploadDB, imageUploadDB} from '../../../service/ShopDBLogic'
 import { useNavigate } from 'react-router'
 import Adminbar from '../../admin/Adminbar'
 import Bottom from '../../include/Bottom'
@@ -20,7 +20,6 @@ const ShopAdd = () => {
     }
   },[])
 
-  const [selectedFile, setSelectedFile] = useState();
   const [imageUrl, setImageUrl] = useState()
   const [imageName, setImageName] = useState()
   const[title,setTitle] = useState("") 
@@ -40,15 +39,12 @@ const ShopAdd = () => {
   },[])
 
   const handleFileChange = (event) => {
-    //setSelectedFile(event.target.files[0]);
     handleImageUpload(event.target.files[0]);
   };
 
   const handleImageUpload = (file) => {
-    console.log(file)
     const formData = new FormData();
     formData.append("file", file)
-    console.log(formData)
     imageUploadDB(formData, token)
       .then((res) => {
         setImageName(res.data)
@@ -61,7 +57,6 @@ const ShopAdd = () => {
   }
 
   const handleSubmit = async (event) => {
-    console.log("test")
     const form = event.currentTarget;
     if (form.checkValidity() === false) { //유효 확인 실패 했을 경우
       event.preventDefault();  //이벤트 중단
@@ -71,21 +66,17 @@ const ShopAdd = () => {
 
     event.preventDefault();
 
-    const u_select = document.getElementById('select').value
-
     const product = {
       product_title: title, //상품명
       product_price: price, //금액
       product_image: imageName, //이미지 이름
       product_detail: detail, //상품 상세 설명
-      product_type: u_select // 상품 타입      
     }
   
     if(title==="") {
       alert("상품명을 입력하세요")
     } else {
-      console.log(product)
-      const res = await ProductUploadDB(product, token);
+      await ProductUploadDB(product, token);
       Swal.fire({
         icon: "success",
         title: "상품 등록되었습니다",

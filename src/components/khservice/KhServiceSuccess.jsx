@@ -3,7 +3,7 @@ import MainHeader from '../include/MainHeader'
 
 import "../css/spon.css"
 import Bottom from '../include/Bottom';
-import KhServiceFrombar from './KhServiceFrombar';
+import KhServiceFrombar from './KhSponorServicebar';
 
 
 

@@ -6,7 +6,7 @@ export const elderJoinDB = (elder) => {
     try {
       const response = axios({
         method: "post",
-        url: process.env.REACT_APP_SPRING_IP + "elder/elderjoin",
+        url: process.env.REACT_APP_SPRING_IP + "elder/elderJoin",
         data: elder, //post방식으로 전송시 반드시 data속성으로 파라미터 줄 것
       });
       resolve(response);
@@ -16,21 +16,19 @@ export const elderJoinDB = (elder) => {
   });
 };
 
-
-// 내원자 정보 출력
-export const elderSelectDB = (user, token) => {
-  console.log("elderSelectDB 출력")
-  console.log(user)
-
+// 어르신 정보 출력
+export const elderSelectDB = (elder, token) => {
+  console.log("elderSelectDB 출력");
+  console.log(elder);
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "GET",
         url: process.env.REACT_APP_SPRING_IP + "elder/elderSelect",
-        params: user,
+        params: elder,
         headers: {
           Authorization: `Bearer ${token}`,
-        }
+        },
       });
 
       resolve(response);
@@ -41,16 +39,18 @@ export const elderSelectDB = (user, token) => {
 };
 
 // 어르신 정보 작성
-export const elderInsertDB = (elder) => {
+export const elderInsertDB = (elder, token) => {
   console.log("elderInsertDB 출력");
   console.log(elder);
-
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "POST",
         url: process.env.REACT_APP_SPRING_IP + "elder/elderInsert",
         data: elder,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       resolve(response);
@@ -61,16 +61,18 @@ export const elderInsertDB = (elder) => {
 };
 
 // 어르신 정보 수정
-export const elderUpdateDB = (elder) => {
+export const elderUpdateDB = (elder, token) => {
   console.log("elderUpdateDB 출력");
   console.log(elder);
-
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "POST",
         url: process.env.REACT_APP_SPRING_IP + "elder/elderUpdate",
         data: elder,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
 
       resolve(response);

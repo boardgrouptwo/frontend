@@ -13,12 +13,11 @@ const PaymentDetail = () => {
   const userId = useSelector(state => state.userid);      // 사용자 아이디
   const token = useSelector(state => state.token); 
 
-  // 페이징 처리 시에 현재 내가 바라보는 페이지 정보
-  let page = 1;
   // 화면 전환 시 필요한 훅
   const navigate = useNavigate();
   // URL주소
   const search = decodeURIComponent(useLocation().search);
+
   // DB서버에서 받아온 정보 담기
   // 배열 타입 [{},{},{}] -> List<Map>, List<VO>
   const [ listBody, setListBody ] = useState([]);
@@ -27,16 +26,13 @@ const PaymentDetail = () => {
   // pay_type 상태 관리
   const [ pTitle, setPTitle ] = useState("전체");
 
-  /* **** 페이징 처리 **** */
-  // 현재 페이지 번호
-  const [ currentPage, setCurrentPage ] = useState(1);
-  // 페이지당 게시글 수
-  const [perPage, setPerPage] = useState(10);
-  // 페이지네이션에서 최대로 보일 페이지 수
-  const MAX_PAGE_ITEMS = 5; 
-  // 전체 게시글 수
-  const [total, setTotal] = useState(0); 
-  const totalPages = Math.ceil(total / perPage);
+  ////////////////////////// 페이징 ///////////////////////
+  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
+  const [itemsPerPage, setItemsPerPage] = useState(10); // 페이지당 게시글 수
+  const MAX_PAGE_ITEMS = 5; // 페이지네이션에서 최대로 보일 페이지 수
+  const [totalItems, setTotalItems] = useState(0); // 전체 게시글 수
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
   const groupSize = Math.ceil(MAX_PAGE_ITEMS / 2);
   const groupIndex = Math.floor((currentPage - 1) / MAX_PAGE_ITEMS);
@@ -47,6 +43,24 @@ const PaymentDetail = () => {
     const start = index * MAX_PAGE_ITEMS;
     return pageNumbers.slice(start, start + MAX_PAGE_ITEMS);
   }).filter(group => group.includes(startPage) || group.includes(endPage) || (group[0] <= startPage && group[group.length - 1] >= endPage));
+  
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const page_num = searchParams.get('page');
+
+  const[pageNum, setPageNum] = useState({
+    page: page_num,
+  })
+    
+  // 페이지 넘버 클릭
+  const handlePageClick = (pageNumber) => {
+    console.log("handlePageClick 호출")
+
+    setCurrentPage(pageNumber);
+    navigate("/paymentdetail?pay_type="+pTitle+"&page="+pageNumber)
+  }
+  ////////////////////////// 페이징 ///////////////////////
+
 
   const listHeaders = ["결제정보", "결제일", "결제금액", "결제내용"];
   const HeaderWidth = ["15%", "20%", "15%", "50%"];
@@ -69,17 +83,9 @@ const PaymentDetail = () => {
     console.log("listItemsElements 호출");
 
     return (
-      <PaymentRow key={index} listItem={listItem} pageNum={pageNumbers} />
+      <PaymentRow key={index} listItem={listItem} />
     )
   })
-
-  // 페이지 넘버 클릭
-  const handlePageClick = (pageNumber) => {
-    console.log("handlePageClick 호출")
-
-    setCurrentPage(pageNumber);
-    navigate("/paymentdetail?pay_type="+pTitle+"&page="+pageNumber)
-  }
 
 
 
@@ -99,7 +105,10 @@ const PaymentDetail = () => {
       setPTitle(pay_type||"전체");
       console.log("사용자ID ===> " + userId);
 
+      setPageNum({page: page_num})
+
       const paylist = {
+        page: page_num,
         pay_type: pay_type,
         user_id: userId,             // 사용자 정보
       }
@@ -125,13 +134,13 @@ const PaymentDetail = () => {
 
         list.push(obj);
       })
+      setTotalItems(datas[0].total_count); // 검색된 건수
 
-      // 데이터 셋 변화에 따라 리렌더링 할 것과 기존에 DOM을 그냥 출력하는 것 - 비교 알고리즘
       setListBody(list);  
     }
 
     payList();
-  }, [setListBody, setPTitle, page, search])
+  }, [setListBody, setPTitle, page_num, search])
 
 
 
@@ -149,7 +158,12 @@ const PaymentDetail = () => {
             <Table bordered hover>
               <thead style={{backgroundColor: "#F5F5F5"}}>
                 <tr style={{textAlign: "center"}}>
-                  {listHeadersElements}     {/* 컬럼명 */}
+                  {/* 컬럼명 */}
+                  {
+                    listHeaders.map((listHeader, index) => 
+                      <th key={index} style={{width: HeaderWidth[index], textAlign: "center"}}>{listHeader}</th>
+                    )
+                  }
                 </tr>
               </thead>
               <tbody>
@@ -163,43 +177,41 @@ const PaymentDetail = () => {
 
         {/* 페이징 처리 */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: '50px' }}>
-          <div style={{ flexGrow: 1 }}></div>
-          <div style={{ flexShrink: 1 }}>     
-            <Pagination>
+          <Pagination>
               <Pagination.First onClick={() => handlePageClick(1)} disabled={currentPage === 1} />
               <Pagination.Prev onClick={() => handlePageClick(currentPage - 1)} disabled={currentPage === 1} />
-              {groups.map((group, index) => (
-                <React.Fragment key={index}>
-                  {index > 0 && (
-                    <Pagination.Ellipsis
-                      disabled={currentPage < group[0]}
-                      onClick={() => handlePageClick(group[0] - 1)}
-                    />
-                  )}
-                  {group.map((pageNumber) => (
-                    <Pagination.Item
-                      key={pageNumber}
-                      active={pageNumber === currentPage}
-                      onClick={() => handlePageClick(pageNumber)}
-                    >
-                      {pageNumber}
-                    </Pagination.Item>
-                  ))}
-                  {index < groups.length - 1 && (
-                    <Pagination.Ellipsis
-                      disabled={currentPage >= group[group.length - 1]}
-                      onClick={() => handlePageClick(group[group.length - 1] + 1)}
-                    />
-                  )}
-                </React.Fragment>
-              ))}
+              {
+                groups.map((group, index) => (
+                  <React.Fragment key={index}>
+                    {index > 0 && (
+                      <Pagination.Ellipsis
+                        disabled={currentPage < group[0]}
+                        onClick={() => handlePageClick(group[0] - 1)}
+                      />
+                    )}
+                    {group.map((pageNumber) => (
+                      <Pagination.Item
+                        key={pageNumber}
+                        active={pageNumber === currentPage}
+                        onClick={() => handlePageClick(pageNumber)}
+                      >
+                        {pageNumber}
+                      </Pagination.Item>
+                    ))}
+                    {index < groups.length - 1 && (
+                      <Pagination.Ellipsis
+                        disabled={currentPage >= group[group.length - 1]}
+                        onClick={() => handlePageClick(group[group.length - 1] + 1)}
+                      />
+                    )}
+                  </React.Fragment>
+                ))
+              }
               <Pagination.Next onClick={() => handlePageClick(currentPage + 1)} disabled={currentPage === totalPages} />
               <Pagination.Last onClick={() => handlePageClick(totalPages)} disabled={currentPage === totalPages} />
             </Pagination>
           </div>
-          <div style={{ flexGrow: 1 }}></div>
         </div>
-      </div>
       <Bottom />
     </>
   )

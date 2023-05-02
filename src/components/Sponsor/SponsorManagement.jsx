@@ -5,10 +5,12 @@ import { Button, Form, InputGroup, Pagination, Row, Table } from 'react-bootstra
 import MainHeader from '../include/MainHeader';
 import { useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { sponStatisticDB } from '../../service/SponsorDBLogic';
+import { sponSearchDB, sponStatisticDB } from '../../service/SponsorDBLogic';
 import SponsorStatistic from './SponsorStatistic';
 import { useState } from 'react';
 import Col from 'react-bootstrap/Col';
+import * as XLSX from 'xlsx'
+import { async } from 'q';
 
 const SponsorManagement = () => {
   const userId = useSelector(state => state.userid);      // 사용자 아이디
@@ -22,15 +24,15 @@ const SponsorManagement = () => {
   // DB서버에서 받아온 정보 담기
   // 배열 타입 [{},{},{}] -> List<Map>, List<VO>
   const [ listBody, setListBody ] = useState([]);
-  const [ user_id, setUserId ] = useState();                // 사용자 ID
-  const [ user_name, setUserName ] = useState();            // 사용자 이름
+  const [ user_id, setUserId ] = useState('');                // 사용자 ID
+  const [ user_name, setUserName ] = useState('');            // 사용자 이름
   const [ spon_number, setSponNumber ] = useState();        // 전화번호
-  const [ start_date, setStartDate ] = useState();          // 후원일
-  const [ end_date, setEndDate ] = useState();
-  const [ spon_huwon, setSponHuwon ] = useState();          // 후원종류
+  const [ start_date, setStartDate ] = useState('');          // 후원일
+  const [ end_date, setEndDate ] = useState('');
+  const [ spon_huwon, setSponHuwon ] = useState('');          // 후원종류
   const [ spon_money, setMoney ] = useState();              // 후원금액
-  const [ spon_pay, setSponPay ] = useState();              // 결제방법
-  const [ spon_open, setSponOpen ] = useState();            // 익명여부
+  const [ spon_pay, setSponPay ] = useState('');              // 결제방법
+  const [ spon_open, setSponOpen ] = useState('');            // 익명여부
   const [ spon_content, setSponContent ] = useState();      // 후원내용
 
   // 테이블 컬럼 정보
@@ -42,54 +44,16 @@ const SponsorManagement = () => {
     console.log("listItemsElements 호출");
 
     return (
-      // <SponsorStatistic key={index} listItem={listItem} pageNum={pageNumbers} />
       <SponsorStatistic key={index} listItem={listItem} />
     )
   })
 
 
   ////////////////////////// 페이징 ///////////////////////
-  // const [currentPage, setCurrentPage] = useState(1);        // 현재 페이지 번호
-  // const [itemsPerPage, setItemsPerPage] = useState(10);     // 10건씩 출력
-  // const [totalItems, setTotalItems] = useState(0);          // 검색된 후원 건수
-  // const MAX_PAGE_ITEMS = 5;                                 // 페이지네이션에서 최대로 보일 페이지 수
-  // const totalPages = Math.ceil(totalItems / itemsPerPage);  // 총 페이지 수
-  // const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
-
-
-  // const groupIndex = Math.floor((currentPage - 1) / MAX_PAGE_ITEMS);
-  // const startIndex = (currentPage - 1) * itemsPerPage;
-  // const endIndex = Math.min(startIndex + itemsPerPage, totalItems);
-  // const startPage = groupIndex * MAX_PAGE_ITEMS + 1;
-  // const endPage = startPage + MAX_PAGE_ITEMS - 1;
-
-  // const groups = Array.from({ length: Math.ceil(totalPages / MAX_PAGE_ITEMS) }, (_, index) => {
-  //   const start = index * MAX_PAGE_ITEMS;
-  //   return pageNumbers.slice(start, start + MAX_PAGE_ITEMS);
-  // })
-  // .filter(group => group.includes(startPage) || group.includes(endPage) || (group[0] <= startPage && group[group.length - 1] >= endPage));
-
-
-  // // 페이지 이동
-  // const handlePageClick = (event, pageNuber) => {
-  //   event.preventDefault();
-  //   setCurrentPage(pageNuber);
-  //   navigate("/sponsor/management?page=" + pageNuber)
-  // };
-
-
-  // const pages = [];
-  // for (let i = 1; i <= totalPages; i++) {
-  //   pages.push(
-  //     <li key={i} className={currentPage === i ? "active" : ""}>
-  //       <a href="/" onClick={(e) => handlePageClick(e, i)}>{i}</a>
-  //     </li>
-  //   );
-  // }
-  const [currentPage, setCurrentPage] = useState(1); // 현재 페이지 번호
-  const [itemsPerPage, setItemsPerPage] = useState(10); // 페이지당 게시글 수
-  const MAX_PAGE_ITEMS = 5; // 페이지네이션에서 최대로 보일 페이지 수
-  const [totalItems, setTotalItems] = useState(0); // 전체 게시글 수
+  const [currentPage, setCurrentPage] = useState(1);            // 현재 페이지 번호
+  const [itemsPerPage, setItemsPerPage] = useState(10);         // 페이지당 게시글 수
+  const MAX_PAGE_ITEMS = 5;                                     // 페이지네이션에서 최대로 보일 페이지 수
+  const [totalItems, setTotalItems] = useState(0);              // 전체 게시글 수
   const totalPages = Math.ceil(totalItems / itemsPerPage);
 
   const pageNumbers = Array.from({ length: totalPages }, (_, index) => index + 1);
@@ -118,74 +82,141 @@ const SponsorManagement = () => {
   ////////////////////////// 페이징 ///////////////////////
 
 
+  ////////////////////////// 검색 //////////////////////////
+  const searchList = async () => {
+    const list = [];
 
+    const searchList = {
+      page: "1",                                             // 페이지 번호
+      user_name: user_name,                                       // 회원이름
+      user_id: user_id,                                           // 회원id
+      spon_pay: spon_pay,                                         // 결제방법(홈페이지, 방문)
+      spon_open: spon_open,                                       // 익명여부(공개, 비공개)
+      spon_huwon: spon_huwon,                                     // 후원종류(일반, 물품)
+      start_date: document.getElementById("start_date").value,    // 검색 시작 날짜
+      end_date: document.getElementById("end_date").value,        // 검색 끝 날짜
+    };
 
+    // 검색 시작날짜가 끝날짜보다 클 경우
+    if (searchList.start_date > searchList.end_date) {
+      return console.log("잘못된 입력");
+    }
+    console.log(searchList);
 
-  // 경로 설정
-  const setPath = () => {
-    // console.log(search);
-    // let path;
+    const res = await sponStatisticDB(searchList, token);
+    console.log(res.data);
 
-    // // 앞에서 조회한 적이 있을 때 기존에 쿼리스트링 삭제 후 다시 쿼리스트링 만들어야한다
-    // if (search.match('condition')) {
-    //   path = location.pathname+
-    //     search.replace(
-    //       `&${search.split('&')
-    //         .filter((item) => { 
-    //           return item.match('page') 
-    //         })
-    //       }&${search.split('&')
-    //         .filter((item) => { 
-    //           return item.match('content') 
-    //         })
-    //       }`,
-    //       `&condition=${tTitle}&content=${content}`
-    //     ).replace(
-    //       `&${search.split('&')
-    //         .filter((item) => { 
-    //           return item.match('page') 
-    //         })
-    //       }`
-    //       ,'&page=1&'
-    //     )
-    // } else {
-    //   path = location.pathname+search+`?condition=${tTitle}&content=${content}`
-    // }
+    const datas = res.data;
+    
+    if (datas != null && datas.length > 0) {
+      datas.forEach((item, index) => {
+        const obj = {
+          user_name: item.user_name, 
+          spon_number: item.spon_number, 
+          spon_date: item.spon_date, 
+          spon_huwon: item.spon_huwon, 
+          spon_money: item.spon_money,
+          spon_pay: item.spon_pay,
+          spon_open: item.spon_open,
+          spon_content: item.spon_content,
+        }
+        
+        list.push(obj);
+      })
+      setTotalItems(datas[0].total_count); // 검색된 후원 건수
+    } else {
+      const obj = {
+        user_name: "", 
+        spon_number: "", 
+        spon_date: "", 
+        spon_huwon: "", 
+        spon_money: "",
+        spon_pay: "",
+        spon_open: "",
+        spon_content: "",
+      }
+      
+      list.push(obj);
+      setTotalItems(1); // 검색된 후원 건수
+    }
 
-    // console.log(path)///qna/list?condition=제목&content=내용
-
-    // return path;
+    setListBody(list);  
   }
+  ////////////////////////// 검색 //////////////////////////
+  
 
+  ////////////////////////// 엑셀다운로드 //////////////////////////
+  const exportToExcel = async () => {
+    console.log("exportToExcel 호출")
+    const list = [];
 
+    const searchList = {
+      user_name: user_name,                                       // 회원이름
+      user_id: user_id,                                           // 회원id
+      spon_pay: spon_pay,                                         // 결제방법(홈페이지, 방문)
+      spon_open: spon_open,                                       // 익명여부(공개, 비공개)
+      spon_huwon: spon_huwon,                                     // 후원종류(일반, 물품)
+      start_date: document.getElementById("start_date").value,    // 검색 시작 날짜
+      end_date: document.getElementById("end_date").value,        // 검색 끝 날짜
+    };
 
+    // 검색 시작날짜가 끝날짜보다 클 경우
+    if (searchList.start_date > searchList.end_date) {
+      return console.log("잘못된 입력");
+    }
+    console.log(searchList);
 
+    const res = await sponStatisticDB(searchList, token);
+    console.log(res.data);
 
+    const datas = res.data;
+    datas.forEach((item, index) => {
+      const obj = {
+        spon_date: item.spon_date, 
+        user_id: item.user_id,
+        user_name: item.user_name, 
+        spon_number: item.spon_number, 
+        spon_huwon: item.spon_huwon, 
+        spon_money: item.spon_money,
+        spon_pay: item.spon_pay,
+        spon_open: item.spon_open,
+        spon_content: item.spon_content,
+      }
+      
+      list.push(obj);
+    })
 
+    const worksheet = XLSX.utils.json_to_sheet(list);                   // DB에서 받아온 값을 엑셀 워크시트 형식으로 변환
+  
+    ['후원일자', '후원자 ID', '후원자명', '후원자 연락처', '후원 종류', '후원금', '결제 방식', '익명 여부', '후원 내용'].forEach((columnName, index) => {
+      const cellAddress = XLSX.utils.encode_cell({ c: index, r: 0 });   // 셀 주소를 계산 및 첫 번째 행의 각 열에 컬럼명 추가
+      worksheet[cellAddress].v = columnName;
+    });
+    
+    const workbook = XLSX.utils.book_new();                             // 빈 워크북 객체를 생성
 
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');          // 워크시트를 워크북에 추가
+
+    const wbout = XLSX.write(workbook, { type: 'binary', bookType: 'xlsx' }); // 워크북을 바이너리 형식의 엑셀 파일로 변환
+    const fileName = '후원통계목록.xlsx';                                 // 다운로드할 파일명을 지정
+    const fileBuffer = new ArrayBuffer(wbout.length);                   // ArrayBuffer 객체를 생성
+    const view = new Uint8Array(fileBuffer);                            // Uint8Array 객체를 생성
+
+    for (let i = 0; i < wbout.length; i++) {                            // 워크북의 각 바이트에 대해 반복
+      view[i] = wbout.charCodeAt(i) & 0xff;                             // 각 바이트를 Uint8Array에 저장
+    }
+
+    const blob = new Blob([fileBuffer], { type: 'application/octet-stream' });  // Blob 객체를 생성
+    const link = document.createElement('a');                                   // a 요소를 생성
+    
+    link.href = URL.createObjectURL(blob);                                      // 다운로드 링크를 생성
+    link.download = fileName;                                                   // 파일명을 지정
+    link.click();                                                               // 다운로드 링크를 클릭
+  };
+  ////////////////////////// 엑셀다운로드 //////////////////////////
 
 
   useEffect(() => {
-    // 쿼리스트링 분해
-    search.split('&').forEach((item, index) => {
-      // item = user_name=이름, user_id=아이디, ...
-      if (item.match("user_name")) {
-        setUserName(item.split("=")[1])
-      } else if (item.match("user_id")) {
-        setUserId(item.split("=")[1])
-      } else if (item.match("spon_pay")) {
-        setSponPay(item.split("=")[1])
-      } else if (item.match("spon_open")) {
-        setSponOpen(item.split("=")[1])
-      } else if (item.match("spon_huwon")) {
-        setSponHuwon(item.split("=")[1])
-      } else if (item.match("start_date")) {
-        setStartDate(item.split("=")[1])
-      } else if (item.match("end_date")) {
-        setEndDate(item.split("=")[1])
-      }
-    })
-
     setPageNum({page: page_num})
 
     // 후원 통계 출력
@@ -206,7 +237,7 @@ const SponsorManagement = () => {
         spon_content: spon_content,
       }
 
-      const res = await sponStatisticDB(sponlist);
+      const res = await sponStatisticDB(sponlist, token);
       console.log(res.data);
 
       const datas = res.data;
@@ -276,7 +307,7 @@ const SponsorManagement = () => {
                     <div style={{display: "flex"}}>
                       <Form.Check 
                         type="radio" 
-                        name="payRadios" //같은 그룹으로 묶여 있눈 라디오 그룹은 모두 같은 name 속성 값
+                        name="payRadios"
                         id="payRadios1" 
                         label="홈페이지" 
                         value="홈페이지"
@@ -304,7 +335,7 @@ const SponsorManagement = () => {
                     <div style={{display: "flex"}}>
                       <Form.Check 
                         type="radio" 
-                        name="openRadios" //같은 그룹으로 묶여 있눈 라디오 그룹은 모두 같은 name 속성 값
+                        name="openRadios"
                         id="openRadios1" 
                         label="공개" 
                         value="공개"
@@ -330,7 +361,7 @@ const SponsorManagement = () => {
                     <div style={{display: "flex"}}>
                       <Form.Check 
                         type="radio" 
-                        name="huwonRadios" //같은 그룹으로 묶여 있눈 라디오 그룹은 모두 같은 name 속성 값
+                        name="huwonRadios"
                         id="huwonRadios1" 
                         label="일반" 
                         value="일반"
@@ -373,9 +404,15 @@ const SponsorManagement = () => {
               <Button 
                 style={{backgroundColor: "#2C786C", borderColor: "white"}} 
                 onClick={() => {
-                  //navigate(setPath());
+                  searchList();
                 }} 
               >검색</Button>
+              <Button 
+                style={{backgroundColor: "#8ABDB5", borderColor: "white"}} 
+                onClick={() => {
+                  exportToExcel();
+                }} 
+              >엑셀다운로드</Button>
           </Form>
           <br />
           <br />
@@ -404,12 +441,11 @@ const SponsorManagement = () => {
           </div>
         </div>
 
-        {/* 페이징 처리
+        {/* 페이징 처리 */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: '50px' }}>
-          <div style={{ flexGrow: 1 }}></div>
-          <Pagination>
-            <Pagination.First onClick={() => handlePageClick(1)} disabled={currentPage === 1} />
-            <Pagination.Prev onClick={() => handlePageClick(currentPage - 1)} disabled={currentPage === 1} />
+            <Pagination>
+              <Pagination.First onClick={() => handlePageClick(1)} disabled={currentPage === 1} />
+              <Pagination.Prev onClick={() => handlePageClick(currentPage - 1)} disabled={currentPage === 1} />
               {
                 groups.map((group, index) => (
                   <React.Fragment key={index}>
@@ -440,42 +476,6 @@ const SponsorManagement = () => {
             <Pagination.Next onClick={() => handlePageClick(currentPage + 1)} disabled={currentPage === totalPages} />
             <Pagination.Last onClick={() => handlePageClick(totalPages)} disabled={currentPage === totalPages} />
           </Pagination>
-          <div style={{ flexGrow: 1 }}></div>
-        </div> */}
-
-        {/* 페이징 처리 */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", marginBottom: '50px' }}>
-            <Pagination>
-              <Pagination.First onClick={() => handlePageClick(1)} disabled={currentPage === 1} />
-              <Pagination.Prev onClick={() => handlePageClick(currentPage - 1)} disabled={currentPage === 1} />
-              {groups.map((group, index) => (
-                <React.Fragment key={index}>
-                  {index > 0 && (
-                    <Pagination.Ellipsis
-                      disabled={currentPage < group[0]}
-                      onClick={() => handlePageClick(group[0] - 1)}
-                    />
-                  )}
-                  {group.map((pageNumber) => (
-                    <Pagination.Item
-                      key={pageNumber}
-                      active={pageNumber === currentPage}
-                      onClick={() => handlePageClick(pageNumber)}
-                    >
-                      {pageNumber}
-                    </Pagination.Item>
-                  ))}
-                  {index < groups.length - 1 && (
-                    <Pagination.Ellipsis
-                      disabled={currentPage >= group[group.length - 1]}
-                      onClick={() => handlePageClick(group[group.length - 1] + 1)}
-                    />
-                  )}
-                </React.Fragment>
-              ))}
-              <Pagination.Next onClick={() => handlePageClick(currentPage + 1)} disabled={currentPage === totalPages} />
-              <Pagination.Last onClick={() => handlePageClick(totalPages)} disabled={currentPage === totalPages} />
-            </Pagination>
         </div>
       </div>
       <Bottom />

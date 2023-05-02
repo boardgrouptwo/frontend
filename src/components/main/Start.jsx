@@ -48,7 +48,7 @@ const Start = () => {
       <div className="video-background">
   <div className="video-foreground">
     <video autoPlay loop muted playsInline>
-      <source src="images/mainFlower.mp4" type="video/mp4" />
+      <source src="images/mainFlowerPerson.mp4" type="video/mp4" />
     </video>
   </div>
 </div>

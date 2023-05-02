@@ -1,0 +1,177 @@
+.window-container {
+  position: fixed;
+  z-index: 101;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  /* 모달창의 너비와 높이 */
+  width: 660px;
+  height: 700px;
+  /* 모달창의 배경색 */
+  background-color: goldenrod;
+  border-radius: 10px;
+  /* 모달창 내부의 내용이 길어질 경우 스크롤이 생성 */
+  overflow-y: auto;
+  display: flex;
+  }
+  .window-overlay{
+    background-color: #8FB399;
+    z-index: 100;
+    align-items: center;
+    width: 660px;
+    height: auto;
+  }
+  
+  .window-header {
+    font-size: 24px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    background-color:blanchedalmond;
+    height: 120px;
+  }
+  
+ 
+  .window-title{
+    font-size: 24px;
+    text-align: center;
+    margin: auto;
+  }
+  .selected-day-div{
+    text-align: center;
+    margin: auto;
+  }
+  .selected-day{
+    font-size: 24px;
+    text-align: center;
+    margin: auto;
+  }
+  .selected-time-div{
+    text-align: center;
+    margin: auto;
+  }
+  .selected-time{
+    margin: auto;
+    text-align: center;
+    color: #F7FFF2;
+  }
+  .close-btn {
+    order: 1;
+    top:0;
+  margin-right: 10px;
+  }
+
+  .window-content {
+    margin-bottom: 1rem;
+    width: 660px;
+    height: 70px;
+    font-size: 24px;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .window-timetable {
+    list-style: none;
+   margin-top: 10px;
+  }
+  
+  .window-time-slot {
+    cursor: pointer;
+    margin: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    background-color: #eee;
+  }
+  
+  .window-time-slot:hover {
+    background-color: #ddd;
+  }
+  
+  .window-footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 150;
+    
+  }
+  
+  .btn-submit {
+    background-color: #008CBA;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .btn-visit:hover {
+    background-color: #006F8B;
+  }
+  .window-timetable {
+    gap: 50px;
+  }
+
+  .window-time-slot0 {
+    color: #F7FFF2;
+  }
+  
+  .window-time-slot1 {
+  
+  }
+  
+  .window-time-slot2 {
+   
+  }
+  
+  .window-time-slot3 {
+  
+  }
+  
+  .window-time-slot4 {
+  
+  }
+  
+  .window-time-slot5 {
+  
+  }
+  
+  .window-time-slot6 {
+  
+  }
+    
+  .window-time-slot7 {
+ 
+  }
+    .window-timetable .window-time-slot0:hover {
+     background-color: #ddd;
+     cursor: pointer;
+   }
+    .window-timetable .window-time-slot1:hover {
+     background-color: #ddd;
+     cursor: pointer;
+   }
+    .window-timetable .window-time-slot2:hover {
+     background-color: #ddd;
+     cursor: pointer;
+   }
+    .window-timetable .window-time-slot3:hover {
+     background-color: #ddd;
+     cursor: pointer;
+   }
+    .window-timetable .window-time-slot4:hover {
+     background-color: #ddd;
+     cursor: pointer;
+   }
+    .window-timetable .window-time-slot5:hover {
+     background-color: #ddd;
+     cursor: pointer;
+   }
+    .window-timetable .window-time-slot6:hover {
+     background-color: #ddd;
+     cursor: pointer;
+   }
+    .window-timetable .window-time-slot7:hover {
+     background-color: #ddd;
+     cursor: pointer;
+   }

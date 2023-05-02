@@ -38,11 +38,16 @@ import MyPage from './components/board/mypage/MyPage'
 import MyPageDetail from './components/board/mypage/MyPageDetail'
 import Elder from './components/main/Elder'
 import SponsorManagement from './components/Sponsor/SponsorManagement'
-import WishlistPage from './components/cart/WishListPage'
-import MemoList from './components/memo/MemoList'
+import ScheduleList from './components/schedule/ScheduleList'
 import ElderUpdate from './components/board/mypage/ElderUpdate'
 import ElderInsert from './components/board/mypage/ElderInsert'
-
+import OrderPage from './components/board/shop/OrderPage'
+import PaymentSuccess from './components/payment/PaymentSuccess'
+import WishListPage from './components/board/shop/WishListPage'
+import "react-datetime/css/react-datetime.css";
+import SchedulePage from'./components/schedule/SchedulePage'
+import KhServiceReview from './components/khservice/KhServiceReview'
+import KhServiceReviewWrite from './components/khservice/KhServiceReviewWrite'
 
 const App = () => {
 
@@ -105,11 +110,13 @@ const App = () => {
         <Route path="/shopreceive" exact={true} element={<ShopReceive/>}/>
         <Route path="/shopadd" exact={true} element={<ShopAdd/>}/>
         <Route path="/shopdetail" element={<ShopDetail/>}/>
-        <Route path="/cart" exact={true}element={<WishlistPage/>}/>
+        <Route path="/cart" exact={true}element={<WishListPage/>}/>{/* 장바구니 */}
+        <Route path="/order" exact={true} element={<OrderPage />}/> {/* 결제 페이지 */}
+        <Route path="/payment/success" exact={true} element={<PaymentSuccess />}/> {/* 결제 페이지 */}
         
         {/* 식단표 */}
         <Route path="/meal" exact={true} element={<Meal/>}/>
-        <Route path="/meal/page/:selectedDate" exact={true} element={<MealDetail/>}/>
+        <Route path="/meal/page?" exact={true} element={<MealDetail/>}/>
         {/*후원하기 */}
         <Route path="/sponsor/from" exact={true} element={<SponsorFrom />}/> {/* 후원폼 */}
         <Route path="/sponsor/list" exact={true} element={<SponsorListPage />}/> {/* 후원리스트 */}
@@ -118,6 +125,8 @@ const App = () => {
         {/* 자원봉사 */}
         <Route path="/service/from" exact={true} element={<KhServiceForm />}/> {/* 자원봉사폼 */}
         <Route path="/service/success" exact={true} element={<KhServiceSuccess />}/> {/* 자원봉사신청성공 */}
+        <Route path="/service/review" exact={true} element={<KhServiceReview />}/> {/* 자원봉사리뷰 */}
+        <Route path="/service/review/write" exact={true} element={<KhServiceReviewWrite />}/> {/* 자원봉사리뷰작성 */}
         <Route path="/service/management" exact={true} element={<AdminService />}/>  {/* 자원봉사 - 관리자 */}
 
         {/* QnA */}
@@ -127,7 +136,8 @@ const App = () => {
         {/* 면회 */}
         <Route path="/visit/sign/" exact={true} element={<FullCalendarMain/>}/>
         {/* 월간 */}
-        <Route path="/memo" exact={true} element={<MemoList/>}/>
+        <Route path="/calendar" exact={true} element={<SchedulePage/>}/>
+        <Route path="/memo" exact={true} element={<ScheduleList/>}/>
 
 
         {/* 내정보 */}

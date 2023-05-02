@@ -79,3 +79,37 @@ export const productReceiveListDB = (board) => {
     }
   });
 };
+export const AddProductDB=(cartItem,token)=>{
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "cart/add",
+        data: cartItem,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+export const GetProductDB=(cartItem,token)=>{
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "cart/get",
+        data: cartItem,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

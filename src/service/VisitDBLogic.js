@@ -9,7 +9,7 @@ export const visitDateDB = (user, token) => {
     try {
       const response = axios({
         method: "GET",
-        url: process.env.REACT_APP_SPRING_IP + "visit/visitDate",
+        url: process.env.REACT_APP_SPRING_IP + "visit/sign/visitList",
         params: user,
         headers: {
           Authorization: `Bearer ${token}`,

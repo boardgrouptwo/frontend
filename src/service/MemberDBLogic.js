@@ -115,7 +115,7 @@ export const userInfoDB = (user, token) => {
 };
 
 // 사용자 정보 수정
-export const userUpdateDB = (user) => {
+export const userUpdateDB = (user, token) => {
   console.log("userUpdateDB 출력")
   console.log(user)
 
@@ -125,6 +125,9 @@ export const userUpdateDB = (user) => {
         method: "POST",
         url: process.env.REACT_APP_SPRING_IP + "user/userUpdate",
         data: user,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
 
       resolve(response)
