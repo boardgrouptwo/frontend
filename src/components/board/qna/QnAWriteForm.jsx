@@ -16,8 +16,6 @@ const QnAWriteForm = () => {
     const user = useSelector(state => state.userid);
 
     const real_user = (user !== "") ? user : "비회원";
-    console.log(real_user);
-    console.log(user);
 
     const[type, setType] = useState("후원하기")
     const[id, setId] = useState(user)
@@ -29,7 +27,6 @@ const QnAWriteForm = () => {
 
     const handleType = useCallback((e) => {
         setType(e)
-        console.log(e)
     },[])
 
     const handleName = useCallback((e) => {
@@ -66,9 +63,7 @@ const QnAWriteForm = () => {
             qna_result : result, 
         }
         
-        console.log(token)
         const res = await qnaInsertDB(board, token)
-        console.log(res)
         navigate("/qna?page=1")
     }
 

@@ -9,7 +9,7 @@ import MyPayment from './MyPayment'
 import { useSelector } from 'react-redux'
 import { userInfoDB } from '../../../service/MemberDBLogic'
 import { useState, useEffect } from 'react'
-import { paymentListPreviewDB } from '../../../service/PaymentDBLogic'
+import { paymentListDB, paymentListPreviewDB } from '../../../service/PaymentDBLogic'
 import { sponsorUserSumDB } from '../../../service/SponsorDBLogic'
 import { serviceDateDB } from '../../../service/KhServiceDBLogic'
 import { visitDateDB } from '../../../service/VisitDBLogic'
@@ -73,7 +73,7 @@ const MyPage = () => {
     }
     console.log("결제내역 ==> " + payInfo);
 
-    const res = await paymentListPreviewDB(payInfo, token);
+    const res = await paymentListDB(payInfo, token);
     console.log(res.data);
 
     const list = [];

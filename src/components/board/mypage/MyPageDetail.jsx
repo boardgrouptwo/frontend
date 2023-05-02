@@ -268,34 +268,6 @@ const MyPageDetail = () => {
                 </Form.Control.Feedback>
               </Col>
             </Form.Group>
-
-            {/* ********  입원여부  ********* */}
-            {/* <fieldset>
-              <Form.Group as={Row} className="mb-3" style={{textAlign: "center"}} >
-                <Form.Label as="legend" column sm={2}>입원여부</Form.Label>
-                <Col sm={8} style={{textAlign: "left"}} >
-                  <Form.Check
-                    type="radio"
-                    label="입원"
-                    name="userEnter"
-                    id="userEnter1"
-                    value="입원"
-                    checked={userEnter === '입원'} // 현재 선택된 값과 비교하여 체크 여부 결정
-                    onChange={(e) => setUserEnter(e.target.value)} // 상태 업데이트 함수
-                    required
-                  />
-                  <Form.Check
-                    type="radio"
-                    label="비입원"
-                    name="userEnter"
-                    id="userEnter2"
-                    value="비입원"
-                    checked={user_enter === '비입원'}
-                    onChange={(e) => setUserEnter(e.target.value)}
-                  />
-                </Col>
-              </Form.Group>
-            </fieldset> */}
             <br />
             <br />
             <br />

@@ -23,9 +23,9 @@ import { async } from 'q';
 
 const SponsorFrom = () => {
     const isLogin = useSelector(state => state.isLogin);  //로그인정보 가져오기
-
+    const token = useSelector(state => state.token); 
+    
     const navigate = useNavigate();
-    const token =useSelector(state => state.token);   
     // 초기값 설정
     const user = useSelector(state => state.nickname); //user 닉네임 가져오기
     const[sponsorId, setSponsorId]= useState(''); // 아이디
@@ -59,55 +59,6 @@ const SponsorFrom = () => {
         navigate("/loginError")
       }
     },[]);
-
-///////////////////////////////////////// 아임포트
-  var IMP = window.IMP; // 생략가능
-  console.log("IMP : " + IMP);
-  //가맹점 식별코드
-  IMP.init("imp17705726"); 
-
-  const requestPay = () => {
-    console.log("requestPay 호출")
-    let msg;
-
-    const orderSheet = {
-      pay_type: "후원",
-      pg: "kakaopay.TC0ONETIME",    // 상점 ID
-      //pg: "html5_inicis",
-      pay_method: "card",
-      merchant_uid: "ORD20180131-0000011",
-      name: "후원",//결제창에서 보여질 이름
-      amount: sponsorMoney,//실제 결제되는 가격
-      buyer_email: "kh@kh.com",
-      buyer_name: user,
-    }
-    console.log("주문서 : " + orderSheet);
-
-    const test  = async () => {
-      const res = await paymentImp(orderSheet, token);
-      console.log(res.data);
-  
-      // IMP.request_pay({orderSheet}, rsp => { // callback
-      //   console.log(rsp)
-      //   if (rsp.success) {
-      //     msg = '결제가 완료되었습니다.';
-      //     msg += '고유ID : ' + rsp.imp_uid;
-      //     msg += '상점 거래ID : ' + rsp.merchant_uid;
-      //     msg += '결제 금액 : ' + rsp.paid_amount;
-      //     msg += '카드 승인번호 : ' + rsp.apply_num;
-      //   } else {
-      //     msg = '결제에 실패하였습니다.';
-      //     msg += '에러내용 : ' + rsp.error_msg;
-      //   }
-        
-      //   alert(msg);
-      // });
-    }
-    test();
-  }
-
-
-///////////////////////////////////////// 아임포트
 
 
 // 폼 제출 이벤트 처리
@@ -150,19 +101,25 @@ const SponsorFrom = () => {
           spon_pay: sponsorPay,                 // 결제 종류
         };
 
-        //<PaymentModal payForm={payForm} open={modalOpen} close={closeModal} header="결제 방식 선택" />
-
-        const respose = await kakaoPayReady(payForm, token);
-        console.log(respose.data)
+        const res = await kakaoPayReady(payForm, token);
+        console.log(res.data)
 
         // 카카오페이 결제 성공 시 DB에 저장
-        if (!respose.data) {
+        if (!res.data) {
           console.log("결제 실패하였습니다")
         } else {
           console.log("카카오결제 성공하였습니다")
 
           // 카카오페이 결제 팝업 출력
-          window.open(respose.data,'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
+          const screenWidth = window.screen.width;
+          const screenHeight = window.screen.height;
+          const popupWidth = 430;
+          const popupHeight = 500;
+          
+          const left = (screenWidth - popupWidth) / 2;
+          const top = (screenHeight - popupHeight) / 2;
+          
+          window.open(res.data, 'Kakao Pay', `width=${popupWidth},height=${popupHeight},top=${top},left=${left},location=no,status=no,scrollbars=yes`);
         }
       } // end of 카카오페이 결제
       // 카카오페이 결제 이외 로직
