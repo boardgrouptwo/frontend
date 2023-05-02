@@ -46,6 +46,8 @@ import PaymentSuccess from './components/payment/PaymentSuccess'
 import WishListPage from './components/board/shop/WishListPage'
 import "react-datetime/css/react-datetime.css";
 import SchedulePage from'./components/schedule/SchedulePage'
+import VisitManager from './components/visit/VisitManager'
+import ScheduleDetail from './components/schedule/ScheduleDetail'
 
 const App = () => {
 
@@ -131,9 +133,11 @@ const App = () => {
         <Route path="/qna/detail/" exact={true} element={<QnADetailPage/>}/>
         {/* 면회 */}
         <Route path="/visit/sign/" exact={true} element={<FullCalendarMain/>}/>
+        <Route path="/visit/management" exact={true} element={<VisitManager/>}/>
         {/* 월간 */}
         <Route path="/calendar" exact={true} element={<SchedulePage/>}/>
         <Route path="/memo" exact={true} element={<ScheduleList/>}/>
+        <Route path="/schedule/detail/:cal_no" exact={true} element={<ScheduleDetail/>} />
 
 
         {/* 내정보 */}
