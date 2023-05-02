@@ -70,16 +70,13 @@ const Register = () => {
           user_email: userEmail,
           user_enter: userEnter
         }
-        console.log(member);
 
       const res = await joinDB(member);
-      console.log(userEnter)
 
       /* 제출하기를 클릭했을 때 입원이면 elder정보 입력하는 폼으로 넘어가고 아니면 회원 가입 완료되게끔 처리 */
       if(check !== false){
-          console.log("아이디 중복 검사 완료")
           if(userEnter === "입원"){
-            navigate('/elder',{state : {userId}})
+            navigate('/elder', { state: { userId } })
           }
           else if(userEnter === "비입원"){
             Swal.fire({
@@ -100,12 +97,12 @@ const Register = () => {
 
   //아이디 유효성 검사
   const idCheck = async () =>{
-    console.log(userId)
     const user = {
       user_id: userId
     }
+
     const res = await duplicateDB(user)
-    console.log(res.data)
+
     if(res.data === 0) {      
       Swal.fire({
         icon: "success",

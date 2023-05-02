@@ -77,7 +77,7 @@ const FullCalendarMain = () => {
     height={"500px"}
     locale="ko" //월,일 한글화
     dateClick={handleDateClick} // 날짜 클릭 이벤트 handleDateClick 함수를 dateClick prop으로 전달
-   
+  
     
     />
   <VisitWindow windowOpen={windowOpen}
@@ -86,6 +86,7 @@ const FullCalendarMain = () => {
         onTimeClick={handleTimeClick}
       >
       </VisitWindow>
+    
     </>
   );
 };

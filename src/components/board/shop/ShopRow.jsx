@@ -9,8 +9,6 @@ const ShopRow = ({board}) => {
   const [hovered, setHovered] = useState(false);
 
   const handleDetail = () => {
-    console.log("상세보기")
-    console.log(board.product_no)
     navigate("/shopdetail?product_no="+board.product_no)
   }
 

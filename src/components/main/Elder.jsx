@@ -10,15 +10,9 @@ import { useSelector } from 'react-redux';
 
 const Elder = () => {
   const navigate = useNavigate();
-
   const location = useLocation();
-
-  // const { userId } = location.state;
-  const userId = useSelector(state => state.userid);      // 사용자 아이디
-  
-  
-  // 어르신 아이디 - user테이블의 user_id
-
+  const { userId } = location.state;
+  console.log(userId)
   // 초기값 설정
   const[elderName, setElderName]= useState(''); // 어르신 이름 
   const[elderAge, setElderAge]= useState(''); // 어르신 나이
@@ -46,17 +40,14 @@ const Elder = () => {
 
         //화면에 입력된 값을 DB로 보내는
         const elder= {
-          elder_id:userId,
           elder_name: elderName,
           elder_age: elderAge,
           elder_gender: elderGender,
           elder_status: elderStatus, 
           att_date : attDate,
         }
-        console.log(elder);
 
       const res = await elderJoinDB(elder);
-      console.log(res.data);
       Swal.fire({
         icon: "success",
         title: "입원자 정보 입력 완료",

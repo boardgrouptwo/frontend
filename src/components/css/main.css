@@ -68,7 +68,7 @@
   width: 420px;
   height: 245px;
   padding: 40px;
-  top: 70px;
+  top: 30px;
   right: 0;
   /* z-index: 99; */
   background-color: #355d3e;
@@ -110,7 +110,7 @@
 .main_info_link .link {
   position: absolute;
   margin-bottom: 100px;
-  top: 315px;
+  top: 275px;
   width: 420px;
   height: 335px;
   padding: 35px;
@@ -163,21 +163,23 @@
 }
 .main_info_link .link ul li:nth-child(2) a {
   background: url("../../../public/images/home/sample2.png") no-repeat center
-  15px;
+    15px;
 }
 .main_info_link .link ul li:nth-child(3) a {
-  background: url("../../../public/images/home/sample3.png") no-repeat center 15px;
+  background: url("../../../public/images/home/sample3.png") no-repeat center
+    15px;
 }
 .main_info_link .link ul li:nth-child(4) a {
-  background: url("../../../public/images/home/sample4.png") no-repeat center 15px;
+  background: url("../../../public/images/home/sample4.png") no-repeat center
+    15px;
 }
 .main_info_link .link ul li:nth-child(5) a {
   background: url("../../../public/images/home/sample5.png") no-repeat center
-  15px;
+    15px;
 }
 .main_info_link .link ul li:nth-child(6) a {
   background: url("../../../public/images/home/sample6.png") no-repeat center
-  15px;
+    15px;
 }
 
 .main_info_link .link ul li a {

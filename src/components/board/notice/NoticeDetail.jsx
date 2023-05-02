@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { Button, Form, Modal, Pagination } from 'react-bootstrap'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { Button, Modal } from 'react-bootstrap'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { noticebeforeAfterDB, noticeDeleteDB, noticeHitDB, noticeListDB, noticeUpdateDB } from '../../../service/NoticeDBLogic'
-import { ContainerDiv, FormDiv, HeaderDiv, MyInput, MyLabel, MyLabelAb } from '../../css/FormStyle'
+import { ContainerDiv, FormDiv, HeaderDiv, MyInput, MyLabel } from '../../css/FormStyle'
 import Bottom from '../../include/Bottom'
 import MainHeader from '../../include/MainHeader'
 import Noticebar from './Noticebar'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 import QuillEditor from './QuillEditor'
 import { useSelector } from 'react-redux'
 import Swal from 'sweetalert2'
@@ -22,7 +21,6 @@ const NoticeDetail = () => {
   const user = useSelector(state => state.user_type); 
   const token = useSelector(state => state.token)
 
-  //const {notice_no} = useParams()
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const page_num = searchParams.get('page');
@@ -65,7 +63,7 @@ const NoticeDetail = () => {
 
   useEffect(() => {
     const noticeHit = async() => {
-      const res = await noticeHitDB(pboard)
+      await noticeHitDB(pboard)
     }
     
     const noticeDetail = async() => {

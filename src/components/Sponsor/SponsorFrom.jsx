@@ -6,7 +6,7 @@ import Row from 'react-bootstrap/Row';
 import MainHeader from '../include/MainHeader'
 import Bottom from '../include/Bottom'
 import GoogleRecaptcha from '../google/GoogleRecaptcha'
-import SponsorFrombar from './SponsorFrombar'
+import KhSponorServicebar from '../khservice/KhSponorServicebar';
 import InputGroup from 'react-bootstrap/InputGroup'
 import "../css/spon.css"
 import { useNavigate } from 'react-router-dom';
@@ -17,10 +17,14 @@ import { useEffect } from 'react';
 import Accordion from 'react-bootstrap/Accordion';
 import KhPrivacy from '../khservice/KhPrivacy';
 import PaymentModal from '../payment/PaymentModal';
+import { paymentImp } from '../../service/PaymentDBLogic';
+import { async } from 'q';
 
 
 const SponsorFrom = () => {
     const isLogin = useSelector(state => state.isLogin);  //로그인정보 가져오기
+    const token = useSelector(state => state.token); 
+    
     const navigate = useNavigate();
     // 초기값 설정
     const user = useSelector(state => state.nickname); //user 닉네임 가져오기
@@ -55,6 +59,7 @@ const SponsorFrom = () => {
         navigate("/loginError")
       }
     },[]);
+
 
 // 폼 제출 이벤트 처리
     const handleSubmit = async(event) => {   // form 컴포넌트에서 submit 할 때 실행됨
@@ -96,25 +101,31 @@ const SponsorFrom = () => {
           spon_pay: sponsorPay,                 // 결제 종류
         };
 
-        //<PaymentModal payForm={payForm} open={modalOpen} close={closeModal} header="결제 방식 선택" />
-
-        const respose = await kakaoPayReady(payForm);
-        console.log(respose.data)
+        const res = await kakaoPayReady(payForm, token);
+        console.log(res.data)
 
         // 카카오페이 결제 성공 시 DB에 저장
-        if (!respose.data) {
+        if (!res.data) {
           console.log("결제 실패하였습니다")
         } else {
           console.log("카카오결제 성공하였습니다")
 
           // 카카오페이 결제 팝업 출력
-          window.open(respose.data,'window_name','width=430,height=500,location=no,status=no,scrollbars=yes');
+          const screenWidth = window.screen.width;
+          const screenHeight = window.screen.height;
+          const popupWidth = 430;
+          const popupHeight = 500;
+          
+          const left = (screenWidth - popupWidth) / 2;
+          const top = (screenHeight - popupHeight) / 2;
+          
+          window.open(res.data, 'Kakao Pay', `width=${popupWidth},height=${popupHeight},top=${top},left=${left},location=no,status=no,scrollbars=yes`);
         }
       } // end of 카카오페이 결제
       // 카카오페이 결제 이외 로직
       else {
         // 수정완료 ///////////////////////
-        const res = await sponsorInsertDB(member)
+        const res = await sponsorInsertDB(member, token)
         console.log(res + "," + res.data)
   
         if (!res.data){
@@ -136,7 +147,7 @@ const SponsorFrom = () => {
   return (
     <>
       <MainHeader />
-      <SponsorFrombar />
+      <KhSponorServicebar />
       <br />
       <br />
       
@@ -364,7 +375,6 @@ const SponsorFrom = () => {
 
         
     </div>
-    <Bottom />
     </>
   )
 }
