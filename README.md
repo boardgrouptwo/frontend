@@ -11,66 +11,74 @@ yarn start
 
 
 
+## 👉🏻 API 키 추가
+
+.**env**
+
+```
+REACT_APP_CHAT221228_IP=http://localhost:3000/
+REACT_APP_SPRING_IP=http://localhost:7000/
+
+REACT_APP_KAKAO_API_KEY=여기에 KEY값 입력
+REACT_APP_KAKAO_JS_KEY=여기에 KEY값 입력
+
+REACT_APP_GOOGLE_CLIENT_KEY=여기에 KEY값 입력
+
+REACT_APP_YOUR_RECAPTCHA_KEY=여기에 KEY값 입력
+```
+
+
+
 ## 📖 프로젝트 기간
 
-- 2023.04.10 ~ 2023.05.02 
+- **2023.04.10 ~ 2023.05.02** 
 
 
 
 ## 👉🏻 프로젝트 소개 
 
-- 
-- 
+- 요양사와 보호자간의 정보 교환과 보호자들이 믿고 맡길 수 있는 신뢰감을 주는 요양원 사이트 구축
 
 
 
-### URL 설계
+## 📖 URL 설계
 
-![image-20230328095640042](/readme/image-20230328095640042.png)
+![image-20230328095640042](/readme/url.PNG)
 
 
 
-### 패키지 구조
+## 🛠 패키지 구조
 
-```
-node_moduels
+```react
+node_modules
 public
 - images // 이미지 폴더
 
 src
 - asset // 폰트
 - component 
-  - auth // 로그인 인증
+  - admin // 관리자 페이지
+  - auth // 로그인 인증(redux)
   - board // 게시판
-  - css 
+	- mypage // 마이페이지
+    - notice // 공지사항
+    - qna // qna
+    - shop //상품페이지
+  - css // css 파일
   - include // header, bottom 공통 코드
-  - kakao
-  - main
-  -
-  -
-  추가 작성 예정...
+  - kakao // 카카오 맵, 페이
+  - main // 메인페이지
+  - meal // 식단표
+  - payment // 결제
+  - schedule // 월간일정표
+  - sponsor // 후원하기
+  - visit // 면회
   
 - service // logic
-
 - App.jsx // router
-- index.js 
-  
+- index.js  
 
 ```
-
-
-
-
-
-
-
-
-
-## 🛠 프로젝트 아키텍쳐
-
-
-
-
 
 
 
@@ -112,19 +120,15 @@ src
 
 
 
-
-
 ## **✔ 팀원 역할 분배**
 
-| Role | Name   | Github                        |
-| ---- | ------ | ----------------------------- |
-| 팀장 | 박성민 | https://github.com/tjdals3862 |
-| 팀원 | 강동현 |                               |
-| 팀원 | 박소연 |                               |
-| 팀원 | 송우진 |                               |
-| 팀원 | 이현승 |                               |
-
-
+| Role | Name   | Github                         |
+| ---- | ------ | ------------------------------ |
+| 팀장 | 박성민 | https://github.com/tjdals3862  |
+| 팀원 | 강동현 | https://github.com/welsper53   |
+| 팀원 | 박소연 | https://github.com/Soyeonthdus |
+| 팀원 | 송우진 | https://github.com/woojinyy    |
+| 팀원 | 이현승 | https://github.com/luckyhs38   |
 
 
 
@@ -145,23 +149,126 @@ src
 
 
 
-## **✔ 결과물**
-
-
-
-
-
-
-
-
-
 ## **✔ 시연 GIF**
 
-##### 로그인
+- **로그인**
 
 ![image-20230328095640042](/readme/login.gif)
 
 
 
+- **회원가입**
+
+![image-20230328095640042](/readme/register.gif)
 
 
+
+- **내원자 추가**
+
+![image-20230328095640042](/readme/elder_register.gif)
+
+
+
+- **chatbot**
+
+![image-20230328095640042](/readme/chatbot.gif)
+
+
+
+- **식단표**
+
+![image-20230328095640042](/readme/meal.gif)
+
+
+
+- **공지사항**
+
+![image-20230328095640042](/readme/notice.gif)
+
+
+
+- **qna 게시판**
+
+![image-20230328095640042](/readme/qna.gif)
+
+
+
+- **mypage 추가**
+
+![image-20230328095640042](/readme/mypage_add.gif)
+
+
+
+
+
+- **mypage 결제리스트**
+
+![image-20230328095640042](/readme/mypage_paylist.gif)
+
+
+
+- **mypage 수정**
+
+![image-20230328095640042](/readme/mypage_update.gif)
+
+
+
+- **mypage 면회신청**
+
+![image-20230328095640042](/readme/mypage_visit.gif)
+
+
+
+- **자원봉사관리**
+
+![image-20230328095640042](/readme/serviceAdmin.gif)
+
+
+
+- **자원봉사신청**
+
+![image-20230328095640042](/readme/serviceForm.gif)
+
+
+
+- **자원봉사 리뷰게시판**
+
+![image-20230328095640042](/readme/serviceReview.gif)
+
+
+
+- **상품페이지**
+
+![image-20230328095640042](/readme/shop.gif)
+
+
+
+- **상품주문**
+
+![image-20230328095640042](/readme/shop_order.gif)
+
+
+
+
+
+- **후원관리 엑셀다운**
+
+![image-20230328095640042](/readme/spon_excel.gif)
+
+
+
+- **후원관리 검색**
+
+![image-20230328095640042](/readme/spon_search.gif)
+
+
+
+- **후원하기**
+
+![image-20230328095640042](/readme/sponsorform.gif)
+
+
+
+- **후원리스트**
+
+![image-20230328095640042](/readme/sponsorList.gif)
