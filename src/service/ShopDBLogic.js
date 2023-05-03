@@ -29,13 +29,16 @@ export const productHitDB = (product) => {
   });
 };
 
-export const imageUploadDB = (product) => {
+export const imageUploadDB = (product, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "shop/imageUpload",
         data: product,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {
@@ -44,13 +47,99 @@ export const imageUploadDB = (product) => {
   });
 };
 
-export const ProductUploadDB = (product) => {
+export const ProductUploadDB = (product, token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "shop/productUpload",
         data: product,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+export const productReceiveListDB = (board) => {
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "get",
+        url: process.env.REACT_APP_SPRING_IP + "shop/productReceiveList",
+        params: board,
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+export const AddProductDB=(cartItem,token)=>{
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "cart/add",
+        data: cartItem,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+export const GetProductDB=(cartItem,token)=>{
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "cart/get",
+        data: cartItem,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+export const DeleteProductDB=(cartItem,token)=>{
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "cart/delete",
+        data: cartItem,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+export const updateCartDB=(cartItem,token)=>{
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "cart/update",
+        data: cartItem,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {

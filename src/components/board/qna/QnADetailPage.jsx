@@ -2,110 +2,88 @@ import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router'
 import Bottom from '../../include/Bottom'
-import { qnaDeleteDB, qnaListDB, qnaResultDB, qnaUpdateDB, qnabeforeAfterDB } from '../../../service/QnADBLogic'
+import { qnaDeleteDB, qnaListDB,  qnaRepleDB,  qnaUpdateDB, qnabeforeAfterDB } from '../../../service/QnADBLogic'
 import MainHeader from '../../include/MainHeader'
 import Noticebar from '../notice/Noticebar'
 import { ContainerDiv, FormDiv, HeaderDiv, MyInput, MyLabel } from '../../css/FormStyle'
-import { Button, Modal } from 'react-bootstrap'
+import { Button, Col, Form, ListGroup, Modal, Row } from 'react-bootstrap'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import QuillEditor from './QuillEditor'
+import Swal from 'sweetalert2'
+import Moment from 'react-moment'
 
 const QnADetailPage = () => {
     const navigate = useNavigate()
 
-    const [hovered, setHovered] = useState(false)
-
-    const [nextHovered, setNextHovered] = useState(false)
-
     const user = useSelector(state => state.user_type);
-
+    const userid = useSelector(state => state.userid);
+    const [dbid, setDbid] = useState()
     const location = useLocation();
-
     const searchParams = new URLSearchParams(location.search);
-
     const page_num = searchParams.get('page');
-
     const qna_num = searchParams.get('qna_no');
-
 
     //qna 번호
     const[pboard, setPBoard] = useState({
         qna_no : qna_num,
     })
 
-    
     //qna 내용
     const[board, setBoard] = useState({
       qna_no: 0,
-      user_name: "",
+      qna_type:"",
+      user_id: "",
       qna_title:"",
       qna_content:"",
       qna_date:"",
       qna_result:0,
+      reple_content:""
     })
 
-    
-    //이전 이후 페이지 제목, 번호
-    const[qna_board, setQnaBoard] = useState({
-      afterQna:"",
-      afterNo:"",
-      beforeQna:"",
-      beforeNo:"",
-    })
-
-    
   //수정화면 모달 마운트 여부 결정 - false(안보임), true(보임)
   const[show, setShow] = useState(false)
+  const[rshow, setRshow] = useState(false)
+
 
   const handleShow = () => {
       setShow(true)
       setTitle(board.qna_title)
-      setContent(board.qna_content)
   }
 
   const handleClose = () => setShow(false)
 
+  //수정 후 useEffect가 되도록 설정
   const [rend, setRend] = useState(0)
 
   useEffect(()=>{
-      const qnaResult = async() => {
-          const res = await qnaResultDB(pboard)
-      }
-
-
       const qnaDetail = async() => {
           const res = await qnaListDB(pboard)
           const result = JSON.stringify(res.data)
           const jsonDoc = JSON.parse(result)
           setBoard({
               qna_no:jsonDoc[0].qna_no,
-              user_name:jsonDoc[0].user_name,
+              user_id:jsonDoc[0].user_id,
               qna_title:jsonDoc[0].qna_title,
               qna_content:jsonDoc[0].qna_content,
               qna_date:jsonDoc[0].qna_date,
               qna_result:jsonDoc[0].qna_result,
+              reple_content:jsonDoc[0].reple_content,
           })
-      }
+          if(jsonDoc[0].qna_result == 1){
+            setRshow(true)
+          }
+          if(jsonDoc[0].user_id != null){
+            setDbid(jsonDoc[0].user_id)
+          }
+        }
+        
 
-      const qnabeforeAfter = async() => {
-          const res = await qnabeforeAfterDB(pboard);
-          const result = JSON.stringify(res.data)
-          const jsonDoc = JSON.parse(result)
-
-          setQnaBoard({
-              afterQna: jsonDoc[0].afterQna,
-              afterNo:jsonDoc[0].afterNo,
-              beforeQna:jsonDoc[0].beforeQna,
-              beforeNo:jsonDoc[0].beforeNo
-          })
-      }
-      const fetchData = async () => {
-          await qnaResult()
-          await qnaDetail()
-          await qnabeforeAfter()
+    const fetchData = async () => {      
+        await qnaDetail()
       }
       fetchData()
-  },[pboard, rend])
+
+  },[rshow,pboard, rend])
 
 
   //게시판 삭제
@@ -113,23 +91,9 @@ const QnADetailPage = () => {
       const res = await qnaDeleteDB(pboard);
 
       if(res.data === 1) {
-          navigate("/qna")
+          navigate("/qna?page=1")
       }
   }
-
-
-  //이전글 이동
-  const beforeQna = () => {
-    navigate(`/qna/detail?page=${page_num}&qna_no=${qna_board.beforeNo}`);
-    setPBoard({qna_no : qna_board.beforeNo})
-  }
-
-  //다음글 이동
-  const afterQna = () => {
-    navigate(`/qna/detail?page=${page_num}&qna_no=${qna_board.afterNo}`);
-    setPBoard({qna_no : qna_board.afterNo})
-  }
-
 
   //qna수정
   const[title, setTitle] = useState(board.qna_title)
@@ -151,15 +115,91 @@ const QnADetailPage = () => {
       const board = {
           qna_num,
           qna_title: title,
-          qna_content: content
+          qna_content: content,
       }
       const res = await qnaUpdateDB(board)
 
-      alert("수정이 완료되었습니다.")
+      Swal.fire({
+        icon: "success",
+        title: "수정이 완료되었습니다.",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        customClass: {
+          confirmButton: "my-confirm-button"
+        }
+      })      
+
       setRend(rend+1)
       handleClose();
+      navigate(`/qna/detail?page=${page_num}&qna_no=${qna_num}`)
   }
 
+    /* 댓글달기 모달용 */
+    //댓글 모달 보이는지 여부
+    const [reple, setReple] = useState(false);
+
+    //작성자 입력값 관리
+    const[writer, setWriter] = useState("관리자");
+
+    //내용 입력값 관리
+    const[repleContent, setRepleContent] = useState("");
+    
+    /* 댓글 모달 열기 */
+    const repleOpen = () => {
+      setReple(true);
+    }
+
+    /* 댓글 모달 닫기 */
+    const repleClose = () => {
+      setReple(false);
+    }
+
+    /* 댓글 내용 입력값관리 */
+    const handleContentChange =(event)=> {
+      setRepleContent(event.target.value)
+    }
+
+
+    /*  
+    //댓글을 달면 나오는 업로드 시간 - 시간되면 해보기
+    const displayCreatedAt = (createdAt) => {
+      let startTime = new Date(createdAt);
+      let nowTime = Date.now();
+      if (parseInt(startTime - nowTime) > -60000) {
+        return <Moment format="방금 전">{startTime}</Moment>;
+      }
+      if (parseInt(startTime - nowTime) < -86400000) {
+        return <Moment format="MMM D일">{startTime}</Moment>;
+      }
+      if (parseInt(startTime - nowTime) > -86400000) {
+        return <Moment fromNow>{startTime}</Moment>;
+      }
+    };
+    */
+
+    
+
+
+    /* 댓글 작성 완료 후 제출 */
+    const handleSubmit = async (event) => {
+      event.preventDefault();
+      
+      if(repleContent == ""){
+        alert("댓글을 다시 작성하세요.")
+        return
+      }
+    /* 화면에서 입력된 댓글내용을 DB로 보내기 위한 변수 */
+    const obj ={
+      qna_no: qna_num,
+      qna_result:'1',
+      reple_content : repleContent,
+  }
+      const res = await qnaRepleDB(obj)
+
+      setRshow(true)
+
+      repleClose();
+    }
 
   return (
     <>
@@ -184,23 +224,30 @@ const QnADetailPage = () => {
 
                 {
                   <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <Button variant="success" style={{margin:'0px 10px 0px 10px'}} onClick={()=>{navigate(`/qna?page=${page_num}`)}}>
+                      목록
+                    </Button>
                     {
-                      (user === "admin" || "user") ? (
-                      <Button style={{margin:'0px 10px 0px 10px'}} onClick={handleShow}>
+                      (user === "admin" || userid === dbid) ? (
+                      <Button variant="success" style={{margin:'0px 10px 0px 10px'}} onClick={handleShow}>
                         수정
                       </Button>
                       ) : (<div></div>)
                     }
                     {
-                      (user === "admin" || "user") ? (
-                      <Button style={{margin:'0px 10px 0px 10px'}} onClick={qnaDelete}>
+                      (user === "admin" || userid === dbid) ? (
+                      <Button variant="success" style={{margin:'0px 10px 0px 10px'}} onClick={qnaDelete}>
                         삭제
                       </Button>
                       ) : (<div></div>)
                     }
-                    <Button style={{margin:'0px 10px 0px 10px'}} onClick={()=>{navigate(`/qna?page=${page_num}`)}}>
-                      목록
-                    </Button>
+                    {
+                      (user === "admin") ? (
+                      <Button variant="warning" style={{margin:'0px 10px 0px 10px'}} onClick={repleOpen}>
+                        댓글
+                      </Button>
+                      ) : (<div></div>)
+                    }
                   </div>
                 }
 
@@ -222,41 +269,24 @@ const QnADetailPage = () => {
             </div>
           </div>
           <div style={{marginBottom:"300px"}}></div>
-          
-          <hr style={{height:"2px"}}/>
 
-          {qna_board.beforeQna ?
-            (<div onClick={beforeQna}
-              onMouseEnter={() => setHovered(true)}
-              onMouseLeave={() => setHovered(false)}
-              style={{ 
-                cursor: "pointer", 
-                boxShadow: hovered ? "0 0 10px rgba(0, 0, 0, 0.3)" : "none" // hovered 상태에 따라 그림자 생성
-              }}
-            >
+              {/* 댓글을 입력하면 입력한 댓글 값이 보이는 화면 */}
+              {
+              (rshow)?
+              (
+                <div >
+                  <hr/>
+                      <div style={{float:"left"}}>
+                          <img src='/images/admin.gif' style={{width:"70px", borderRadius:"50px", marginTop:"10%", marginLeft:"2%", paddingLeft:"10%"}}/><p style={{display:"flex", marginTop:"2%", marginLeft:"26%"}}>관리자</p>
+                      </div>
+                      <div style={{border:"2px solid #024445", borderRadius:"50px", width:"90%", height:"90%", marginLeft:"8%", marginTop:"1%", marginBottom:"1%"}} >
+                          <h5 style={{ marginTop:"2%", marginLeft:"30px", whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis" }}>답변</h5>
+                          <p style={{ marginTop:"1%", marginLeft:"30px", whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis"}}>{board.reple_content}</p>
+                      </div>
+              </div>
+                ): (<></>)
+              }
 
-                    <FontAwesomeIcon icon="arrow-up" /> 이전글 : {qna_board.beforeQna}
-                  </div>) : (<div>처음글</div>)
-          }
-
-          <hr style={{height:"2px"}}/>
-
-          {qna_board.afterQna ? 
-          (<div onClick={afterQna}
-            onMouseEnter={() => setNextHovered(true)}
-            onMouseLeave={() => setNextHovered(false)}
-            style={{ 
-              cursor: "pointer", 
-              boxShadow: nextHovered ? "0 0 10px rgba(0, 0, 0, 0.3)" : "none" // hovered 상태에 따라 그림자 생성
-            }}
-          >
-            <FontAwesomeIcon icon="arrow-down" /> 다음글 : {qna_board.afterQna}
-          </div>
-          ) : (<div>마지막글</div>)
-
-          }
-
-          <hr style={{height:"2px"}}/>
           </FormDiv>
         </ContainerDiv>
       </div>
@@ -298,9 +328,46 @@ const QnADetailPage = () => {
       {/* =======================수정하기 modal=================== */}
 
 
+      {/* ======================댓글 쓰기 modal============================= */}
+          <Modal show={reple} onHide={repleClose} aria-labelledby="contained-modal-title-vcenter" centered>
+        <Modal.Header closeButton>
+          <Modal.Title>댓글 작성</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+              <Form.Label>작성자</Form.Label>
+              <Form.Control
+                type="text"
+                autoFocus value={writer}
+                disabled
+                />
+              </Form.Group>
+              <Form.Group
+                className="mb-3"
+                controlId="exampleForm.ControlTextarea1"
+              >
+              <Form.Label>내용</Form.Label>
+              <Form.Control as="textarea" rows={3}
+                value={repleContent} 
+                onChange={handleContentChange}
+              />
+            </Form.Group>
+            <Button variant="secondary" onClick={repleClose}>
+            닫기
+          </Button>
+          <Button variant="primary" type="submit">
+            등록
+          </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
+      {/* ======================댓글 쓰기 modal 끝============================= */}
+
       <Bottom/>
     </>
   )
 }
+
 
 export default QnADetailPage

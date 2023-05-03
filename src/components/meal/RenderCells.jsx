@@ -1,5 +1,6 @@
 import { addDays, endOfMonth, endOfWeek, format, isSameDay, isSameMonth, parse, startOfMonth, startOfWeek } from 'date-fns';
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom';
 
 
 const RenderCells = ({currentMonth, selectedDate, onDateClick }) => {
@@ -12,8 +13,6 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick }) => {
     let days = [];
     let day = startDate;
     let formattedDate = '';
-  
-
 
 
     while (day <= endDate) {
@@ -24,14 +23,19 @@ const RenderCells = ({currentMonth, selectedDate, onDateClick }) => {
                         <div id={i} className={`col cell ${!isSameMonth(day, monthStart)? 'disabled': isSameDay(day, selectedDate)
                                                         ? 'selected' : format(currentMonth, 'M') !== format(day, 'M')
                                                         ? 'not-valid': 'valid'}`}
-                                  key={`${day.getFullYear()}-${day.getMonth()}-${day.getDate()}`} onClick = {() => onDateClick(cloneDay)} >
-                          <span id={formattedDate} className={format(currentMonth, 'M') !== format(day, 'M')? 'text not-valid': ''} >{formattedDate}</span>
+                                  key={`${day.getFullYear()}-${day.getMonth()}-${day.getDate()}`} onClick = {() => onDateClick(cloneDay)} style={{whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis"}}>
+                          <p id={formattedDate} className={format(currentMonth, 'M') !== format(day, 'M')? 'text not-valid': ''} style={{paddingTop:"5px"}}>{formattedDate}</p>
+                          <div style={{ marginTop:"11%", whiteSpace: "nowrap", overflow: "hidden" , textOverflow: "ellipsis", width:"100%", textAlign:"center", display: format(currentMonth, "M") !== format(day, "M") ? "none" : ""}}>
+                            <ul style={{listStyle:"none", paddingRight:"15%", color:"gray", fontSize:"1rem"}} >
+                              <li ><Link to=''>점심</Link></li>
+                              <li ><Link to=''>저녁</Link></li>
+                            </ul>
+                          </div>
                         </div> );
                     day = addDays(day, 1);
-                    
                   }//end of for
                   rows.push(<div className='row' key={day} >{days}</div>);
-          days = [];
+                  days = [];
     }
 
 

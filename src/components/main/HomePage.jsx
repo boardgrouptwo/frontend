@@ -1,13 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import MainBottom from '../include/MainBottom'
 import MainHeader from '../include/MainHeader'
 import "../css/main.css"
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
+import MainChatbot from './MainChatbot'
+import '../css/chatbot.css'
+
+
+
 const HomePage = () => {
 
   const token = useSelector(state => state.token);
-  console.log(token);
 
+  const [showModal, setShowModal] = useState(false);
+
+  const handleOpenModal = () => {
+    setShowModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setShowModal(false);
+  };
 
   return (
     <>
@@ -31,15 +45,21 @@ const HomePage = () => {
           <div className="link">
             <p>Link Service</p>
               <ul>
-                <li><a href="/home">요양원소개</a></li>
-                  <li><a href="/home">후원하기</a></li>
-                  <li><a href="/home">요양원 소식</a></li>
-                  <li><a href="/home">자료실</a></li>
-                  <li><a href="/home">자원봉사</a></li>
-                  <li><a href="/home">공지사항</a></li>
+                  <li><Link to="/notice?page=1">공지사항</Link></li>
+                  <li><Link to="/calendar">월간일정표</Link></li>
+                  <li><Link to="/qna?page=1">QNA</Link></li>
+                  <li><Link to="/sponsor/from">후원하기</Link></li>
+                  <li><Link to="/service/from">봉사신청</Link></li>
+                  <li><Link onClick={handleOpenModal}>챗봇</Link></li>
               </ul>
           </div> 
         </div>
+          {showModal && (
+            <div className="chatbotdiv">
+              <MainChatbot handleCloseModal={handleCloseModal} />
+            </div>
+          )}
+          
         <img src="images/main2.png" 
         style={{
           top: "370px",

@@ -1,0 +1,129 @@
+.window-container {
+  position: fixed;
+  display: flex;
+  z-index: 101;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 660px;
+  height: 700px;
+  border-radius: 10px;
+  /* 모달창 내부의 내용이 길어질 경우 스크롤이 생성 */
+  overflow-y: auto;
+  border: 3px solid #ccc; /* 전체 테두리 추가 */
+  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15); 
+  }
+  .window-overlay{
+    text-align: center;
+    background-color: #8FB399;
+    width: 660px;
+    height: auto;
+  }
+  
+  .window-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: blanchedalmond;
+    height: 120px;
+  }
+  .window-title{
+    font-size: 24px;
+  margin: 0 auto;
+  }
+  .close-btn{
+
+      position: absolute;
+      top: 10px;
+      right: 10px;
+  }
+  .window-subtitle{
+
+  }
+  .window-content{
+    list-style: none;
+}
+  .ul.window-timetalbe{
+    list-style: none;
+    padding-left: 0;
+  }
+  .time-slot0,
+  .time-slot1,
+  .time-slot2,
+  .time-slot3,
+  .time-slot4,
+  .time-slot5,
+  .time-slot6,
+  .time-slot7
+  {
+    list-style: none;
+    font-size: 24px;
+    border: 1px solid #ddd;
+    border-top: none;
+    background-color: #f7f7f7;
+    margin-left: 0;
+ 
+  }
+  
+  .time-slot0 {
+    border-top: 1px solid #ddd;
+  }
+  .time-slot0.active {
+    background-color: #ccc;
+    color: #fff;
+    list-style: none;
+    font-size: 24px;
+  }
+  .time-slot0 :hover{
+    cursor: pointer;
+    pointer-events: auto;
+  }
+
+  .window-timetable li.time-slot0:hover,
+.window-timetable li.time-slot1:hover,
+.window-timetable li.time-slot2:hover,
+.window-timetable li.time-slot3:hover,
+.window-timetable li.time-slot4:hover,
+.window-timetable li.time-slot5:hover,
+.window-timetable li.time-slot6:hover,
+.window-timetable li.time-slot7:hover {
+  background-color: orange;
+  cursor: pointer;
+}
+  .dd-peoples{
+    list-style: none;
+    
+    width:100px;
+  }
+  .dd-peoples:hover{
+    background-color: darkkhaki;
+    cursor: pointer;
+  }
+  .dd-people{
+    list-style: none;
+    background-color: white;
+    padding-left: 0;
+    max-height: 60px;
+    overflow-y: auto;
+  }
+.dd-people:hover{
+  background-color: darkkhaki;
+  cursor: pointer;
+}
+.btn-submit {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 40px;
+  border-radius: 5px;
+  background-color: #8FB399;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  background-color: #6e9075;
+}

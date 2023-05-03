@@ -1,46 +1,23 @@
-import { useState } from "react"
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
-export const kakaoPayReady = (params) => {
+export const kakaoPayReady = (payForm, token) => {
   console.log("kakaoPayReady 호출")
-  console.log(params)
-
-  // 응답에서 가져올 값들
-  const [tid, setTid] = useState();
-  const [redirectUrl, setRedirectUrl] = useState();
-
-  const navigate = useNavigate();
+  console.log(payForm)
 
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "POST",
-        url: "https://kapi.kakao.com/v1/payment/ready",
+        url: process.env.REACT_APP_SPRING_IP + "kakaopay/ready",
+        data: payForm,
         headers: {
-          Authorization: "KakaoAK " + process.env.REACT_APP_KAKAO_ADMIN_KEY,
-          "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-        },
-        params: params,
-      }).then((response) => {
-        console.log(response.data);
-
-        setTid(response.data.tid);
-        setRedirectUrl(response.data.next_redirect_pc_url);
+          Authorization: `Bearer ${token}`,
+        }
       });
 
-      // 카카오페이 결제 창 호출
-      navigate(redirectUrl);
-      resolve(tid)
+      resolve(response);
     } catch (error) {
-      reject(error)
+      reject(error);
     }
-  })
-}
-
-
-export const kakaoPaySuccess = (params) => {
-  console.log("kakaoPaySuccess 호출")
-  console.log(pg_token)
-
-  //const tid =
+  });
 }

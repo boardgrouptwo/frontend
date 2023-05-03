@@ -1,6 +1,6 @@
 import React from 'react'
-import {useEffect, useMemo } from 'react';
-import ReactQuill, { Quill } from 'react-quill'; 
+import {useMemo } from 'react';
+import ReactQuill from 'react-quill'; 
 
 const QuillEditor = ({ value, handleContent, quillRef, files}) => {
 

@@ -10,11 +10,9 @@ import axios from 'axios';
 import MealDetail from './MealDetail';
 
 const DivContainer = styled.div`
-    
     display: flex;
     flex-direction: column;
     justify-content : center;
-    
 `
 
 const Calender = () => {
@@ -32,18 +30,13 @@ const Calender = () => {
         setCurrentMonth(addMonths(currentMonth, 1))
     }
 
+    //달력 한 칸을 클릭하는 이벤트
     const onDateClick = async (day) => {
-        const formattedDate = format(day, 'd');
-        console.log(formattedDate)
-        try {
-            const response = await axios.get(process.env.REACT_APP_SPRING_IP + `meal/mealList?selectedDate=${formattedDate}`);
-            console.log(response.data);
-            // TODO: 데이터 처리 로직 작성
-            setMealData(response.data);
-        } catch (error) {
-            console.error(error);
-        }
-        navigate(`/meal/page/${formattedDate}`)
+        const formattedDate = format(day, 'yyyy-MM-dd');
+
+        /* formattedDate는 내가 클릭한 달력의 날짜 */
+        
+        navigate(`/meal/page?${formattedDate}`, { state: { date: formattedDate } })
     };
 
     return (
@@ -55,7 +48,6 @@ const Calender = () => {
                     <RenderCells currentMonth={currentMonth} selectedDate={selectedDate} onDateClick={onDateClick} />
                 </div>
             </DivContainer>
-            {/* <MealDetail mealData={mealData} /> */}
     </>
     )
 }

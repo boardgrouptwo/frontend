@@ -1,0 +1,89 @@
+.css-mainid {
+  margin-left: 40%;
+  margin-top: 100px;
+  width: 800px;
+  height: 500px;
+  padding: 0;
+}
+
+.id-form {
+  margin-left: 10px;
+  padding: 0;
+}
+
+.css-selectid {
+  background-color: white;
+  width: 100%;
+  margin: 30px;
+  height: 45px;
+  /* border-bottom: 1px solid black; */
+  border-bottom: 3px solid #4a9e5c;
+  text-align: center;
+}
+
+.css-select {
+  background-color: white;
+  width: 100%;
+  margin: 30px;
+  height: 45px;
+  text-align: center;
+}
+
+.css-selectpw {
+  background-color: white;
+  width: 100%;
+  margin: 30px;
+  height: 45px;
+  border-bottom: 3px solid #4a9e5c;
+  text-align: center;
+}
+
+.css-selectui {
+  width: 100%;
+  margin: 0 auto;
+  background-color: white;
+  border-bottom: none;
+  text-decoration: underline;
+}
+
+.css-selectui li {
+  float: left;
+  width: 50%;
+  text-align: center;
+  list-style: none;
+}
+
+.css-link {
+  padding: 8px 0 26px;
+  font-size: 20px;
+  line-height: 29px;
+}
+.css-link .txt_tab {
+  color: black;
+}
+
+.css-selectui .css-link {
+  display: block;
+  position: relative;
+  font-weight: bold;
+}
+
+.selecton {
+  background-color: #4a9e5c;
+}
+
+.css-selectui .txt_tab {
+  display: inline-block;
+  position: relative;
+  padding: 0 1px;
+  vertical-align: top;
+}
+
+.css-selectui .link_rank {
+  color: #bbb;
+}
+
+.css-selectui li.on .link_rank {
+  color: #000;
+  font-weight: bold;
+}

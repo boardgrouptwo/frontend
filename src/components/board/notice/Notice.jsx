@@ -4,7 +4,7 @@ import Bottom from '../../include/Bottom'
 import MainHeader from '../../include/MainHeader'
 import NoticeRow from './NoticeRow'
 import "../../css/notice.css"
-import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Noticebar from './Noticebar'
 import { noticeListDB, noticeSearchListDB } from '../../../service/NoticeDBLogic'
 import { useSelector } from 'react-redux'
@@ -13,7 +13,10 @@ const Notice = () => {
   const navigate = useNavigate();
 
   const user = useSelector(state => state.user_type); 
-  const token = useSelector(state => state.token); 
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const page_num = searchParams.get('page');  
 
   // 게시글 목록
   const [noticeList, setNoticeList] = useState([])
@@ -35,9 +38,7 @@ const Notice = () => {
     return pageNumbers.slice(start, start + MAX_PAGE_ITEMS);
   }).filter(group => group.includes(startPage) || group.includes(endPage) || (group[0] <= startPage && group[group.length - 1] >= endPage));
   
-  const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const page_num = searchParams.get('page');
+
 
   const[pageNum, setPageNum] = useState({
     page: page_num,
@@ -55,7 +56,10 @@ const Notice = () => {
     setSearch(e)
   },[])
 
-  useEffect(() =>{    
+  useEffect(() =>{  
+    if (page_num !== null) {
+      setCurrentPage(parseInt(page_num));
+    }    
     setPageNum({page: page_num})
     const newPageNum = {page: page_num}
     const boardList = async() => {
@@ -102,7 +106,6 @@ const Notice = () => {
         })
         setNoticeList(list)         
       }
-      console.log(noticeList)
       noticeSearchList()
     }
 
@@ -136,8 +139,8 @@ const Notice = () => {
           </div>
         </div> 
         <div className='book-list' style={{paddingBottom: "50px"}}>
-          <Table striped bordered hover >
-            <thead>
+          <Table bordered hover >
+            <thead style={{backgroundColor: "#F5F5F5"}}>
               <tr style={{textAlign: "center"}}>
                 <th style={{width: "100px"}}>NO</th>
                 <th style={{width: "200px"}}>제목</th>

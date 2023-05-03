@@ -54,3 +54,62 @@
     opacity: 0;
   }
 }
+
+
+.buslabel{
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  margin-right: 8px;
+  font-size: 13px;
+  line-height: 16px;
+  border-radius: 50%;
+  background : green;
+  text-align: center;
+  color: aliceblue;
+}
+
+
+.buslabel{
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  margin-right: 8px;
+  font-size: 13px;
+  line-height: 16px;
+  border-radius: 50%;
+  text-align: center;
+  color: aliceblue;
+}
+
+.buslabel2{
+  width: 50px;
+  height: 20px;
+  margin-right: 8px;
+  font-size: 13px;
+  line-height: 19px;
+  border-radius: 40%;
+  text-align: center;
+  color: aliceblue;
+}
+
+.leftSide {
+  line-height: 17px;
+  list-style-type: none;
+
+}
+
+.leftSide li {
+  display: inline-block;
+  margin-bottom: 10px;
+}
+
+.leftSide p {
+  display: inline-block;
+  margin: 0;
+}
+
+.oneSection{
+  height: 800px;
+  border: 2px solid black;
+}

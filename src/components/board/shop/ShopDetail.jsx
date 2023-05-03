@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router';
 import { noticeListDB } from '../../../service/NoticeDBLogic';
-import { productHitDB, productListDB } from '../../../service/ShopDBLogic';
+import { AddProductDB, GetProductDB, productHitDB, productListDB, updateCartDB } from '../../../service/ShopDBLogic';
 import MainHeader from '../../include/MainHeader'
 import styled from 'styled-components'
-import { Button } from 'react-bootstrap';
+import { Alert, Button, Modal } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
 
 const PRODUCTSPAN = styled.span`  
   font-size: 30px;
@@ -36,7 +38,16 @@ const CONTAINER = styled.div`
   
 `
 
+const IMG = styled.img`
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+`;
+
 const ShopDetail = () => {
+  //사용자정보
+  const userid=useSelector(state=> state.userid)
+  const isLogin = useSelector(state => state.isLogin)
 
   const navigate = useNavigate();
   const defaultimage = "http://localhost:3000/images/shop/test.jpg"
@@ -49,7 +60,7 @@ const ShopDetail = () => {
   let first_price = 0;
   const[price, setPrice] = useState(0)
   const[count, setCount] = useState(1)
-
+  const token=useSelector(state=>state.token)
   // 상품 번호
   const[pboard, setPBoard] = useState({
     product_no: product_no,
@@ -57,6 +68,7 @@ const ShopDetail = () => {
 
   // 상품 내용
   const[product, setProduct] = useState({
+    product_no: "",
     product_title: "",
     product_price: "",
     product_date: "",
@@ -76,6 +88,7 @@ const ShopDetail = () => {
       const result = JSON.stringify(res.data)
       const jsonDoc = JSON.parse(result)
       setProduct({
+        product_no: jsonDoc[0].product_no,
         product_title: jsonDoc[0].product_title,
         product_price: jsonDoc[0].product_price,
         product_date: jsonDoc[0].product_date,
@@ -83,9 +96,9 @@ const ShopDetail = () => {
         product_hit: jsonDoc[0].product_hit,
       })      
       setPrice(jsonDoc[0].product_price)
+      console.log(result)
     }
     productDetail()
-    
     console.log(product)
   },[])
 
@@ -106,6 +119,125 @@ const ShopDetail = () => {
 
   }
 
+  // 상품 구매
+  const purchase = () => {
+    if (isLogin) {
+      Swal.fire({
+        icon: "warning",
+        title: "로그인이 필요합니다",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        customClass: {
+          confirmButton: "my-confirm-button"
+        }
+      })
+    }
+    const obj = {
+      product_date: product.product_date,
+      product_hit: product.product_hit,
+      product_image: product.product_image,
+      product_price: price,
+      product_title: product.product_title,
+      
+    }
+    console.log(obj)
+    navigate("/order", { state: obj })
+
+  };
+
+  //장바구니
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    // 데이터 가져오는 비동기 함수
+    const fetchData = async () => {
+      const result = await  GetProductDB();
+      setCartItems(result);
+    };
+  
+    fetchData();
+  }, []);
+  const shopping =async () => {
+    if (isLogin) {
+      Swal.fire({
+        icon: "warning",
+        title: "로그인이 필요합니다",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        customClass: {
+          confirmButton: "my-confirm-button"
+        }
+      })
+    }else{//로그인이 되어있는 경우
+      const existingProduct = cartItems.find((item) => item.product_no === product.product_no);
+      //장바구니에 있는 경우
+      if (existingProduct) {
+        const newQuantity = existingProduct.product_quantity + 1;
+        const updatedProduct = { ...existingProduct, quantity: newQuantity };
+        const confirmUpdate = window.confirm("장바구니에 이미 존재하는 상품입니다. 수량을 증가시키겠습니까?");
+        //수량 증가시키기
+        if (confirmUpdate) {
+          const updatedCartItems = cartItems.map((item) =>
+            item.product_no === product.product_no ? updatedProduct : item
+          );
+          setCartItems(updatedCartItems);
+          await updateCartDB(updatedProduct);
+        }
+        //장바구니에 없는 경우
+        else {
+          const newCartItem = { ...product, product_quantity: 1 };
+          setCartItems([...cartItems, newCartItem]);
+          await AddProductDB(newCartItem);
+        }
+      }
+      //장바구니에 상품 추가
+      const cartItem = {
+          user_id:userid,
+          product_no: product.product_no,
+          product_image: product.product_image,
+          product_price: product.product_price,
+          product_title: product.product_title,
+          product_hit: product.product_hit,
+          product_quantity:product.product_quantity
+      };
+      AddProductDB(cartItem,token)
+        .then((response) => {
+          Swal.fire({
+            icon: "success",
+            title: "장바구니에 담았습니다.",
+            showCancelButton: false,
+            confirmButtonText: "확인",
+            customClass: {
+              confirmButton: "my-confirm-button"
+            }
+          })
+        })
+        .catch((error) => {
+          console.log(error);
+          // 추가에 실패한 경우 처리
+        });
+      }
+    }
+    
+
+  //조회수에 따른 별이미지 추가
+  const generateStars = () => {
+    const stars = [];
+    let count = 0;
+    if(product.product_hit > 500) {
+      count = 400
+    } else {
+      count = product.product_hit
+    }
+
+    for (let i = 0; i <= Math.floor(count / 100); i++) {
+      stars.push(<img src="images/star.png" alt="" key={i} />);
+    }
+
+    return stars;
+  }
+
+
   return (
     <>
       <MainHeader/>
@@ -113,7 +245,7 @@ const ShopDetail = () => {
       <div style={{
         /* marginTop: "2%", marginLeft: "20%", */ position: "relative"
         ,border: "1px solid lightgray"
-        ,width: "1000px", height: "700px", padding: "0"
+        ,width: "1000px", height: "780px", padding: "0"
         ,flexShrink: "0"
       }}>
         <div style={{width: "520px", height:"60px", backgroundColor:"lightgray"}}/>        
@@ -135,19 +267,18 @@ const ShopDetail = () => {
         <div style={{width: "520px", height:"60px", backgroundColor:"lightgray"}}/>
         <DIV>
           <PRODUCTSPAN>
-           [{product.product_title}]
+            [{product.product_title}]
           </PRODUCTSPAN>
           <br/>
           <hr/>
           <SPANPRICE>
-            {product.product_price}원
-            <br/>
+            {product.product_price.toLocaleString()}원
+            <br/>          
           </SPANPRICE>
-          <img src="images/star.png" alt="" />
-          <img src="images/star.png" alt="" />
-          <img src="images/star.png" alt="" />
-          <img src="images/star.png" alt="" />
-          <img src="images/star.png" alt="" />
+          <span>조회수 : {product.product_hit.toLocaleString()}</span>
+          <br/>
+          <br/>
+          <div>{generateStars()}</div>
           <hr/>
           <div>
             <img src="images/truck.png" style={{marginLeft: "3px"}}/>
@@ -201,21 +332,16 @@ const ShopDetail = () => {
           
           <div style={{width: "100%", height: "80px",paddingTop:"10px", backgroundColor: "#fafafa"}}>
             <span style={{margin: "20px", fontSize: "20px"}}>총 금액 : </span>
-            <span style={{fontSize: "30px"}}>{price}원</span>
+            <span style={{fontSize: "30px"}}>{price.toLocaleString()}원</span>
           </div>
           <div style={{marginTop: "20px"}}>            
-            <button style={{backgroundColor: "white", border:"none"}}onClick={handleMinus}>
-              <img style={{width: "50px", height: "50px"}}src="images/minus.png" alt="" />
-            </button>
+            <IMG src="images/minus.png" onClick={handleMinus} alt="" />
             <span style={{fontSize: "20px",fontWeight: "bold", marginLeft: "30px", marginRight: "30px"}}>상품 수량 : {count}개</span>
-            <button style={{backgroundColor: "white", border:"none"}}onClick={handleUp}>
-              <img style={{width: "60px", height: "60px"}}src="images/plus.png" alt="" />
-            </button>
+            <IMG src="images/plus.png" onClick={handleUp} alt="" />
           </div>
           <div style={{marginTop: "20px"}}>
-            <Button style={{marginRight:"10px"}} variant="success">추천하기</Button>
-            <Button style={{marginRight:"10px"}} variant="success">장바구니</Button>
-            <Button variant="success">상품구매</Button>
+            <Button style={{marginRight:"10px"}} onClick={shopping}variant="success">장바구니</Button>
+            <Button variant="success" onClick={purchase}>상품구매</Button>            
           </div>
         </COUNTDIV>
       </CONTAINER>

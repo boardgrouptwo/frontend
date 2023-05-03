@@ -8,14 +8,17 @@ import GoogleRecaptcha from '../google/GoogleRecaptcha'
 import InputGroup from 'react-bootstrap/InputGroup'
 import "../css/spon.css"
 import { useNavigate } from 'react-router-dom';
-import KhServiceFrombar from './KhServiceFrombar';
+import KhSponorServicebar from './KhSponorServicebar';
 import { useSelector } from 'react-redux'
-import { serviceInsertDB, seviceInsertDB } from '../../service/KhServiceDBLogic';
+import { serviceInsertDB } from '../../service/KhServiceDBLogic';
 import Bottom from '../include/Bottom';
+import { useEffect } from 'react';
+import KhPrivacy from './KhPrivacy';
+import Accordion from 'react-bootstrap/Accordion';
 
 
 const KhServiceForm = () => {
-    const navigate = useNavigate();
+    const isLogin = useSelector(state => state.isLogin);  //로그인정보 가져오기
     const user = useSelector(state => state.nickname); //user 닉네임 가져오기
     // 초기값 설정
     const[serviceId, setServiceId]= useState(''); // 아이디
@@ -31,6 +34,14 @@ const KhServiceForm = () => {
     const [showError3, setShowError3] = useState(false);//폼 검증 유효성 검사
     const [validated, setValidated] = useState(false); //폼 검증 유효성 검사
 
+    const token =useSelector(state => state.token); 
+    const navigate = useNavigate();
+    useEffect(()=> {
+      //로그인 한 사용자는 home으로 이동
+      if(isLogin === true) {
+        navigate("/loginError")
+      }
+    },[]);
 
 // 폼 제출 이벤트 처리
     const handleSubmit = async(event) => {   // form 컴포넌트에서 submit 할 때 실행됨
@@ -55,7 +66,7 @@ const KhServiceForm = () => {
     console.log(member);
 
     // 수정완료 ///////////////////////
-    const res = await serviceInsertDB(member)
+    const res = await serviceInsertDB(member, token)
     console.log(res + "," + res.data)
 
     if (!res.data){
@@ -77,11 +88,13 @@ const KhServiceForm = () => {
         console.log('Captcha value:', value);
         }
 
+    
+
 
   return (
     <>
       <MainHeader />
-      <KhServiceFrombar />
+      <KhSponorServicebar />
       <br />
       <br />
       
@@ -217,10 +230,6 @@ const KhServiceForm = () => {
             </Form.Group>
         </fieldset>
 
-
-
-
-
           <Form.Group as={Row} className="mb-3" controlId="serviceMemo">
           <Form.Label column sm={2}>
             자기소개
@@ -236,12 +245,6 @@ const KhServiceForm = () => {
         </Form.Group>
 
 <br />
-<br />
-<br />
-        <Form.Group as={Row} className="mb-3" controlId="service_Check">
-          <Form.Label column sm={5}>
-            개인정보 처리방침 안내
-          </Form.Label>
 
         <Form.Check
           required
@@ -249,7 +252,17 @@ const KhServiceForm = () => {
           feedback="동의 필수 항목입니다."
           feedbackType="invalid"
         />
-      </Form.Group>
+
+        <Form.Group as={Row} className="mb-3" controlId="service_Check">
+            <Form.Label column sm={10}>
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>개인정보 처리방침 안내</Accordion.Header>
+                  <Accordion.Body> <KhPrivacy /></Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+          </Form.Label>
+        </Form.Group>
 
 
 {/* 구글 캡차 서비스 */}

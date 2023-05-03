@@ -6,19 +6,28 @@ import Row from 'react-bootstrap/Row';
 import MainHeader from '../include/MainHeader'
 import Bottom from '../include/Bottom'
 import GoogleRecaptcha from '../google/GoogleRecaptcha'
-import SponsorFrombar from './SponsorFrombar'
+import KhSponorServicebar from '../khservice/KhSponorServicebar';
 import InputGroup from 'react-bootstrap/InputGroup'
 import "../css/spon.css"
 import { useNavigate } from 'react-router-dom';
 import { SponsorDB, sponsorInsertDB} from '../../service/SponsorDBLogic';
 import { useSelector } from 'react-redux'
+import { kakaoPayReady } from '../kakao/KakaoPay';
+import { useEffect } from 'react';
+import Accordion from 'react-bootstrap/Accordion';
+import KhPrivacy from '../khservice/KhPrivacy';
+import PaymentModal from '../payment/PaymentModal';
+import { paymentImp } from '../../service/PaymentDBLogic';
+import { async } from 'q';
 
 
 const SponsorFrom = () => {
+    const isLogin = useSelector(state => state.isLogin);  //로그인정보 가져오기
+    const token = useSelector(state => state.token); 
+    
     const navigate = useNavigate();
     // 초기값 설정
     const user = useSelector(state => state.nickname); //user 닉네임 가져오기
-
     const[sponsorId, setSponsorId]= useState(''); // 아이디
     const[sponsorName, setSponsorName]= useState(''); // 이름 
     const[sponsorNumber, setSponsorNumber]= useState('');  //전화번호
@@ -34,6 +43,22 @@ const SponsorFrom = () => {
     const [showError2, setShowError2] = useState(false);//폼 검증 유효성 검사
     const [showError3, setShowError3] = useState(false);//폼 검증 유효성 검사
     const [validated, setValidated] = useState(false); //폼 검증 유효성 검사
+
+
+    const [modalOpen, setModalOpen] = useState(false);
+    const openModal = () => {
+      setModalOpen(true);
+    }
+    const closeModal = () => {
+      setModalOpen(false);
+    }
+
+    useEffect(()=> {
+      //로그인 한 사용자는 home으로 이동
+      if(isLogin === true) {
+        navigate("/loginError")
+      }
+    },[]);
 
 
 // 폼 제출 이벤트 처리
@@ -56,23 +81,62 @@ const SponsorFrom = () => {
         spon_pay: sponsorPay,
         spon_open: sponOpen,
         spon_content: sponsorContent,
-    }
+      }
+      console.log(member);
 
-    console.log(member);
 
+      // 카카오페이 결제 로직
+      if (sponRadiosHuwon === "일반 후원" && sponsorPay === "홈페이지 결제") {
+        console.log("test")
+        openModal();
+
+        const payForm = {
+          pay_type: "후원",                      // 결제 타입
+          user_id : user,                       // 사용자 정보
+          user_tel: sponsorNumber,              // 사용자 연락처
+          item_name : "기부",                    // 상품명
+          total_amount : sponsorMoney,          // 결제 금액
+          spon_open: sponOpen,                  // 익명 여부
+          spon_content: sponsorContent,         // 후원 내용
+          spon_pay: sponsorPay,                 // 결제 종류
+        };
+
+        const res = await kakaoPayReady(payForm, token);
+        console.log(res.data)
+
+        // 카카오페이 결제 성공 시 DB에 저장
+        if (!res.data) {
+          console.log("결제 실패하였습니다")
+        } else {
+          console.log("카카오결제 성공하였습니다")
+
+          // 카카오페이 결제 팝업 출력
+          const screenWidth = window.screen.width;
+          const screenHeight = window.screen.height;
+          const popupWidth = 430;
+          const popupHeight = 500;
+          
+          const left = (screenWidth - popupWidth) / 2;
+          const top = (screenHeight - popupHeight) / 2;
+          
+          window.open(res.data, 'Kakao Pay', `width=${popupWidth},height=${popupHeight},top=${top},left=${left},location=no,status=no,scrollbars=yes`);
+        }
+      } // end of 카카오페이 결제
+      // 카카오페이 결제 이외 로직
+      else {
         // 수정완료 ///////////////////////
-    const res = await sponsorInsertDB(member)
-    console.log(res + "," + res.data)
-
-    if (!res.data){
-        console.log("폼작성에 실패하였습니다")
-    }else{
-        console.log("폼작성 성공")
-        //폼작성 성공시 작성성공 화면으로 이동
-        navigate("/sponsor/success");
-    }
-
-    };
+        const res = await sponsorInsertDB(member, token)
+        console.log(res + "," + res.data)
+  
+        if (!res.data){
+            console.log("폼작성에 실패하였습니다")
+        }else{
+            console.log("폼작성 성공")
+            //폼작성 성공시 작성성공 화면으로 이동
+            navigate("/sponsor/success");
+        }
+      }
+    };  // end of handleSubmit
 
     //되돌아가기 버튼
     const sponBack = () =>{
@@ -83,7 +147,7 @@ const SponsorFrom = () => {
   return (
     <>
       <MainHeader />
-      <SponsorFrombar />
+      <KhSponorServicebar />
       <br />
       <br />
       
@@ -182,7 +246,7 @@ const SponsorFrom = () => {
           <Form.Label  column sm={2} >금액</Form.Label>
           <Col sm={8}>
           <InputGroup hasValidation>  {/* 유효성 검사 설정*/}
-            <InputGroup.Text id="sponsorMoney"> \ </InputGroup.Text>
+
             <Form.Control
               type="text"
               pattern="[0-9]*"
@@ -193,6 +257,7 @@ const SponsorFrom = () => {
               value={sponsorMoney}
               onChange={(e) => setSponsorMoney(e.target.value)}
             />
+            <InputGroup.Text id="sponsorMoney"> 원 </InputGroup.Text>
         <Form.Control.Feedback type="invalid" style={{ display: showError3 ? "block" : "none" }}> {/*폼 컨트롤이 틀릴 경우 피드백 요소 추가  */}
         숫자만 입력 가능합니다. 물품 후원일 경우 0을 입력하세요.
         </Form.Control.Feedback>
@@ -276,20 +341,23 @@ const SponsorFrom = () => {
         </Form.Group>
 
 <br />
-<br />
-<br />
-        <Form.Group as={Row} className="mb-3" controlId="sponsor_Check">
-          <Form.Label column sm={5}>
-            개인정보 처리방침 안내
-          </Form.Label>
-
         <Form.Check
           required
           label="아래 내용을 확인하였으며 개인정보 처리 방침안내의 내용에 동의합니다. (체크필수)"
           feedback="동의 필수 항목입니다."
           feedbackType="invalid"
         />
-      </Form.Group>
+
+        <Form.Group as={Row} className="mb-3" controlId="service_Check">
+            <Form.Label column sm={10}>
+              <Accordion>
+                <Accordion.Item eventKey="0">
+                  <Accordion.Header>개인정보 처리방침 안내</Accordion.Header>
+                  <Accordion.Body> <KhPrivacy /></Accordion.Body>
+                </Accordion.Item>
+              </Accordion>
+          </Form.Label>
+        </Form.Group>
 
       {/* 구글 캡차 서비스 */}
       <GoogleRecaptcha />
@@ -307,7 +375,6 @@ const SponsorFrom = () => {
 
         
     </div>
-    <Bottom />
     </>
   )
 }

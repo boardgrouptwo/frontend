@@ -28,9 +28,7 @@ const NoticeWrite = () => {
       notice_title: title,
       notice_content: content
     }
-    console.log(token);
     const res = await noticeInsertDB(board,token);
-    console.log(res)
     navigate("/notice")
   }
 

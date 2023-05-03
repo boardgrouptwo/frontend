@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
+import { Link } from 'react-router-dom'
 import "../css/header.css"
 const SponsorHeader = () => {
 
@@ -19,24 +20,24 @@ const SponsorHeader = () => {
       <div id="sh_hd_wrapper">
         <div id="topmenu_wrapper">
           <h1 id="top_logo"> 
-            <a href="/home"><img src="http://localhost:3000/images/logo.png" /></a>
+            <Link to="/home"><img src="http://localhost:3000/images/logo.png" /></Link>
           </h1>
           
           <ul id="top_nav">  
             <li className="list01"                     
               onMouseEnter={e=>{setStyle1({display:"block"})}}
               onMouseLeave={e=>{setStyle1({display:"none"})}}>
-              <a href="/intro">요양원소개</a>
+              <Linkt to="/intro">요양원소개</Linkt>
             </li>
 
             <li className="list02"
               onMouseEnter={e=>{setStyle2({display:"block"})}}
               onMouseLeave={e=>{setStyle2({display:"none"})}}>
-              <a href="/sponsor/list">사랑나눔</a>              
+              <Link to="/sponsor/list">사랑나눔</Link>              
               <ul style={style2}>
-                <li><a href="/sponser/from">후원하기</a> </li>
-                <li><a href="/service/from">자원봉사신청</a> </li>
-                <li><a href="/sponser/list">후원현황</a> </li>
+                <li><Link to="/sponser/from">후원하기</Link> </li>
+                <li><Link to="/service/from">자원봉사신청</Link> </li>
+                <li><Link to="/sponser/list">후원현황</Link> </li>
               </ul>
             </li>
 

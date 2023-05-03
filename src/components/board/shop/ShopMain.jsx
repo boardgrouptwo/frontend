@@ -23,7 +23,7 @@ const ShopMain = () => {
   const searchParams = new URLSearchParams(location.search);
   const type= searchParams.get('type');
   const[protype, setProType] = useState({
-    select_type: type
+    select_type: type,   
   })
   // 상품 목록
   const [productList, setProductList] = useState([])
@@ -33,13 +33,13 @@ const ShopMain = () => {
       
       let page_type = {}
       if(protype.select_type==="total") {
-        page_type = {select_type : "product_no"}
+        page_type = {select_type : "product_no", product_type: "많이 선물한"}
       } else if(protype.select_type==="hit") {
-        page_type = {select_type : "product_hit"}
+        page_type = {select_type : "product_hit", product_type: "많이 선물한"}
       } else if(protype.select_type==="price") {
-        page_type = {select_type : "product_price"}      
+        page_type = {select_type : "product_price", product_type: "많이 선물한"}      
       } else if(protype.select_type==="register") {
-        page_type = {select_type : "product_date"}
+        page_type = {select_type : "product_date", product_type: "많이 선물한"}
       }
 
       const res = await productListDB(page_type)
@@ -51,7 +51,7 @@ const ShopMain = () => {
           product_title: item.product_title,
           product_price: item.product_price,
           product_image: item.product_image,     
-          product_hit: item.product_hit     
+          product_hit: item.product_hit,          
         } 
         list.push(obj)       
       })

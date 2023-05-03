@@ -1,0 +1,22 @@
+
+/* 일요일 빨간색 */
+.fc-day-sun a {
+    color: red;
+    text-decoration: none;
+  }
+  
+  /* 토요일 파란색 */
+  .fc-day-sat a {
+    color: blue;
+    text-decoration: none;
+  }
+
+  .time-slot:hover{
+    background-color: #ddd;
+    cursor: pointer;
+  }
+  .time-slots:hover{
+    background-color: #ddd;
+    cursor: pointer;
+  }
+  

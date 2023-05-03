@@ -18,13 +18,34 @@ export const qnaListDB = (board) => {
 
 
 
-export const qnaInsertDB = (board) => {
+export const qnaInsertDB = (board, token) => {
   return new Promise((resolve, reject) => {
       try{
         const response = axios({
             method: "post",
-            url: process.env.REACT_APP_SPRING_IP + "qna/insert",
+            url: process.env.REACT_APP_SPRING_IP + "qna/qnaInsert",
             data: board,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+        })
+        resolve(response);
+      }catch(error){
+          reject(error)
+      }
+  });
+};
+
+export const qnaRepleDB = (board, token) => {
+  return new Promise((resolve, reject) => {
+      try{
+        const response = axios({
+            method: "post",
+            url: process.env.REACT_APP_SPRING_IP + "qna/repleInsert",
+            data: board,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
         })
         resolve(response);
       }catch(error){
@@ -34,13 +55,12 @@ export const qnaInsertDB = (board) => {
 };
 
 
-
 export const qnaUpdateDB = (board) => {
   return new Promise((resolve,reject) => {
       try{
         const response = axios ({
           method: "post",
-          url: process.env.REACT_APP_SPRING_IP + "qna/update",
+          url: process.env.REACT_APP_SPRING_IP + "qna/qnaUpdate",
           data: board,
         })
         resolve(response);
@@ -57,7 +77,7 @@ export const qnaDeleteDB = (board) => {
       try{
           const response = axios({
               method: "get",
-              url: process.env.REACT_APP_SPRING_IP + "qna/delete",
+              url: process.env.REACT_APP_SPRING_IP + "qna/qnaDelete",
               params: board,
           })
           resolve(response);
@@ -74,7 +94,7 @@ export const qnaSearchListDB = (board) => {
       try{
           const response = axios({
               method: "get",
-              url: process.env.REACT_APP_SPRING_IP + "qna/Search",
+              url: process.env.REACT_APP_SPRING_IP + "qna/qnaSearch",
               params:board,
           })
           resolve(response);
@@ -90,7 +110,7 @@ export const qnaResultDB = (board) => {
       try{
           const response = axios({
               method: "get",
-              url: process.env.REACT_APP_SPRING_IP + "qna/result",
+              url: process.env.REACT_APP_SPRING_IP + "qna/qnaResult",
               params: board,
           })
         resolve(response)

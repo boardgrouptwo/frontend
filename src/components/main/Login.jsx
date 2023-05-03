@@ -3,15 +3,20 @@ import { Link, useNavigate } from 'react-router-dom'
 import Bottom from '../include/Bottom'
 import MainHeader from '../include/MainHeader'
 import { DividerDiv, DividerHr, DividerSpan, GoogleButton, LoginForm, MyH1, MyInput, MyLabel, MyP, PwEye, SubmitButton } from '../css/FormStyle';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GoogleLoginCheck,  loginCheck } from '../../service/authLogic';
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 import axios from 'axios';
 import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin, useGoogleOneTapLogin } from '@react-oauth/google';
+import GoogleLoginButton from './GoogleLoginButton';
+import { Button, Modal } from 'react-bootstrap';
+import { findUserId } from '../../service/MemberDBLogic';
+import Swal from 'sweetalert2';
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const isLogin = useSelector(state => state.isLogin);
 
   const[submitBtn, setSubmitBtn] = useState({
     disabled: true,
@@ -19,9 +24,16 @@ const Login = () => {
     hover: false
   });
 
+  //로그인
   const [tempUser, setTempUser] = useState({
     mem_id: '',
     password: ''
+  });
+
+  // 아이디 찾기
+  const [findUser, setFindUser] = useState({
+    user_name: '',
+    user_birth: ''
   });
 
   const [passwordType, setPasswordType] = useState({
@@ -47,6 +59,10 @@ const Login = () => {
   };
 
   useEffect(()=> {
+    //로그인 한 사용자는 home으로 이동
+    if(isLogin === false) {
+      navigate("/home")
+    }
     if(tempUser.mem_id!==""&&tempUser.password!==""){ 
       setSubmitBtn({disabled:false, bgColor: 'rgb(105, 175, 245)'});
     } else {
@@ -74,16 +90,28 @@ const Login = () => {
         type: 'SET_TOKEN', 
         payload: res.data,
         user_type: decoded.roles[0],
+        userid: decoded.user_id,
         user_name: decoded.user_name
       })
 
       Cookies.set('jwt', res.data, { expires: 30/1440 })
+      Cookies.set('userid', decoded.user_id, { expires: 30/1440 })
       Cookies.set('role', decoded.roles[0], { expires: 30/1440 })
       Cookies.set('user_name', decoded.user_name, { expires: 30/1440 })
 
       navigate("/home")      
-    } catch(err) {
-      alert("아이디나 비밀번호를 확인하세요")
+      Swal.fire({
+        icon: "success",
+        title: "로그인 성공",
+        showCancelButton: false,
+        confirmButtonText: "확인",
+        customClass: {
+          confirmButton: "my-confirm-button"
+        }
+      })
+
+      } catch(err) {
+        alert("아이디나 비밀번호를 확인하세요")
     }
   }
 
@@ -93,63 +121,11 @@ const Login = () => {
     window.location.href= KAKAO_AUTH_URL
   }
 
-  //const googleLogin = () => {}
-
-  const googleLogin = useGoogleLogin({
-    onSuccess: (res) => googleSuccess(res),
-  })
-
-/*   const getIdToken = async (accessToken) => {
-    try {
-      const response = await axios({
-        method: "get",
-        url: "https://oauth2.googleapis.com/tokeninfo",
-        params: {
-          access_token: accessToken,
-        },
-      });
-      return response;
-    } catch (error) {
-      console.log(error);
-      throw new Error("Failed to get idToken from accessToken");
-    }
-  }; */
-
-/*   const getIdToken = async (accessToken) => {
-    try {
-      const response = await axios({
-        method: 'GET',
-        url: `https://www.googleapis.com/oauth2/v3/userinfo?access_token=${accessToken}`,
-      });
-  
-      // 인증 요청이 성공하면 응답 데이터에서 idToken 추출
-      const idToken = response;
-  
-      return idToken;
-    } catch (error) {
-      console.error(error);
-    }
-  }; */
-
-
-
-  const googleSuccess = async (res) => {
-    console.log(res)
-    const accessToken = {
-      access_token: res.access_token
-    } 
-    //const accessToken = res.access_token;
-    console.log(accessToken)
-    //const idToken = await getIdToken(accessToken);
-    //console.log(idToken)
-    //const googleLogin = await GoogleLoginCheck(idToken);
-    const googleLogin = await GoogleLoginCheck(accessToken);
-  }
 
   return (
     <>
       <MainHeader/>
-      <LoginForm >
+      <LoginForm>        
         <MyH1>로그인</MyH1>
         <MyLabel htmlFor="mem_id"> 아이디     
           <MyInput type="mem_id" id="mem_id" name="mem_id" placeholder="아이디를 입력해주세요." 
@@ -170,18 +146,21 @@ const Login = () => {
           <DividerHr />
           <DividerSpan>또는</DividerSpan>
         </DividerDiv>
-        <button style={{margin: "30px", border: "none"}} onClick={kakaoLogin}>
-          <img src="images/kakao_login_medium_wide.png"/>
-        </button>   
 
-        <GoogleButton type="button" onClick={googleLogin}>
-          <i className= "fab fa-google-plus-g" style={{color: "red", fontSize: "18px"}}></i>&nbsp;&nbsp;Google 로그인
-        </GoogleButton>    
-        
-        <MyP style={{marginTop:"30px"}}>신규 사용자이신가요?&nbsp;<Link to="/home" className="text-decoration-none" style={{color: "blue"}}>계정 만들기</Link></MyP>
-        <MyP>이메일를 잊으셨나요?&nbsp;<Link to="/home" className="text-decoration-none" style={{color: "blue"}}>이메일 찾기</Link></MyP>
-        <MyP>비밀번호를 잊으셨나요?&nbsp;<Link to="/home" className="text-decoration-none" style={{color: "blue"}}>비밀번호 변경</Link></MyP>
-      </LoginForm>
+        <div style={{margin: "30px", border: "none"}} onClick={kakaoLogin}>
+          <img src="images/kakao_login_medium_wide.png"/>
+        </div>   
+
+        <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_KEY}>
+          <GoogleLoginButton/>
+        </GoogleOAuthProvider>        
+        <MyP style={{marginTop:"30px"}}>신규 사용자이신가요?&nbsp;<Link to="/join" className="text-decoration-none" style={{color: "blue"}}>계정 만들기</Link></MyP>
+        <MyP>아이디를 잊으셨나요?&nbsp;
+          {/* <span className="text-decoration-none" onClick={openModal} style={{color: "blue"}}>아이디 찾기</span> */}
+          <Link to="/findId" className="text-decoration-none" style={{color: "blue"}}>아이디 찾기</Link>
+        </MyP>
+        <MyP>비밀번호를 잊으셨나요?&nbsp;<Link to="/findPw" className="text-decoration-none" style={{color: "blue"}}>비밀번호 변경</Link></MyP>
+      </LoginForm>      
       <Bottom/>
     </>
   )

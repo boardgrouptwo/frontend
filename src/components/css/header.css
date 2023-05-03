@@ -1,3 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@500&display=swap");
+
+.testa {
+  font-family: "Noto Sans KR", sans-serif;
+}
+
 /* head 센터 및 넓이 지정 */
 
 #sh_hd_wrapper {
@@ -5,7 +11,6 @@
   width: 100%;
   margin: 0 auto;
   padding: 0;
-  border-bottom: 1px solid #e1e1e1;
   zoom: 1;
 }
 .sub #sh_hd_wrapper {
@@ -60,7 +65,6 @@
   color: #fff;
   letter-spacing: -0.3px;
   text-align: right;
-  font-family: "notokr-medium";
 }
 #top_nav li a {
   text-decoration: none;
@@ -115,4 +119,9 @@
 }
 .sub #top_nav li ul li a:hover {
   color: rgba(255, 255, 255, 0.5);
+}
+
+.testa {
+  color: red;
+  font-family: "notokr-medium";
 }

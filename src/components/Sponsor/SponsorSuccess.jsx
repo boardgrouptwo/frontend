@@ -1,6 +1,6 @@
 import React from 'react'
 import MainHeader from '../include/MainHeader'
-import SponsorFrombar from './SponsorFrombar'
+import KhSponorServicebar from '../khservice/KhSponorServicebar';
 import "../css/spon.css"
 import "../css/spon.css"
 import Bottom from '../include/Bottom';
@@ -13,7 +13,7 @@ const SponsorSuccess = () => {
   return (
     <>
       <MainHeader />
-      <SponsorFrombar />
+      <KhSponorServicebar />
       <br />
       <br />
       <div className='container' style={{ textAlign: 'center' }}>

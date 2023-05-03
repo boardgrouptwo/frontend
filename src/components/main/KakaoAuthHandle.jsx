@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import jwt_decode from 'jwt-decode';
 import Cookies from 'js-cookie';
 import { useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 
 const KakaoAuthHandle = (props) => {
   const dispatch = useDispatch();
@@ -20,13 +21,24 @@ const KakaoAuthHandle = (props) => {
             type: 'KAKAO_TOKEN', 
             payload: res.data,
             user_type: decoded.roles[0],
+            userid: decoded.user_id,
             user_name: decoded.user_name
           })
           Cookies.set('jwt', res.data, { expires: 30/1440 })
           Cookies.set('role', decoded.roles[0], { expires: 30/1440 })
+          Cookies.set('userid', decoded.user_id, { expires: 30/1440 })
           Cookies.set('user_name', decoded.user_name, { expires: 30/1440 })
 
-          window.location.href = "/";
+          window.location.href = "/home";
+          Swal.fire({
+            icon: "success",
+            title: "로그인 성공",
+            showCancelButton: false,
+            confirmButtonText: "확인",
+            customClass: {
+              confirmButton: "my-confirm-button"
+            }
+          })
         })
     }
     kakaoLogin()
