@@ -43,7 +43,7 @@ import ElderUpdate from './components/board/mypage/ElderUpdate'
 import ElderInsert from './components/board/mypage/ElderInsert'
 import OrderPage from './components/board/shop/OrderPage'
 import PaymentSuccess from './components/payment/PaymentSuccess'
-import WishListPage from './components/board/shop/WishlistPage'
+import WishListPage from './components/board/shop/WishListPage'
 import "react-datetime/css/react-datetime.css";
 import SchedulePage from'./components/schedule/SchedulePage'
 
@@ -52,6 +52,7 @@ import ScheduleDetail from './components/schedule/ScheduleDetail'
 
 import KhServiceReview from './components/khservice/KhServiceReview'
 import KhServiceReviewWrite from './components/khservice/KhServiceReviewWrite'
+import VisitPageDetail from './components/board/mypage/VisitPageDetail'
 
 
 const App = () => {
@@ -150,6 +151,7 @@ const App = () => {
         {/* 내정보 */}
         <Route path="/mypage" exact={true} element={<MyPage />} />
         <Route path="/mypage/detail" exact={true} element={<MyPageDetail />} />
+        <Route path="/visit/detail" exact={true} element={<VisitPageDetail />} />
         <Route path="/paymentdetail" exact={true} element={<PaymentDetail />} />
 
       </Routes>      

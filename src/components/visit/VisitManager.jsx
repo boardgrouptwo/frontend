@@ -7,6 +7,7 @@ import Bottom from '../include/Bottom';
 import * as XLSX from 'xlsx'
 import { VisitMDeleteDB, VisitMUpdateDB, VisitManagerListDB } from '../../service/VisitDBLogic';
 import Adminbar from '../admin/Adminbar';
+import { useSelector } from 'react-redux';
 
  // 함수를 정의합니다. data 파라미터는 엑셀로 내보낼 데이터입니다.
  const exportToExcel = (data) => {
@@ -17,7 +18,7 @@ import Adminbar from '../admin/Adminbar';
    visitworksheet[cellAddress].v = columnName; // 각 셀에 컬럼명을 입력합니다.
  });
  
- const hiddenColumns = ['service_no']; // 엑셀에서 숨길 컬럼명을 배열에 담습니다.
+ const hiddenColumns = ['visit_no']; // 엑셀에서 숨길 컬럼명을 배열에 담습니다.
  hiddenColumns.forEach((columnName, index) => {
    const columnIndex = XLSX.utils.decode_col(columnName); // 숨길 컬럼의 인덱스를 계산합니다.
    visitworksheet[`!cols`] = visitworksheet[`!cols`] || []; // 만약 worksheet에 !cols 속성이 없으면 생성합니다.
@@ -42,7 +43,8 @@ import Adminbar from '../admin/Adminbar';
 /******** 엑셀 내보내기end *********/
 
 const VisitManager = () => {
-
+  const userId = useSelector(state => state.userid); 
+  const token = useSelector(state => state.token); 
   /*  Ant Design에서 제공하는 컴포넌트, 두 개의 목록(리스트) 간의 데이터 이동을 간편하게 제공해주는 컴포넌트  */
   const TableTransfer = ({ leftColumns, rightColumns, ...restProps }) => (
     <Transfer {...restProps}>  
@@ -146,21 +148,20 @@ useEffect(() =>{
   const list0 = []
   const list1 = []
   const listAll =[]
-  res.data.forEach((reservation) => {
+  res.data.forEach((item) => {
     const obj = {
-      user_id: reservation.user_id,
-      visit_date: reservation.visit_date,
-      visit_time: reservation.visit_time,
-      visit_volume: reservation.visit_volume,
-      elder_id: reservation.elder_id,        
-      elder_no: reservation.elder_no,        
-      service_chk: reservation.service_chk,      
-      service_no: reservation.service_no 
+      user_id: item.user_id,
+      visit_date: item.visit_date,
+      visit_time: item.visit_time,
+      visit_volume: item.visit_volume,
+      elder_id: item.elder_id,        
+      elder_no: item.elder_no,        
+      service_check: item.service_chk,      
+      visit_no: item.visit_no 
     }
-    console.log(res.data)
     listAll.push(obj)
     setTotalReservationList(listAll) 
-    if(reservation.service_chk === 0){  /* 등록시 기본값 0, 관리자가 승인해주면 1 */
+    if(item.service_chk === 0){  /* 등록시 기본값 0, 관리자가 승인해주면 1 */
       list0.push(obj)
     }else{
       list1.push(obj)
@@ -174,21 +175,21 @@ visitMList();
  /************ 값 가져오기 end **********/
 
 /************ 값 넣기 start **********/
-const mockData = totalReservationList.map((reservation, i) => ({
+const mockData = totalReservationList.map((item, i) => ({
   key: i.toString(),
-      userid: reservation.user_id,
-      visit_date: reservation.visit_date,
-      visit_time: reservation.visit_time,
-      visit_volume: reservation.visit_volume,
-      elder_id: reservation.elder_id,        
-      elder_no: reservation.elder_no,        
-      service_chk: reservation.service_chk,      
-      //service_no: item.service_no 
+      userid: item.user_id,
+      visit_date: item.visit_date,
+      visit_time: item.visit_time,
+      visit_volume: item.visit_volume,
+      elder_id: item.elder_id,        
+      elder_no: item.elder_no,        
+      service_check: item.service_check,      
+      visit_no: item.visit_no 
 }));
 
-  /****** tem.service_check === 1 인 값 오른쪽으로 이동 **********/
+  /****** tem.service_chk === 1 인 값 오른쪽으로 이동 **********/
 const originTargetKeys = mockData
-.filter((item) => item.service_chk === 1 )
+.filter((item) => item.service_check === 1 )
 .map((item) => item.key);
 
 const leftTableColumns = [
@@ -232,7 +233,7 @@ const rightTableColumns = [
     render: (visit_time) => <Tag>{visit_time}</Tag>,
   },
   {
-    dataIndex: 'visit_volue',
+    dataIndex: 'visit_volume',
     title: '인원',
   },
   
@@ -248,18 +249,18 @@ const tableTransferRef = useRef(null);
 const [targetKeys, setTargetKeys] = useState([]); 
 const [disabled, setDisabled] = useState(false);
 const [showSearch, setShowSearch] = useState(false);
-
 const [selectedKeys, setSelectedKeys] = useState([]);
 
 
 const onChange = async(nextTargetKeys, direction, movekeys) => {
-    console.log(nextTargetKeys)
+    console.log(nextTargetKeys)//몇번쨰 배열인지 확인
     const selectedData = mockData.filter((item) => nextTargetKeys.includes(item.key));
     const data = {
-        service_no : selectedData.map((item)=>item.service_no)
+        visit_no : selectedData.map((item)=>item.visit_no)
     };
-    await VisitMUpdateDB(data);
+    await VisitMUpdateDB(data,token);
     setRender(render+1); 
+    
 };
 
 let checkService = [];
@@ -284,9 +285,9 @@ const triggerShowSearch = (checked) => {
 
 const visitMDelete = async () => {
 const data = {
-  service_no : checkService[0].map((item)=>item.service_no)
+  visit_no : checkService[0].map((item)=>item.visit_no)
 };
-await VisitMDeleteDB(data);
+await VisitMDeleteDB(data,token);
 setRender(render+1); 
 };
 

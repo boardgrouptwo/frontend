@@ -1,7 +1,11 @@
+import { Modal } from 'antd'
 import React from 'react'
+import { Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
+import { VisitMDeleteDB } from '../../../service/VisitDBLogic'
+import Swal from 'sweetalert2'
 
 const ElderInfoDiv = styled.div`
   width: 45%;
@@ -50,8 +54,33 @@ const InfoP = styled.p`
 const ElderInfo = ({elderInfo, visitDate}) => {
   const userid = useSelector(state => state.userid);      // 사용자 아이디
   const token = useSelector(state => state.token); 
-
-
+  
+  //면회취소
+  const onDeletelVisit = (visit_no) => {
+    Modal.confirm({
+      title: '면회를 취소하시겠습니까?',
+      onOk: async () => {
+        // 확인 버튼 클릭 시, 면회 취소 요청
+        await handlevisitDelete(visit_no);
+        // 면회 취소 후, 화면 리로드
+        window.location.reload();
+      },
+    });
+  };
+const handlevisitDelete = async (visit_no) =>{
+  const res = await VisitMDeleteDB({visit_no:visit_no},token);
+  if(res.data===1){
+    Swal.fire({
+      icon: "success",
+      title: "삭제되었습니다.",
+      showCancelButton: false,
+      confirmButtonText: "확인",
+      customClass: {
+        confirmButton: "my-confirm-button"
+      }
+    })
+  }
+}
   return (
     <>
       <ElderInfoDiv >
@@ -73,9 +102,19 @@ const ElderInfo = ({elderInfo, visitDate}) => {
                   {/* <CardP>내원자 정보</CardP> */}
                   <div style={{display: "flex"}}>
                     <CardP style={{marginRight: "20px"}}>면회 일정 : </CardP>
+                    
                     {
-                      visitDate.visit_date != null ? <InfoP>{visitDate.visit_date}</InfoP>
-                      : <div><InfoP>없습니다</InfoP><Link to="/visit/sign" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >면회 신청</Link></div>
+                      visitDate.visit_date != null ? 
+                      visitDate.visit_date ==1 ?
+                      <InfoP>{visitDate.visit_date}</InfoP>
+                      : <InfoP style={{color: "green"}}>{visitDate.visit_date} (대기 중..)
+                        <br/>
+                      <Button class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}}onClick={()=>onDeletelVisit()}>면회 취소</Button>
+                      </InfoP>
+                      : <div>
+                        <InfoP>없습니다</InfoP>
+                        <Link to="/visit/sign" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >면회 신청</Link>
+                        </div>
                     }
                   </div>
                 </div>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router';
 import { noticeListDB } from '../../../service/NoticeDBLogic';
-import { AddProductDB, productHitDB, productListDB } from '../../../service/ShopDBLogic';
+import { AddProductDB, GetProductDB, productHitDB, productListDB, updateCartDB } from '../../../service/ShopDBLogic';
 import MainHeader from '../../include/MainHeader'
 import styled from 'styled-components'
 import { Alert, Button, Modal } from 'react-bootstrap';
@@ -99,7 +99,6 @@ const ShopDetail = () => {
       console.log(result)
     }
     productDetail()
-    
     console.log(product)
   },[])
 
@@ -133,20 +132,32 @@ const ShopDetail = () => {
         }
       })
     }
-
     const obj = {
       product_date: product.product_date,
       product_hit: product.product_hit,
       product_image: product.product_image,
       product_price: price,
-      product_title: product.product_title
+      product_title: product.product_title,
+      
     }
     console.log(obj)
     navigate("/order", { state: obj })
+
   };
 
   //장바구니
-  const shopping = () => {
+  const [cartItems, setCartItems] = useState([]);
+
+  useEffect(() => {
+    // 데이터 가져오는 비동기 함수
+    const fetchData = async () => {
+      const result = await  GetProductDB();
+      setCartItems(result);
+    };
+  
+    fetchData();
+  }, []);
+  const shopping =async () => {
     if (isLogin) {
       Swal.fire({
         icon: "warning",
@@ -158,18 +169,48 @@ const ShopDetail = () => {
         }
       })
     }else{//로그인이 되어있는 경우
+      const existingProduct = cartItems.find((item) => item.product_no === product.product_no);
+      //장바구니에 있는 경우
+      if (existingProduct) {
+        const newQuantity = existingProduct.product_quantity + 1;
+        const updatedProduct = { ...existingProduct, quantity: newQuantity };
+        const confirmUpdate = window.confirm("장바구니에 이미 존재하는 상품입니다. 수량을 증가시키겠습니까?");
+        //수량 증가시키기
+        if (confirmUpdate) {
+          const updatedCartItems = cartItems.map((item) =>
+            item.product_no === product.product_no ? updatedProduct : item
+          );
+          setCartItems(updatedCartItems);
+          await updateCartDB(updatedProduct);
+        }
+        //장바구니에 없는 경우
+        else {
+          const newCartItem = { ...product, product_quantity: 1 };
+          setCartItems([...cartItems, newCartItem]);
+          await AddProductDB(newCartItem);
+        }
+      }
+      //장바구니에 상품 추가
       const cartItem = {
           user_id:userid,
           product_no: product.product_no,
           product_image: product.product_image,
           product_price: product.product_price,
           product_title: product.product_title,
-          product_hit: product.product_hit
+          product_hit: product.product_hit,
+          product_quantity:product.product_quantity
       };
       AddProductDB(cartItem,token)
         .then((response) => {
-          console.log('상품이 장바구니에 추가되었습니다.');
-          // 성공적으로 추가된 경우 처리
+          Swal.fire({
+            icon: "success",
+            title: "장바구니에 담았습니다.",
+            showCancelButton: false,
+            confirmButtonText: "확인",
+            customClass: {
+              confirmButton: "my-confirm-button"
+            }
+          })
         })
         .catch((error) => {
           console.log(error);
@@ -178,8 +219,6 @@ const ShopDetail = () => {
       }
     }
     
-  
-
 
   //조회수에 따른 별이미지 추가
   const generateStars = () => {

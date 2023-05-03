@@ -113,3 +113,37 @@ export const GetProductDB=(cartItem,token)=>{
     }
   });
 };
+export const DeleteProductDB=(cartItem,token)=>{
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "cart/delete",
+        data: cartItem,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+export const updateCartDB=(cartItem,token)=>{
+  return new Promise((resolve, reject) => {
+    try {
+      const response = axios({
+        method: "post",
+        url: process.env.REACT_APP_SPRING_IP + "cart/update",
+        data: cartItem,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      resolve(response);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

@@ -174,7 +174,9 @@ const MyPage = () => {
     
     const obj = {
       elder_id: res.data[0].user_id,              // ID
-      visit_date: res.data[0].visit_date,          // 면회 날짜
+      visit_date: res.data[0].visit_date,
+      visit_time:res.data[0].visit_time,
+      service_chk: res.data[0].service_chk,          // 면회 날짜
     }
     console.log("면회일정 ==> " + obj);
     

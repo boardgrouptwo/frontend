@@ -6,6 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import moment from "moment/moment";
 import MainHeader from "../include/MainHeader";
 import VisitWindow from "./VisitWindow";
+import MyPageBar from "../board/mypage/MyPageBar";
 
 const FullCalendarMain = () => {
   const [timeSlots, setTimeSlots] = useState([]);
@@ -67,7 +68,7 @@ const FullCalendarMain = () => {
   return (
     <>
     <MainHeader/>
-    
+    <MyPageBar />
     <FullCalendar
     plugins={[dayGridPlugin, interactionPlugin]} 
     dayCellContent={dayCellContent}

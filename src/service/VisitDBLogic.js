@@ -22,7 +22,7 @@ export const visitDateDB = (user, token) => {
     }
   });
 };
-export const visitInsertDB = (visit) => {
+export const visitInsertDB = (visit,token) => {
   console.log(visit)
   console.log("visitInsertDB호출")
 return new Promise((reslove, reject) => {
@@ -31,6 +31,9 @@ return new Promise((reslove, reject) => {
       method: "post",//@RequestBody
       url: process.env.REACT_APP_SPRING_IP + "visit/sign/insert",
       data: visit, //post방식 전송시 반드시 data속성으로 파라미터 넣을것
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }
     });
     reslove(response);
     console.log(response)
@@ -42,13 +45,16 @@ return new Promise((reslove, reject) => {
 
 
 
-export const VisitMUpdateDB = (visit) => {
+export const VisitMUpdateDB = (service,token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "visitmanager/visitMUpdate",
-        data: visit,
+        data: service,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
       resolve(response);
     } catch (error) {
@@ -57,13 +63,16 @@ export const VisitMUpdateDB = (visit) => {
   });
 };
 
-export const VisitManagerListDB = (reservation) => {
+export const VisitManagerListDB = (reservation,token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "get",
         url: process.env.REACT_APP_SPRING_IP + "visitmanager/visitMList",
         params: reservation,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
       resolve(response);
     } catch (error) {
@@ -72,13 +81,16 @@ export const VisitManagerListDB = (reservation) => {
   });
 };
 
-export const VisitMDeleteDB = (member) => {
+export const VisitMDeleteDB = (member,token) => {
   return new Promise((resolve, reject) => {
     try {
       const response = axios({
         method: "post",
         url: process.env.REACT_APP_SPRING_IP + "visitmanager/visitMDelete",
         data: member,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
       });
       resolve(response);
     } catch (error) {

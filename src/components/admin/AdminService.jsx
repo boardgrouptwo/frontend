@@ -254,6 +254,7 @@ const rightTableColumns = [
       };
       await serviceUpdateDB(data, token);
       setRender(render+1); 
+     
   };
   
   let checkService = [];
