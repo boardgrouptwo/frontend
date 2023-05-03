@@ -119,7 +119,7 @@ const handlevisitDelete = async (visit_no) =>{
                   </div>
                 </div>
                 : <div>
-                    <Link to="/elder" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >내원자 추가</Link>
+                    <Link to="/elderInsert" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >내원자 추가</Link>
                   </div>
             }
             </div>

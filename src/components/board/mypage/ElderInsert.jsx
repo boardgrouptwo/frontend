@@ -13,7 +13,7 @@ const ElderInsert = () => {
   const navigate = useNavigate()
   const token = useSelector(state => state.token)
   
-  const userId = useSelector(state => state.userId)
+  const userId = useSelector(state => state.userid)
   
   /* 로그인을 한 사람만 볼 수 있게 처리하는 문장 */
   const isLogin = useSelector(state => state.isLogin)
