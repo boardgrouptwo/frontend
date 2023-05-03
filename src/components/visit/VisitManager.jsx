@@ -154,10 +154,9 @@ useEffect(() =>{
       visit_date: item.visit_date,
       visit_time: item.visit_time,
       visit_volume: item.visit_volume,
-      elder_id: item.elder_id,        
-      elder_no: item.elder_no,        
       service_check: item.service_chk,      
-      visit_no: item.visit_no 
+      visit_no: item.visit_no ,
+      elder_name:item.elder_name
     }
     listAll.push(obj)
     setTotalReservationList(listAll) 
@@ -181,10 +180,10 @@ const mockData = totalReservationList.map((item, i) => ({
       visit_date: item.visit_date,
       visit_time: item.visit_time,
       visit_volume: item.visit_volume,
-      elder_id: item.elder_id,        
-      elder_no: item.elder_no,        
       service_check: item.service_check,      
-      visit_no: item.visit_no 
+      visit_no: item.visit_no,
+      elder_name:item.elder_name
+      
 }));
 
   /****** tem.service_chk === 1 인 값 오른쪽으로 이동 **********/
@@ -213,7 +212,7 @@ const leftTableColumns = [
 },
 
 {
-  dataIndex: 'elder_id',
+  dataIndex: 'elder_name',
   title: '어르신',
 },
 ];
@@ -238,7 +237,7 @@ const rightTableColumns = [
   },
   
   {
-    dataIndex: 'elder_id',
+    dataIndex: 'elder_name',
     title: '어르신',
   },
 ];
@@ -288,7 +287,7 @@ const data = {
   visit_no : checkService[0].map((item)=>item.visit_no)
 };
 await VisitMDeleteDB(data,token);
-setRender(render+1); 
+setRender(render); 
 };
 
 

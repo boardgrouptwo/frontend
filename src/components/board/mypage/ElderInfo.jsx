@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { VisitMDeleteDB } from '../../../service/VisitDBLogic'
 import Swal from 'sweetalert2'
+import { BButton } from '../../css/FormStyle'
 
 const ElderInfoDiv = styled.div`
   width: 45%;
@@ -105,17 +106,22 @@ const handlevisitDelete = async (visit_no) =>{
                     
                     {
                       visitDate.visit_date != null ? 
-                      visitDate.visit_date ==1 ?
+                      visitDate.service_chk ==1 ?
                       <InfoP>{visitDate.visit_date}</InfoP>
                       : <InfoP style={{color: "green"}}>{visitDate.visit_date} (대기 중..)
-                        <br/>
-                      <Button class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}}onClick={()=>onDeletelVisit()}>면회 취소</Button>
+                         <Button class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}}onClick={()=>onDeletelVisit()}>면회 취소</Button>
                       </InfoP>
                       : <div>
-                        <InfoP>없습니다</InfoP>
-                        <Link to="/visit/sign" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >면회 신청</Link>
+                        <InfoP>없습니다
+                          <div>
+                          <Link to="/visit/sign" class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}} >면회 신청</Link>
+                          </div>
+                        </InfoP>
                         </div>
                     }
+                   
+                   
+                    
                   </div>
                 </div>
                 : <div>
