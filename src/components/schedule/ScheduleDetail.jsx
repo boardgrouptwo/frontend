@@ -45,7 +45,7 @@ const ScheduleDetail = () => {
 
   //스케줄 번호
   const[pboard, setPBoard] = useState({
-      cal_no : cal_num,
+      cal_no : cal_no,
   })
 
   //스케줄 내용
@@ -127,13 +127,12 @@ const handleTitle = useCallback((e)=>{
 const handleContent = useCallback((e)=>{
     setContent(e)
 },[])
-const quillRef = useRef()
 
 const scheduleUpdate = async () => {
     const board = {
-        cal_num,
-        cal_title:cal_title,
-        cal_content:cal_content,
+        cal_num:cal_no,
+        cal_title:title,
+        cal_content:content,
     }
     const res = await scheduleUpdateDB(board)
     Swal.fire({
@@ -148,7 +147,7 @@ const scheduleUpdate = async () => {
 
     setRend(rend+1)
     handleClose();
-    navigate(`/schedule/detail?page=${page_num}&cal_no=${cal_num}`)
+    navigate(`/memo`)
 }
 
   

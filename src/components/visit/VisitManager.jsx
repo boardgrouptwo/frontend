@@ -287,7 +287,7 @@ const data = {
   visit_no : checkService[0].map((item)=>item.visit_no)
 };
 await VisitMDeleteDB(data,token);
-setRender(render); 
+setRender(render+1); 
 };
 
 
