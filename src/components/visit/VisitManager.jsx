@@ -154,13 +154,13 @@ useEffect(() =>{
       visit_date: item.visit_date,
       visit_time: item.visit_time,
       visit_volume: item.visit_volume,
-      service_check: item.service_chk,      
+      service_check: item.service_check,      
       visit_no: item.visit_no ,
       elder_name:item.elder_name
     }
     listAll.push(obj)
     setTotalReservationList(listAll) 
-    if(item.service_chk === 0){  /* 등록시 기본값 0, 관리자가 승인해주면 1 */
+    if(item.service_check === 0){  /* 등록시 기본값 0, 관리자가 승인해주면 1 */
       list0.push(obj)
     }else{
       list1.push(obj)
@@ -358,7 +358,6 @@ setRender(render+1);
       </Container>
       <br />
       <br />
-      <Bottom />
     </>
   )
 }

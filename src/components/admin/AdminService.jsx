@@ -351,7 +351,6 @@ const serviceDelete = async () => {
       </Container>
       <br />
       <br />
-      <Bottom />
     </>
   );
 };

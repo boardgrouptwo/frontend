@@ -56,7 +56,7 @@ const MainChatbot = ({handleCloseModal}) =>{
     {
       id: '6',
       options: [
-        { value: 1, label: '후원페이지 이동', trigger: () => navigate("/sponsor") },
+        { value: 1, label: '후원페이지 이동', trigger: () => navigate("/sponsor/from") },
         { value: 2, label: '로그인페이지 이동', trigger: () => navigate("/login") },
         { value: 3, label: '처음으로', trigger: '3' },
       ]

@@ -32,7 +32,6 @@ const PaymentSuccess = () => {
         <br />
         <br />
       </div>
-      <Bottom />
     </>
   )
 }

@@ -102,11 +102,11 @@ const handlevisitDelete = async (visit_no) =>{
                   <NameH1>{elderInfo.elder_name}</NameH1>
                   {/* <CardP>내원자 정보</CardP> */}
                   <div style={{display: "flex"}}>
-                    <CardP style={{marginRight: "20px"}}>면회 일정 : </CardP>
+                    <CardP style={{width:"100px",marginRight: "10px"}}>면회 일정 :</CardP>
                     
                     {
                       visitDate.visit_date != null ? 
-                      visitDate.service_chk ==1 ?
+                      visitDate.service_check === 1 ?
                       <InfoP>{visitDate.visit_date}</InfoP>
                       : <InfoP style={{color: "green"}}>{visitDate.visit_date} (대기 중..)
                          <Button class="btn btn-primary" style={{borderColor: "white", background: "#2C786C", color: "white"}}onClick={()=>onDeletelVisit()}>면회 취소</Button>
